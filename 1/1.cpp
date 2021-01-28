@@ -7,8 +7,9 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
-//#include <set>
-/* delete after change acc*/
+#include <set>
+#include <stdlib.h>
+
 using namespace std;
 struct production{
 	int hour;
@@ -35,9 +36,49 @@ string to_string(int n)
 };
 int main()
 {   product f[100],out[100];
-	int mode, interactive=0,numb,i,j,k,ind=0;
+	int mode, interactive=0,numb,i,j,k,ind=0,gen=10;
 	FILE *fout_bin;
 	string words[100],line[100],str_name,str_uom,new_name;
+	string name[200]={"bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
+	"lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
+	"apple","apricot","banana","blackberry","blackcurrant","blueberry","cherry",
+	"coconut","fig","gooseberry","grape","grapefruit","kiwi","lemon","lime","mango",
+	"melon","orange","peach","pear","pineapple","plum","pomegranate","raspberry",
+	"redcurrant","rhubarb","strawberry","bananas","anchovy","cod","haddock",
+	"herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
+	"sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
+	"beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery"}, units[4]={"kilo", "litr", "pieces"};
+			fout_bin=fopen("products_bin.dat", "ab+");
+	     	ofstream fout("products.txt"); 
+	     	//random value 
+		for (i=0;i<gen;i++){
+			f[i].id="id"+to_string(rand() % 1000)+to_string(rand() % 1000);
+			f[i].name=name[rand()%60];
+			f[i].uom=units[rand()%3];
+			f[i].num=rand()%100+10;
+			f[i].data.hour=rand()%24;
+			f[i].data.min=rand()%60;
+			f[i].data.day=rand()&28+1;
+			f[i].data.month=rand()%13+1;
+			f[i].data.year= (rand()%10) + 2011;
+			f[i].term=(rand()%3451) + 200; 
+			
+			words[i]=f[i].id +" "+ f[i].name +" "+ f[i].uom+" "+to_string(f[i].num) +" "+to_string(f[i].data.hour)
+				+" "+ to_string(f[i].data.min) +" "+to_string(f[i].data.day) +" "+ to_string(f[i].data.month)+" "+
+				to_string(f[i].data.year)+" "+ to_string(f[i].term) ; 
+				if (i!=gen-1)	fout << words[i] << endl; 
+					else fout << words[i];
+						
+				//fwrite("\n",sizeof(char),1, fout_bin);	
+					for (j=0;j<words[i].length();j++) 					
+						fwrite((char*)&words[i][j],sizeof(char),1, fout_bin);
+						fwrite("\n",sizeof(char),1, fout_bin);	
+			} 
+			fout.close();
+			fclose(fout_bin);
+			
+	
+		
 	//char new_name[100];
 	cout << "Select the operating mode: 1 Interactive mode, 2 Demonstration mode, 3 Benchmark mode,9 EXIT: "<<endl;
 	cin >> mode;
@@ -68,7 +109,7 @@ int main()
 			for (i=0;i<numb;i++){
 			words[i]=f[i].id +" "+ f[i].name +" "+ f[i].uom+" "+to_string(f[i].num) +" "+to_string(f[i].data.hour)
 				+" "+ to_string(f[i].data.min) +" "+to_string(f[i].data.day) +" "+ to_string(f[i].data.month)+" "+
-				to_string(out[i].data.year)+" "+ to_string(out[i].term) ; 
+				to_string(f[i].data.year)+" "+ to_string(f[i].term) ; 
 					if (i!=numb-1) 	fout << words[i] << endl;
 						else fout << words[i];
 				//fwrite("\n",sizeof(char),1, fout_bin);	
@@ -91,7 +132,7 @@ int main()
 				>> out[ind].data.min >> out[ind].data.day >>out[ind].data.month>>
 				out[ind].data.year>> out[ind].term;
 			//	file.getline(buffer,n);
-			 //  if (out[ind].term<=3650)
+			  
 				line[ind]=out[ind].id+" "+out[ind].name+" "+out[ind].uom+
 				" "+to_string(out[ind].num)+" "+ to_string(out[ind].data.hour)
 				+" "+to_string(out[ind].data.min)+" "+ to_string(out[ind].data.day)+" "+
@@ -165,7 +206,11 @@ int main()
 					   
 		   }*/
 		   
-		   } }
+		   } } else 
+		   if (mode==2){
+		   	
+		   	
+		   }
 	
 	
 
