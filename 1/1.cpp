@@ -7,7 +7,8 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
-#include <set>
+//#include <set>
+/* delete after change acc*/
 using namespace std;
 struct production{
 	int hour;
