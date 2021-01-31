@@ -1,0 +1,399 @@
+N: 1
+Sum_time: 12810ms
+Memory: 2752500
+Current number of generation: 57344
+
+N: 2
+Sum_time: 12723ms
+Memory: 2752488
+Current number of generation: 57344
+
+N: 3
+Sum_time: 10715ms
+Memory: 2211804
+Current number of generation: 61440
+
+N: 4
+Sum_time: 10454ms
+Memory: 2064336
+Current number of generation: 49152
+
+N: 5
+Sum_time: 12182ms
+Memory: 2580420
+Current number of generation: 61440
+
+N: 6
+Sum_time: 10452ms
+Memory: 2211768
+Current number of generation: 61440
+
+N: 7
+Sum_time: 11959ms
+Memory: 2580396
+Current number of generation: 71680
+
+N: 8
+Sum_time: 12810ms
+Memory: 2752416
+Current number of generation: 57344
+
+N: 9
+Sum_time: 10795ms
+Memory: 2322324
+Current number of generation: 55296
+
+N: 10
+Sum_time: 12135ms
+Memory: 2580360
+Current number of generation: 61440
+
+N: 11
+Sum_time: 10289ms
+Memory: 2027388
+Current number of generation: 56320
+
+N: 12
+Sum_time: 10531ms
+Memory: 2211696
+Current number of generation: 61440
+
+N: 13
+Sum_time: 11501ms
+Memory: 2396004
+Current number of generation: 66560
+
+N: 14
+Sum_time: 12233ms
+Memory: 2580312
+Current number of generation: 71680
+
+N: 15
+Sum_time: 12774ms
+Memory: 2764620
+Current number of generation: 76800
+
+N: 16
+Sum_time: 12664ms
+Memory: 2752320
+Current number of generation: 57344
+
+N: 17
+Sum_time: 10349ms
+Memory: 2193204
+Current number of generation: 52224
+
+N: 18
+Sum_time: 10746ms
+Memory: 2322216
+Current number of generation: 55296
+
+N: 19
+Sum_time: 11350ms
+Memory: 2451228
+Current number of generation: 58368
+
+N: 20
+Sum_time: 11846ms
+Memory: 2580240
+Current number of generation: 61440
+
+N: 21
+Sum_time: 12577ms
+Memory: 2709252
+Current number of generation: 64512
+
+N: 22
+Sum_time: 12889ms
+Memory: 2838264
+Current number of generation: 67584
+
+N: 23
+Sum_time: 13766ms
+Memory: 2967276
+Current number of generation: 70656
+
+N: 24
+Sum_time: 10641ms
+Memory: 2211552
+Current number of generation: 61440
+
+N: 25
+Sum_time: 10746ms
+Memory: 2303700
+Current number of generation: 64000
+
+N: 26
+Sum_time: 10963ms
+Memory: 2395848
+Current number of generation: 66560
+
+N: 27
+Sum_time: 11437ms
+Memory: 2487996
+Current number of generation: 69120
+
+N: 28
+Sum_time: 11906ms
+Memory: 2580144
+Current number of generation: 71680
+
+N: 29
+Sum_time: 12174ms
+Memory: 2672292
+Current number of generation: 74240
+
+N: 30
+Sum_time: 12331ms
+Memory: 2580120
+Current number of generation: 53760
+
+N: 31
+Sum_time: 13278ms
+Memory: 2856588
+Current number of generation: 79360
+
+N: 32
+Sum_time: 10748ms
+Memory: 2064000
+Current number of generation: 49152
+
+N: 33
+Sum_time: 11936ms
+Memory: 2280564
+Current number of generation: 38016
+
+N: 34
+Sum_time: 11123ms
+Memory: 2193000
+Current number of generation: 52224
+
+N: 35
+Sum_time: 11022ms
+Memory: 2257500
+Current number of generation: 53760
+
+N: 36
+Sum_time: 10148ms
+Memory: 2211408
+Current number of generation: 73728
+
+N: 37
+Sum_time: 11324ms
+Memory: 2386500
+Current number of generation: 56832
+
+N: 38
+Sum_time: 11994ms
+Memory: 2451000
+Current number of generation: 58368
+
+N: 39
+Sum_time: 13255ms
+Memory: 2515500
+Current number of generation: 59904
+
+N: 40
+Sum_time: 11364ms
+Memory: 2211360
+Current number of generation: 40960
+
+N: 41
+Sum_time: 12387ms
+Memory: 2644500
+Current number of generation: 62976
+
+N: 42
+Sum_time: 13242ms
+Memory: 2709000
+Current number of generation: 64512
+
+N: 43
+Sum_time: 13566ms
+Memory: 2773500
+Current number of generation: 66048
+
+N: 44
+Sum_time: 13533ms
+Memory: 2838000
+Current number of generation: 67584
+
+N: 45
+Sum_time: 10872ms
+Memory: 2073060
+Current number of generation: 57600
+
+N: 46
+Sum_time: 10028ms
+Memory: 2119128
+Current number of generation: 58880
+
+N: 47
+Sum_time: 10477ms
+Memory: 2165196
+Current number of generation: 60160
+
+N: 48
+Sum_time: 11261ms
+Memory: 2063808
+Current number of generation: 43008
+
+N: 49
+Sum_time: 11343ms
+Memory: 1278900
+Current number of generation: 12544
+
+N: 50
+Sum_time: 10200ms
+Memory: 287400
+Current number of generation: 3000
+
+N: 51
+Sum_time: 11379ms
+Memory: 1761948
+Current number of generation: 29376
+
+N: 52
+Sum_time: 10311ms
+Memory: 1816464
+Current number of generation: 21632
+
+N: 53
+Sum_time: 10875ms
+Memory: 2278788
+Current number of generation: 47488
+
+N: 54
+Sum_time: 12130ms
+Memory: 2321784
+Current number of generation: 48384
+
+N: 55
+Sum_time: 11981ms
+Memory: 2364780
+Current number of generation: 49280
+
+N: 56
+Sum_time: 11879ms
+Memory: 2407776
+Current number of generation: 50176
+
+N: 57
+Sum_time: 12719ms
+Memory: 2625876
+Current number of generation: 72960
+
+N: 58
+Sum_time: 12499ms
+Memory: 2671944
+Current number of generation: 74240
+
+N: 59
+Sum_time: 11090ms
+Memory: 1902396
+Current number of generation: 45312
+
+N: 60
+Sum_time: 12924ms
+Memory: 2579760
+Current number of generation: 53760
+
+N: 61
+Sum_time: 13018ms
+Memory: 2622756
+Current number of generation: 54656
+
+N: 62
+Sum_time: 10847ms
+Memory: 1856280
+Current number of generation: 23808
+
+N: 63
+Sum_time: 10256ms
+Memory: 1353996
+Current number of generation: 28224
+
+N: 64
+Sum_time: 10494ms
+Memory: 1768704
+Current number of generation: 32768
+
+N: 65
+Sum_time: 10665ms
+Memory: 972660
+Current number of generation: 12480
+
+N: 66
+Sum_time: 12258ms
+Memory: 176616
+Current number of generation: 3696
+
+N: 67
+Sum_time: 10165ms
+Memory: 674556
+Current number of generation: 5360
+
+N: 68
+Sum_time: 10739ms
+Memory: 1722576
+Current number of generation: 23936
+
+N: 69
+Sum_time: 12962ms
+Memory: 2224836
+Current number of generation: 52992
+
+N: 70
+Sum_time: 469560ms
+Memory: 563640
+Current number of generation: 13440
+
+N: 71
+Sum_time: 14487ms
+Memory: 19596
+Current number of generation: 852
+
+N: 72
+Sum_time: 13210ms
+Memory: 4320
+Current number of generation: 288
+
+N: 73
+Sum_time: 13422ms
+Memory: 16644
+Current number of generation: 584
+
+N: 74
+Sum_time: 11642ms
+Memory: 25752
+Current number of generation: 740
+
+N: 75
+Sum_time: 11892ms
+Memory: 36900
+Current number of generation: 900
+
+N: 76
+Sum_time: 10616ms
+Memory: 199728
+Current number of generation: 3040
+
+N: 77
+Sum_time: 11573ms
+Memory: 250404
+Current number of generation: 2464
+
+N: 78
+Sum_time: 10579ms
+Memory: 571896
+Current number of generation: 5304
+
+N: 79
+Sum_time: 10195ms
+Memory: 499596
+Current number of generation: 6952
+
+N: 80
+Sum_time: 10035ms
+Memory: 229440
+Current number of generation: 2400
