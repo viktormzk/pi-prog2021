@@ -39,7 +39,7 @@ func(int gen){
 		int i,j;
 		string* words=new string[100000];
 		product* f=new product[100000];
-		string name[200]={"bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
+		string name[100]={"bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
 	"lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
 	"apple","apricot","banana","blackberry","blackcurrant","blueberry","cherry",
 	"coconut","fig","gooseberry","grape","grapefruit","kiwi","lemon","lime","mango",
@@ -48,18 +48,18 @@ func(int gen){
 	"herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 	"sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 	"beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery"}, units[4]={"kilo", "litr", "pieces"};
-		fout_bin=fopen("products_bin.dat", "ab+");
+			fout_bin=fopen("products_bin.dat", "wa");
 	     	ofstream fout("products.txt"); 
 	     	//random value 
 		for (i=0;i<gen;i++){
-			f[i].id="id"+to_string(rand() % 1000)+to_string(rand() % 1000);
+			f[i].id="id"+to_string(rand() % 1000)+to_string(rand() % 1000)+to_string(rand() % 1000);
 			f[i].name=name[rand()%60];
 			f[i].uom=units[rand()%3];
 			f[i].num=rand()%100+10;
 			f[i].data.hour=rand()%24;
 			f[i].data.min=rand()%60;
-			f[i].data.day=rand()&28+1;
-			f[i].data.month=rand()%13+1;
+			f[i].data.day=(rand()%28) + 1;
+			f[i].data.month=rand()%12 +1;
 			f[i].data.year= (rand()%10) + 2011;
 			f[i].term=(rand()%3451) + 200; 
 			
@@ -78,6 +78,7 @@ func(int gen){
 			fclose(fout_bin);
 			delete [] words, f;
 }
+
 int main()
 {   product* f= new product[100000];
 	product* out= new product[100000];
@@ -87,15 +88,16 @@ int main()
 	string str_name,str_uom,new_name;
 
 	long long memory;
-		func(gen);
 	
 		
 	//char new_name[100];
 	cout << "Select the operating mode: 1 Interactive mode, 2 Demonstration mode, 3 Benchmark mode,9 EXIT: "<<endl;
-	while (mode!=9){
+	//while (mode!=9){
+		
 		cin >> mode;
 		// interactive
 	if (mode==1){
+			func(gen);
 		cout << "Select the operating mode: 1 Adding item, "<<
 		"2 Data storage, 3 Data recovery, 4 Output of all saved data, "<<
 		"5 Search by particle of name, "<<
@@ -174,7 +176,7 @@ int main()
 			cin >> str_uom;
 			cout << "Produced no later than :"<<endl;
 			cin >> hour >> minutes >> day >> month >> year;
-			
+			int k=0;
 				for (i=0;i<ind;i++){
 					if ( out[i].name.length()>=len)
 					new_name=out[i].name.erase(len,out[i].name.length()-len);
@@ -187,8 +189,11 @@ int main()
 					&& out[i].data.day>=day	&& out[i].data.hour>=hour && out[i].data.min>minutes )) flag=true;
 					//cout << new_name << endl;
 					if (new_name==str_name && out[i].num>min && out[i].num<max 
-					&& out[i].uom == str_uom && flag==true) {cout << line [i] << endl;
-				 		flag=false;}
+					&& out[i].uom == str_uom && flag==true) {
+						cout << line[i] <<endl;
+						my_line[k]=line[i];
+						k++;
+						flag=false;}
 				}	
 				
 				
@@ -224,15 +229,26 @@ int main()
 		   // demo
 		   
 		   if (mode==2) {
+		   		func(gen);
 		    cout << "Select the operating mode: 1 Adding item, "<<
 			"2 Data storage, 3 Data recovery, 4 Output of all saved data, "<<
 			"5 Search by particle of name, "<<
 			"6 Modification of elements, 7 Delete items, 9 Exit" << endl;
-			cout << 1 <<endl;
+			cout <<  "1" <<endl;
 			cout << "Write number of items: 1" <<endl;
-			cout << "id213123 Carrot kilo 124 23 55 11 12 2020 65 "<<endl;
-			f[0]={"id213123","Carrot","kilo", 124, 23,55,11,12,2020,65}; // for c++ 11 and new	
-			cout << 2 << endl;		
+			cout << "id21313123 carrot kilo 24 23 55 11 12 2020 65 "<<endl;
+			f[0].id="id21313123";
+			f[0].name="carrot";
+			f[0].uom="kilo";
+			f[0].num= 24;
+			f[0].data.hour= 23;
+			f[0].data.min=55;
+			f[0].data.day=11;
+			f[0].data.month=12;
+			f[0].data.year=2020;
+			f[0].term= 65; 	
+			cout << "2" << endl;
+					
 			fout_bin=fopen("products_bin.dat", "ab+");
 			ofstream fout("products.txt", ios_base::app); 
 			fout << endl;
@@ -268,34 +284,29 @@ int main()
 			} file.close();	
 		
 		
-		cout << "4" << endl;
-			for(i=0;i<ind;i++){
-				cout << line[i]<<endl;
-			} 
+			cout << "4" << endl;
+			for(i=0;i<ind;i++)	cout << line[i]<<endl;  
 	
 		
-		cout << "5" << endl;
+			cout << "5" << endl;
 		
 			cout << "Write the beginning of the product: "<<endl;
-			cout << "Ca" <<endl;
-			int hour,minutes,day,month,year;
-			bool flag=false;
-			int len=str_name.length(), min, max;
+			cout << "ca" <<endl;
 			cout << "Write the min number: "<<endl;
 			cout << "10" << endl;
 			cout << "Write the max number: "<<endl;
-			cout << "200" <<endl;
+			cout << "100" <<endl;
 			cout <<"Write units of measurement: "<<endl;
 			cout << "kilo"<<endl;
 			cout << "Produced no later than :"<<endl;
 			cout << "10 10 10 12 2020" <<endl;
-			int ind_t;
-			string str_name="Ca",str_uom="kilo";
+			int ind_t=0;
+			string str_names="ca",str_uoms="kilo";
 			int hours=10,minutess=10,days=10,months=12,years=2020;
 			bool flags=false;
-			int mins=10, maxs=200;
+			int mins=10, maxs=100;
 		
-				for (i=0;i<ind;i++){
+				for (i=0;i<ind;i++)
 					if ( out[i].name.length()>=2) {
 					new_name=out[i].name.erase(2,out[i].name.length()-2);
 					
@@ -306,15 +317,16 @@ int main()
 					&& out[i].data.hour>hours)|| ( out[i].data.year>=years && out[i].data.month>=months 
 					&& out[i].data.day>=days	&& out[i].data.hour>=hours && out[i].data.min>minutess )) flags=true;
 					//cout << new_name << endl;
-					if (new_name==str_name && out[i].num>mins && out[i].num<maxs 
-					&& out[i].uom == str_uom && flags==true) {
-					cout << line[i] <<endl;
-					my_line[ind_t]=line[i];
-					ind_t++;
-				 		flags=false;}
-				}}	
-				cout << "9" <<endl;
+					if (new_name==str_names && out[i].num>mins && out[i].num<maxs 
+					&& out[i].uom == str_uoms && flags==true) {
+							cout << line[i] <<endl;
+							/*my_line[ind_t]=line[i];
+							ind_t++;*/
+				 			flags=false;}
+				}	
 				
+				cout << "9" <<endl;
+						
 		   } else
 		   // mode 3 
 		   // benchmark
@@ -324,7 +336,7 @@ int main()
 		   cout << "Write your number: ";
 		   cin >> gen;
 		   int key;
-		  // for (key=1;key<100;key++){
+		  // for (key=1;key<51;key++){
 		   	memory=0;
 		   while (sum_time<1000){
 		   	start_time =  clock();
@@ -439,17 +451,17 @@ int main()
 			}
 			
 		   //cout << key << endl;
-		   /*ofstream fout("result.txt", ios_base::app);
+		   ofstream fout("result.txt", ios_base::app);
 		   fout <<"N: "<< key << endl;
 		   fout <<"Sum_time: "<<sum_time<<"ms" <<endl;
 		   fout <<"Memory: "<<memory <<endl;
 		   fout <<"Current number of generation: "<<current_gen <<endl;
 		   fout <<endl;
-		   fout.close();*/
+		   fout.close();
 		   
 		    
 		   } 
-		   }
+		   
 		   	
 		   	
 		   
