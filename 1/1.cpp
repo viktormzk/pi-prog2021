@@ -37,8 +37,8 @@ string to_string(int n)
 func(int gen){
 		FILE *fout_bin;
 		int i,j;
-		string* words=new string[100000];
-		product* f=new product[100000];
+		string* words=new string[200000];
+		product* f=new product[200000];
 		string name[100]={"bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
 	"lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
 	"apple","apricot","banana","blackberry","blackcurrant","blueberry","cherry",
@@ -48,7 +48,7 @@ func(int gen){
 	"herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 	"sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 	"beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery"}, units[4]={"kilo", "litr", "pieces"};
-			fout_bin=fopen("products_bin.dat", "wa");
+			fout_bin=fopen("products_bin.dat", "wa+");
 	     	ofstream fout("products.txt"); 
 	     	//random value 
 		for (i=0;i<gen;i++){
@@ -66,6 +66,54 @@ func(int gen){
 			words[i]=f[i].id +" "+ f[i].name +" "+ f[i].uom+" "+to_string(f[i].num) +" "+to_string(f[i].data.hour)
 				+" "+ to_string(f[i].data.min) +" "+to_string(f[i].data.day) +" "+ to_string(f[i].data.month)+" "+
 				to_string(f[i].data.year)+" "+ to_string(f[i].term) ; 
+				if (gen==1) fout << words[i] << endl; else
+				if (i!=gen-1)	fout << words[i] << endl; 
+					else fout << words[i];
+						
+				//fwrite("\n",sizeof(char),1, fout_bin);	
+					for (j=0;j<words[i].length();j++) 					
+						fwrite((char*)&words[i][j],sizeof(char),1, fout_bin);
+						fwrite("\n",sizeof(char),1, fout_bin);	
+			} 
+			fout.close();
+			fclose(fout_bin);
+			delete [] words, f;
+}
+// for benchmark
+func_sum(int gen){
+		FILE *fout_bin;
+		int i,j;
+		string* words=new string[200000];
+		product* f=new product[200000];
+		string name[100]={"bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
+	"lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
+	"apple","apricot","banana","blackberry","blackcurrant","blueberry","cherry",
+	"coconut","fig","gooseberry","grape","grapefruit","kiwi","lemon","lime","mango",
+	"melon","orange","peach","pear","pineapple","plum","pomegranate","raspberry",
+	"redcurrant","rhubarb","strawberry","bananas","anchovy","cod","haddock",
+	"herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
+	"sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
+	"beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery"}, units[4]={"kilo", "litr", "pieces"};
+			fout_bin=fopen("products_bin.dat", "ab+");
+	     	ofstream fout("products.txt", ios_base::app); 
+	     	fout << endl;
+	     	//random value 
+		for (i=0;i<gen;i++){
+			f[i].id="id"+to_string(rand() % 1000)+to_string(rand() % 1000)+to_string(rand() % 1000);
+			f[i].name=name[rand()%60];
+			f[i].uom=units[rand()%3];
+			f[i].num=rand()%100+10;
+			f[i].data.hour=rand()%24;
+			f[i].data.min=rand()%60;
+			f[i].data.day=(rand()%28) + 1;
+			f[i].data.month=rand()%12 +1;
+			f[i].data.year= (rand()%10) + 2011;
+			f[i].term=(rand()%3451) + 200; 
+			
+			words[i]=f[i].id +" "+ f[i].name +" "+ f[i].uom+" "+to_string(f[i].num) +" "+to_string(f[i].data.hour)
+				+" "+ to_string(f[i].data.min) +" "+to_string(f[i].data.day) +" "+ to_string(f[i].data.month)+" "+
+				to_string(f[i].data.year)+" "+ to_string(f[i].term) ; 
+				if (gen==1) fout << words[i] << endl; else
 				if (i!=gen-1)	fout << words[i] << endl; 
 					else fout << words[i];
 						
@@ -80,11 +128,11 @@ func(int gen){
 }
 
 int main()
-{   product* f= new product[100000];
-	product* out= new product[100000];
+{   product* f= new product[200000];
+	product* out= new product[200000];
 	int mode=1, interactive=0,numb,i,j,k,ind=0,gen=10;
 	FILE *fout_bin;
-	string * words=new string[100000],*line=new string[100000],*my_line=new string[100000];
+	string * words=new string[200000],*line=new string[200000],*my_line=new string[200000];
 	string str_name,str_uom,new_name;
 
 	long long memory;
@@ -330,21 +378,23 @@ int main()
 		   } else
 		   // mode 3 
 		   // benchmark
-		   if (mode==3){ 
+		   if (mode==3){  
 		   	unsigned long search_time=0, start_time, end_time,sum_time=0;
 		   	memory=0;
-		   cout << "Write your number: ";
-		   cin >> gen;
+		  /* cout << "Write your number: ";
+		   cin >> gen;*/
 		   int key;
-		  // for (key=1;key<51;key++){
+		    for (key=1;key<=2;key++){
 		   	memory=0;
-		   while (sum_time<1000){
+		   	sum_time=0;
+		   	gen=key;
+		    while (sum_time<1000){
 		   	start_time =  clock();
 		   	// generation
-		   	func(gen);
-		   	ifstream file("products.txt"); 
+		   	if (gen==key) func(gen); else func_sum(gen); 
 		    ind=0;
 		    // Data recovery
+		    ifstream file("products.txt");
 			while (!file.eof()){
 				file >> out[ind].id >> out[ind].name >> out[ind].uom >>out[ind].num >> out[ind].data.hour
 				>> out[ind].data.min >> out[ind].data.day >>out[ind].data.month>>
@@ -357,8 +407,8 @@ int main()
 				to_string(out[ind].term);
 				
 				ind++;
-				memory+=sizeof(line[i])+sizeof(ind);
-			} file.close();	
+				memory+=sizeof(line[i])*2+sizeof(ind)+sizeof(gen);
+			} 	file.close();
 			
 			// Search item
 			
@@ -367,7 +417,7 @@ int main()
 			int hours=10,minutess=10,days=10,months=12,years=2020;
 			bool flags=false;
 			int mins=10, maxs=200;
-		
+			memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
 				for (i=0;i<ind;i++){
 					if ( out[i].name.length()>=2) {
 					new_name=out[i].name.erase(2,out[i].name.length()-2);
@@ -383,26 +433,32 @@ int main()
 					my_line[ind_t]=line[i];
 					ind_t++;
 				 		flags=false;}
+				 		memory+=sizeof(line[i])+sizeof(my_line[ind_t])+sizeof(i)+sizeof(ind_t);
 				}}
 				
 		   	end_time = clock();
 		   	search_time = end_time - start_time;
 		   	sum_time+=search_time;
-		   //	cout << search_time <<" "<< gen <<endl;
+		   	memory+=sizeof(start_time)+sizeof(end_time)+sizeof(sum_time)+sizeof(search_time)+sizeof(gen);
+		   	// for check time;
+		   	//cout << search_time <<" "<< gen <<endl;
+		   
 		   	gen=gen*2; 
 		   }
-		   int current_gen=gen;
+		   int current_gen=gen/2;
+		   memory+=sizeof(current_gen);
 		   // second part ariph prog
 		   
 		   while (sum_time<10000){
 		   	
 		   	start_time =  clock();
-		   	current_gen+=gen;
+		   	current_gen+=gen/2;
 		   	// generation
-		   	func(current_gen);
-		   	ifstream file("products.txt"); 
+		   	func_sum(current_gen);
+		   	 
 		    ind=0;
 		    // Data recovery
+		    ifstream file("products.txt");
 			while (!file.eof()){
 				file >> out[ind].id >> out[ind].name >> out[ind].uom >>out[ind].num >> out[ind].data.hour
 				>> out[ind].data.min >> out[ind].data.day >>out[ind].data.month>>
@@ -416,8 +472,7 @@ int main()
 				
 				ind++;
 				memory+=sizeof(line[i])+sizeof(ind);
-			} file.close();	
-			
+			}  file.close();			
 			// Search item
 			
 			int ind_t;
@@ -425,7 +480,7 @@ int main()
 			int hours=10,minutess=10,days=10,months=12,years=2020;
 			bool flags=false;
 			int mins=10, maxs=200;
-		
+			memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
 				for (i=0;i<ind;i++){
 					if ( out[i].name.length()>=2) {
 					new_name=out[i].name.erase(2,out[i].name.length()-2);
@@ -441,25 +496,30 @@ int main()
 					my_line[ind_t]=line[i];
 					ind_t++;
 				 		flags=false;}
+						 memory+=sizeof(start_time)+sizeof(end_time)+sizeof(sum_time)+sizeof(search_time);
 				}}
 				
 		   	end_time = clock();
 		   	search_time = end_time - start_time;
 		   	sum_time+=search_time;
+		   	memory+=sizeof(start_time)+sizeof(end_time)+sizeof(sum_time)+sizeof(search_time);
+		   	
+		   	// for check time;
 		   	// cout << search_time <<" "<< current_gen << endl;
 		   	
 			}
 			
 		   //cout << key << endl;
-		   /*ofstream fout("result.txt", ios_base::app);
+		   /*ofstream fout("result_string.txt", ios_base::app);
 		   fout <<"N: "<< key << endl;
 		   fout <<"Sum_time: "<<sum_time<<"ms" <<endl;
 		   fout <<"Memory: "<<memory <<endl;
-		   fout <<"Current number of generation: "<<current_gen <<endl;
+		   fout <<"Number of last generation: "<<current_gen <<endl;
 		   fout <<endl;
-		   fout.close();*/
+			fout.close();*/
 		   
-		    
+			}
+		
 		   } 
 		   
 		   	
