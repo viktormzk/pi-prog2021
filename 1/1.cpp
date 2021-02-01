@@ -388,7 +388,7 @@ int main()
 		   	end_time = clock();
 		   	search_time = end_time - start_time;
 		   	sum_time+=search_time;
-		   	//cout << search_time <<endl;
+		   //	cout << search_time <<" "<< gen <<endl;
 		   	gen=gen*2; 
 		   }
 		   int current_gen=gen;
@@ -446,18 +446,18 @@ int main()
 		   	end_time = clock();
 		   	search_time = end_time - start_time;
 		   	sum_time+=search_time;
-		   	//cout << search_time <<endl;
+		   	// cout << search_time <<" "<< current_gen << endl;
 		   	
 			}
 			
 		   //cout << key << endl;
-		   ofstream fout("result.txt", ios_base::app);
+		   /*ofstream fout("result.txt", ios_base::app);
 		   fout <<"N: "<< key << endl;
 		   fout <<"Sum_time: "<<sum_time<<"ms" <<endl;
 		   fout <<"Memory: "<<memory <<endl;
 		   fout <<"Current number of generation: "<<current_gen <<endl;
 		   fout <<endl;
-		   fout.close();
+		   fout.close();*/
 		   
 		    
 		   } 
