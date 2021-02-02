@@ -1,0 +1,71 @@
+N: 1
+Sum_time: 11229ms
+Memory: 3723696
+Number of last generation: 11264
+Sum of generation: 68607
+
+N: 2
+Sum_time: 11246ms
+Memory: 3723256
+Number of last generation: 11264
+Sum of generation: 68606
+
+N: 3
+Sum_time: 10675ms
+Memory: 3520132
+Number of last generation: 9216
+Sum of generation: 60669
+
+N: 4
+Sum_time: 11032ms
+Memory: 3722496
+Number of last generation: 11264
+Sum of generation: 68604
+
+N: 5
+Sum_time: 10392ms
+Memory: 3623828
+Number of last generation: 12800
+Sum of generation: 71675
+
+N: 6
+Sum_time: 10131ms
+Memory: 3316288
+Number of last generation: 13824
+Sum of generation: 70650
+
+N: 7
+Sum_time: 11594ms
+Memory: 3868888
+Number of last generation: 16128
+Sum of generation: 82425
+
+N: 8
+Sum_time: 12190ms
+Memory: 4421488
+Number of last generation: 18432
+Sum of generation: 94200
+
+N: 9
+Sum_time: 10517ms
+Memory: 3702348
+Number of last generation: 18432
+Sum of generation: 85239
+
+N: 10
+Sum_time: 12235ms
+Memory: 4113648
+Number of last generation: 20480
+Sum of generation: 94710
+N: -1
+Sum_time: 10021ms
+Memory: 936
+Number of last generation: -1696
+Sum of generation: -45823
+
+N: 1
+Sum_time: 10476ms
+Memory: 3145032
+Number of last generation: 1408
+Sum of generation: 16255
+

@@ -10,6 +10,7 @@
 #include <set>
 #include <stdlib.h>
 #include <ctime>
+int data_id=0;
 using namespace std;
 struct production{
 	int hour;
@@ -35,6 +36,7 @@ string to_string(int n)
     return buf;
 };
 func(int gen){
+		data_id=0;
 		FILE *fout_bin;
 		int i,j;
 		string* words=new string[200000];
@@ -52,7 +54,8 @@ func(int gen){
 	     	ofstream fout("products.txt"); 
 	     	//random value 
 		for (i=0;i<gen;i++){
-			f[i].id="id"+to_string(rand() % 1000)+to_string(rand() % 1000)+to_string(rand() % 1000);
+			f[i].id="id"+to_string(data_id);
+			data_id++;
 			f[i].name=name[rand()%60];
 			f[i].uom=units[rand()%3];
 			f[i].num=rand()%100+10;
@@ -99,7 +102,8 @@ func_sum(int gen){
 	     	fout << endl;
 	     	//random value 
 		for (i=0;i<gen;i++){
-			f[i].id="id"+to_string(rand() % 1000)+to_string(rand() % 1000)+to_string(rand() % 1000);
+			f[i].id="id"+to_string(data_id);
+			data_id++;
 			f[i].name=name[rand()%60];
 			f[i].uom=units[rand()%3];
 			f[i].num=rand()%100+10;
@@ -284,8 +288,8 @@ int main()
 			"6 Modification of elements, 7 Delete items, 9 Exit" << endl;
 			cout <<  "1" <<endl;
 			cout << "Write number of items: 1" <<endl;
-			cout << "id21313123 carrot kilo 24 23 55 11 12 2020 65 "<<endl;
-			f[0].id="id21313123";
+			cout << "id10 carrot kilo 24 23 55 11 12 2020 65 "<<endl;
+			f[0].id="id10";
 			f[0].name="carrot";
 			f[0].uom="kilo";
 			f[0].num= 24;
@@ -379,12 +383,17 @@ int main()
 		   // mode 3 
 		   // benchmark
 		   if (mode==3){  
-		   	unsigned long search_time=0, start_time, end_time,sum_time=0;
+		   	/* product* out_new= new product[200000];
+		    string  *lines=new string[200000],*my_lines=new string[200000];*/
+	 	  	unsigned long search_time=0, start_time, end_time,sum_time=0;
 		   	memory=0;
-		  /* cout << "Write your number: ";
-		   cin >> gen;*/
-		   int key;
-		    for (key=1;key<=2;key++){
+		   	 int key;
+			long sum_gen;
+		    cout << "Write your number: ";
+		    cin >> key;
+		    
+		    /*for (key=1;key<=10;key++){*/
+		    sum_gen=0;
 		   	memory=0;
 		   	sum_time=0;
 		   	gen=key;
@@ -392,6 +401,72 @@ int main()
 		   	start_time =  clock();
 		   	// generation
 		   	if (gen==key) func(gen); else func_sum(gen); 
+		    ind=0;
+		    sum_gen+=gen;
+		    // Data recovery
+		    ifstream file("products.txt");
+			while (!file.eof()){
+				file >> out[ind].id >> out[ind].name >> out[ind].uom >>out[ind].num >> out[ind].data.hour
+				>> out[ind].data.min >> out[ind].data.day >>out[ind].data.month>>
+				out[ind].data.year>> out[ind].term;
+					  
+				line[ind]=out[ind].id+" "+out[ind].name+" "+out[ind].uom+
+				" "+to_string(out[ind].num)+" "+ to_string(out[ind].data.hour)
+				+" "+to_string(out[ind].data.min)+" "+ to_string(out[ind].data.day)+" "+
+				to_string(out[ind].data.month)+" "+to_string(out[ind].data.year)+" "+
+				to_string(out[ind].term);
+				
+				ind++;
+				memory+=sizeof(line[i])*2;
+			} 	file.close();
+			
+			// Search item
+			
+			int ind_t;
+			string str_name="Ca",str_uom="kilo";
+			int hours=10,minutess=10,days=10,months=12,years=2020;
+			bool flags=false;
+			int mins=10, maxs=200;
+			//memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
+				for (i=0;i<ind;i++){
+					if ( out[i].name.length()>=2) {
+					new_name=out[i].name.erase(2,out[i].name.length()-2);
+					
+					if (out[i].data.year>years || (out[i].data.year>=years
+					&& out[i].data.month>months) || ( out[i].data.year>=years
+					&& out[i].data.month>=months && out[i].data.day>days) ||
+					( out[i].data.year>=years && out[i].data.month>=months && out[i].data.day>=days
+					&& out[i].data.hour>hours)|| ( out[i].data.year>=years && out[i].data.month>=months 
+					&& out[i].data.day>=days	&& out[i].data.hour>=hours && out[i].data.min>minutess )) flags=true;
+					if (new_name==str_name && out[i].num>mins && out[i].num<maxs 
+					&& out[i].uom == str_uom && flags==true) {
+					my_line[ind_t]=line[i];
+					ind_t++;
+				 		flags=false;}
+				 		memory+=sizeof(line[i]);
+				}}
+			//	delete[] lines,my_lines;
+			//	delete[] out, line,my_line;
+		   	end_time = clock();
+		   	search_time = end_time - start_time;
+		   	sum_time+=search_time;
+		   	// for check time;
+		   	//cout << search_time <<" "<< gen <<endl;
+		   
+		   	gen=gen*2; 
+		   }
+		   int current_gen=gen/2;
+		   memory+=sizeof(current_gen)*2;
+		   // second part ariph prog
+		   
+		   while (sum_time<10000){
+		   	
+		   	start_time =  clock();
+		   	current_gen+=gen/2;
+		   	sum_gen+=current_gen;
+		   	// generation
+		   	func_sum(current_gen);
+		   	 
 		    ind=0;
 		    // Data recovery
 		    ifstream file("products.txt");
@@ -407,7 +482,7 @@ int main()
 				to_string(out[ind].term);
 				
 				ind++;
-				memory+=sizeof(line[i])*2+sizeof(ind)+sizeof(gen);
+				memory+=sizeof(line[i])*2;
 			} 	file.close();
 			
 			// Search item
@@ -417,7 +492,7 @@ int main()
 			int hours=10,minutess=10,days=10,months=12,years=2020;
 			bool flags=false;
 			int mins=10, maxs=200;
-			memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
+			//memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
 				for (i=0;i<ind;i++){
 					if ( out[i].name.length()>=2) {
 					new_name=out[i].name.erase(2,out[i].name.length()-2);
@@ -433,99 +508,46 @@ int main()
 					my_line[ind_t]=line[i];
 					ind_t++;
 				 		flags=false;}
-				 		memory+=sizeof(line[i])+sizeof(my_line[ind_t])+sizeof(i)+sizeof(ind_t);
+				 		memory+=sizeof(line[i]);
 				}}
-				
+			//	delete[] out, line,my_line;	
 		   	end_time = clock();
 		   	search_time = end_time - start_time;
 		   	sum_time+=search_time;
-		   	memory+=sizeof(start_time)+sizeof(end_time)+sizeof(sum_time)+sizeof(search_time)+sizeof(gen);
-		   	// for check time;
-		   	//cout << search_time <<" "<< gen <<endl;
-		   
-		   	gen=gen*2; 
-		   }
-		   int current_gen=gen/2;
-		   memory+=sizeof(current_gen);
-		   // second part ariph prog
-		   
-		   while (sum_time<10000){
-		   	
-		   	start_time =  clock();
-		   	current_gen+=gen/2;
-		   	// generation
-		   	func_sum(current_gen);
-		   	 
-		    ind=0;
-		    // Data recovery
-		    ifstream file("products.txt");
-			while (!file.eof()){
-				file >> out[ind].id >> out[ind].name >> out[ind].uom >>out[ind].num >> out[ind].data.hour
-				>> out[ind].data.min >> out[ind].data.day >>out[ind].data.month>>
-				out[ind].data.year>> out[ind].term;
-				
-				line[ind]=out[ind].id+" "+out[ind].name+" "+out[ind].uom+
-				" "+to_string(out[ind].num)+" "+ to_string(out[ind].data.hour)
-				+" "+to_string(out[ind].data.min)+" "+ to_string(out[ind].data.day)+" "+
-				to_string(out[ind].data.month)+" "+to_string(out[ind].data.year)+" "+
-				to_string(out[ind].term);
-				
-				ind++;
-				memory+=sizeof(line[i])+sizeof(ind);
-			}  file.close();			
-			// Search item
-			
-			int ind_t;
-			string str_name="Ca",str_uom="kilo";
-			int hours=10,minutess=10,days=10,months=12,years=2020;
-			bool flags=false;
-			int mins=10, maxs=200;
-			memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
-				for (i=0;i<ind;i++){
-					if ( out[i].name.length()>=2) {
-					new_name=out[i].name.erase(2,out[i].name.length()-2);
-					
-					if (out[i].data.year>years || (out[i].data.year>=years
-					&& out[i].data.month>months) || ( out[i].data.year>=years
-					&& out[i].data.month>=months && out[i].data.day>days) ||
-					( out[i].data.year>=years && out[i].data.month>=months && out[i].data.day>=days
-					&& out[i].data.hour>hours)|| ( out[i].data.year>=years && out[i].data.month>=months 
-					&& out[i].data.day>=days	&& out[i].data.hour>=hours && out[i].data.min>minutess )) flags=true;
-					if (new_name==str_name && out[i].num>mins && out[i].num<maxs 
-					&& out[i].uom == str_uom && flags==true) {
-					my_line[ind_t]=line[i];
-					ind_t++;
-				 		flags=false;}
-						 memory+=sizeof(start_time)+sizeof(end_time)+sizeof(sum_time)+sizeof(search_time);
-				}}
-				
-		   	end_time = clock();
-		   	search_time = end_time - start_time;
-		   	sum_time+=search_time;
-		   	memory+=sizeof(start_time)+sizeof(end_time)+sizeof(sum_time)+sizeof(search_time);
 		   	
 		   	// for check time;
-		   	// cout << search_time <<" "<< current_gen << endl;
+		   	 // cout << search_time <<" "<< current_gen << endl;
 		   	
 			}
 			
 		   //cout << key << endl;
-		   /*ofstream fout("result_string.txt", ios_base::app);
+		   ofstream fout("Result_string_fstream.txt", ios_base::app);
 		   fout <<"N: "<< key << endl;
 		   fout <<"Sum_time: "<<sum_time<<"ms" <<endl;
 		   fout <<"Memory: "<<memory <<endl;
-		   fout <<"Number of last generation: "<<current_gen <<endl;
+		   fout <<"Number of last generation: "<< current_gen <<endl;
+		   fout <<"Sum of generation: "<< sum_gen <<endl;
 		   fout <<endl;
-			fout.close();*/
+			fout.close();
+			
+			
+			cout <<"N: "<< key << endl;
+		   cout <<"Sum_time: "<<sum_time<<"ms" <<endl;
+		   cout <<"Memory: "<<memory <<endl;
+		   cout <<"Number of last generation: "<< current_gen <<endl;
+		   cout <<"Sum of generation: "<< sum_gen <<endl;
+		   cout <<endl;
+		
 		   
 			}
 		
-		   } 
+		  // } //
 		   
 		   	
 		   	
-		   
-	delete[] words,line,my_line,f,out;
+		 //delete trash memory from mode 1 and mode 2
+			delete[] words,line,my_line,f,out;  
+
 	
 	
 	
