@@ -57,15 +57,3 @@ Sum_time: 12235ms
 Memory: 4113648
 Number of last generation: 20480
 Sum of generation: 94710
-N: -1
-Sum_time: 10021ms
-Memory: 936
-Number of last generation: -1696
-Sum of generation: -45823
-
-N: 1
-Sum_time: 10476ms
-Memory: 3145032
-Number of last generation: 1408
-Sum of generation: 16255
-
