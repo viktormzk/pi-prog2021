@@ -1,0 +1,13 @@
+current output mode: list
+        echo: off
+         eqp: off
+     explain: auto
+     headers: off
+        mode: list
+   nullvalue: ""
+      output: test.db
+colseparator: "|"
+rowseparator: "\n"
+       stats: off
+       width: 
+    filename: test.db
