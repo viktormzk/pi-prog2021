@@ -132,10 +132,16 @@ void func(int gen) {
 			if (i != gen - 1)	fout << words[i] << endl;
 			else fout << words[i];
 		//binary
+		if (i!=0){
 		fwrite("\n",sizeof(char),1, fout_bin);	
 		for (j = 0;j < words[i].length();j++)
-			fwrite((char*)&words[i][j], sizeof(char), 1, fout_bin);
-		fwrite("\n", sizeof(char), 1, fout_bin);
+			fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);}
+			else {
+				for (j = 0;j < words[i].length();j++)
+		 		fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
+			}
+		//fwrite("\n", sizeof(char), 1, fout_bin);
+		
 		//sql
 		/*sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
 		sql_str += words[i];
@@ -188,8 +194,8 @@ void func_sum(int gen) {
 		//binary
 		fwrite("\n",sizeof(char),1, fout_bin);	
 		for (j = 0;j < words[i].length();j++)
-			fwrite((char*)&words[i][j], sizeof(char), 1, fout_bin);
-		fwrite("\n", sizeof(char), 1, fout_bin);
+			fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
+		//fwrite("\n", sizeof(char), 1, fout_bin);
 		//sql
 		/*sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
 		sql_str += words[i];
@@ -260,7 +266,7 @@ int main()
 					else fout << words[i];
 					fwrite("\n",sizeof(char),1, fout_bin);	
 					for (j = 0;j < words[i].length();j++)
-						fwrite((char*)&words[i][j], sizeof(char), 1, fout_bin);
+						fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
 					fwrite("\n", sizeof(char), 1, fout_bin);
 
 					/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
@@ -400,7 +406,7 @@ int main()
 			fout << words[i];
 
 			for (j = 0;j < words[i].length();j++)
-				fwrite((char*)&words[i][j], sizeof(char), 1, fout_bin);
+				fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
 			fwrite("\n", sizeof(char), 1, fout_bin);
 			//sql
 			/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
@@ -482,14 +488,14 @@ int main()
 			if (mode == 3) {
 				/* product* out_new= new product[200000];
 				string  *lines=new string[200000],*my_lines=new string[200000];*/
-				unsigned long search_time = 0, start_time, end_time, sum_time = 0;
+				unsigned long search_time = 0, start_time, end_time, sum_time = 0,s_time=0,g_time=0,r_time=0, start_s_time=0, start_g_time=0, start_r_time=0, end_s_time=0, end_g_time=0, end_r_time=0;
 				memory = 0;
 				int key;
 				long sum_gen;
-				cout << "Write your number: ";
-				cin >> key;
+			/*	cout << "Write your number: ";
+				cin >> key;*/
 
-				//for (key=1;key<=10;key++){
+				for (key=1;key<=10;key++){
 					//for clear database
 					/*sql_str = "DELETE FROM foo;";
 					const char* SQL = sql_str.c_str();
@@ -497,14 +503,21 @@ int main()
 				sum_gen = 0;
 				memory = 0;
 				sum_time = 0;
+				s_time=0;
+				g_time=0;
+				r_time=0;
 				gen = key;
 				while (sum_time < 1000) {
 					start_time = clock();
 					// generation
+					start_s_time=clock();
 					if (gen == key) func(gen); else func_sum(gen);
+					end_s_time=clock();
+					s_time+=end_s_time-	start_s_time;
 					ind = 0;
 					sum_gen += gen;
 					// Data recovery
+					start_r_time=clock();
 					ifstream file("products.txt");
 					while (!file.eof()) {
 						file >> out[ind].id >> out[ind].name >> out[ind].uom >> out[ind].num >> out[ind].data.hour
@@ -520,6 +533,8 @@ int main()
 						ind++;
 						memory += sizeof(line[i]) * 2;
 					} 	file.close();
+					end_r_time=clock();
+					r_time+=end_r_time-start_r_time;
 
 					// Search item
 
@@ -529,6 +544,7 @@ int main()
 					bool flags = false;
 					int mins = 10, maxs = 200;
 					//memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
+					start_s_time=clock();
 					for (i = 0;i < ind;i++) {
 						if (out[i].name.length() >= 2) {
 							new_name = out[i].name.erase(2, out[i].name.length() - 2);
@@ -548,6 +564,8 @@ int main()
 							memory += sizeof(line[i]);
 						}
 					}
+					end_s_time=clock();
+					s_time=end_s_time-start_s_time;
 					//	delete[] lines,my_lines;
 					//	delete[] out, line,my_line;
 					end_time = clock();
@@ -568,10 +586,14 @@ int main()
 					current_gen += gen / 2;
 					sum_gen += current_gen;
 					// generation
+					start_g_time=clock();
 					func_sum(current_gen);
+					end_g_time=clock();
+					g_time+=end_g_time-start_g_time;
 
 					ind = 0;
 					// Data recovery
+					start_r_time=clock();
 					ifstream file("products.txt");
 					while (!file.eof()) {
 						file >> out[ind].id >> out[ind].name >> out[ind].uom >> out[ind].num >> out[ind].data.hour
@@ -587,6 +609,8 @@ int main()
 						ind++;
 						memory += sizeof(line[i]) * 2;
 					} 	file.close();
+					end_r_time=clock();
+					r_time+=end_r_time-start_r_time;
 
 					// Search item
 
@@ -596,6 +620,7 @@ int main()
 					bool flags = false;
 					int mins = 10, maxs = 200;
 					//memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
+					start_s_time=clock();
 					for (i = 0;i < ind;i++) {
 						if (out[i].name.length() >= 2) {
 							new_name = out[i].name.erase(2, out[i].name.length() - 2);
@@ -615,6 +640,8 @@ int main()
 							memory += sizeof(line[i]);
 						}
 					}
+					end_s_time=clock();
+					s_time+=end_s_time-start_s_time;
 					//	delete[] out, line,my_line;	
 					end_time = clock();
 					search_time = end_time - start_time;
@@ -626,27 +653,32 @@ int main()
 				}
 				//cout << key << endl;
 				//for writing in file
-			/*	ofstream fout("result.txt", ios_base::app);
+				ofstream fout("result.txt", ios_base::app);
 				fout << "N: " << key << endl;
-				fout << "Sum_time: " << sum_time << "ms" << endl;
-				fout << "Memory: " << memory << endl;
-				fout << "Number of last generation: " << current_gen << endl;
-				fout << "Sum of generation: " << sum_gen << endl;
-				fout << "Size of stream file: "<<get_file_size("products.txt")<<endl; // ofstrem method
-				//fout << "Size of stream file, ios_base::binary: "<<fileSize_bin("products.txt")<<endl; //binary method
-				fout << "Size of binary file: "<<fileSize("products_bin.dat")<<endl; // ofstrem binary method
-				//fout << "Size of database: "<< fileSize("test.db")<<endl;
+				fout << "	Sum_time: " << sum_time << "ms" << endl;
+				fout << "		Time of searching: "<<s_time<<"ms"<<endl;
+				fout << "		Time of generation: "<<g_time<<"ms"<<endl;
+				fout << "		Time of recovery data: "<<r_time<<"ms"<<endl;
+				fout << "	Used memory: " << memory << " bytes"<<endl;
+				fout << "	Number of last generation: " << current_gen << endl;
+				fout << "	Sum of generation: " << sum_gen << endl;
+				fout << "	Size of File: "<<fileSize("products.txt")<< " bytes"<<endl;
+				fout << "	Size of binary File: "<<fileSize_bin("products_bin.dat")<< " bytes"<<endl;
 				fout << endl;
-				fout.close();*/
+				fout.close();
 
 					//output result
-				cout << "N: " << key << endl;
+			/*	cout << "N: " << key << endl;
 				cout << "Sum_time: " << sum_time << "ms" << endl;
-				cout << "Memory: " << memory << endl;
+				cout << "Time of searching: "<<s_time<<"ms"<<endl;
+				cout << "Time of generation"<<g_time<<"ms"<<endl;
+				cout << "Time of recovery data: "<<r_time<<"ms"<<endl;
+				cout << "Used memory: " << memory << " bytes"<<endl;
 				cout << "Number of last generation: " << current_gen << endl;
 				cout << "Sum of generation: " << sum_gen << endl;
-				cout << "Size of File: "<<fileSize("products.txt")<<endl;
-				cout << endl;
+				cout << "Size of File: "<<fileSize("products.txt")<< " bytes"<<endl;
+				cout << "Size of binary File: "<<fileSize_bin("products_bin.dat")<< " bytes"<<endl;
+				cout << endl;*/
 
 
 			}
