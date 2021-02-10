@@ -10,8 +10,11 @@
 #include <set>
 #include <stdlib.h>
 #include <ctime>
+//#include <filesystem>
 //#include <sqlite3.c>
-#include "sqlite3.h"
+
+ //database include
+// #include "sqlite3.h"
 
 int data_id = 0;
 using namespace std;
@@ -36,7 +39,8 @@ struct product {
 	production data;
 	int term;
 }; 
-auto database(const char*& SQL) {
+//main sqlite function
+/*auto database(const char*& SQL) {
 
 	sqlite3* db = 0; // handle
 	char* err = 0;
@@ -53,13 +57,41 @@ auto database(const char*& SQL) {
 	//close
 	sqlite3_close(db);
 
-}
-/*string to_string(int n)
+}*/
+// to_string work in VS studio, but doesnt work in dev-cpp
+string to_string(int n)
 {
 	char buf[15];
 	sprintf(buf, "%d", n);
 	return buf;
-};*/
+};
+// get_file_size
+int get_file_size(string filename) // path to file
+{
+    FILE *p_file = NULL;
+    p_file = fopen(filename.c_str(),"rb");
+    fseek(p_file,0,SEEK_END);
+    int size = ftell(p_file);
+    fclose(p_file);
+    return size;
+}
+//fileSize
+int fileSize(const char* add) {
+	ifstream mySource;
+	mySource.open(add);
+	mySource.seekg(0, ios_base::end);
+	int size = mySource.tellg();
+	mySource.close();
+	return size;
+}
+int fileSize_bin(const char* add) {
+	ifstream mySource;
+	mySource.open(add, ios_base::binary);
+	mySource.seekg(0, ios_base::end);
+	int size = mySource.tellg();
+	mySource.close();
+	return size;
+}
 void func(int gen) {
 	data_id = 0;
 	FILE* fout_bin;
@@ -75,7 +107,7 @@ void func(int gen) {
 "herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 "sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 "beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
-	//fout_bin = fopen("products_bin.dat", "wa+");
+	fout_bin = fopen("products_bin.dat", "wa+");
 	ofstream fout("products.txt");
 	//random value 
 	for (i = 0;i < gen;i++) {
@@ -94,31 +126,32 @@ void func(int gen) {
 		words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
 			+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
 			to_string(f[i].data.year) + " " + to_string(f[i].term);
-
+		
+		// ofstream
 		if (gen == 1) fout << words[i] << endl; else
 			if (i != gen - 1)	fout << words[i] << endl;
 			else fout << words[i];
-
-		//fwrite("\n",sizeof(char),1, fout_bin);	
-		/*for (j = 0;j < words[i].length();j++)
+		//binary
+		fwrite("\n",sizeof(char),1, fout_bin);	
+		for (j = 0;j < words[i].length();j++)
 			fwrite((char*)&words[i][j], sizeof(char), 1, fout_bin);
-		fwrite("\n", sizeof(char), 1, fout_bin);*/
-
-		sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
+		fwrite("\n", sizeof(char), 1, fout_bin);
+		//sql
+		/*sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
 		sql_str += words[i];
 		sql_str += "\");";
 		const char* SQL = sql_str.c_str();
-		database(SQL);
+		database(SQL);*/
 	}
 	fout.close();
-	//fclose(fout_bin);
+	fclose(fout_bin);
 	delete[] words, f;
 }
 // for benchmark
 void func_sum(int gen) {
 	FILE* fout_bin;
 	int i, j;
-	string* words = new string[200000];
+	string* words = new string[200000]; //max 200k elem
 	product* f = new product[200000];
 	string name[100] = { "bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
 "lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
@@ -129,7 +162,7 @@ void func_sum(int gen) {
 "herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 "sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 "beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
-	//fout_bin = fopen("products_bin.dat", "ab+");
+	fout_bin = fopen("products_bin.dat", "ab+");
 	ofstream fout("products.txt", ios_base::app);
 	fout << endl;
 	//random value 
@@ -145,30 +178,30 @@ void func_sum(int gen) {
 		f[i].data.month = rand() % 12 + 1;
 		f[i].data.year = (rand() % 10) + 2011;
 		f[i].term = (rand() % 3451) + 200;
-
+		//ofstream
 		words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
 			+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
 			to_string(f[i].data.year) + " " + to_string(f[i].term);
 		if (gen == 1) fout << words[i] << endl; else
 			if (i != gen - 1)	fout << words[i] << endl;
 			else fout << words[i];
-
-		//fwrite("\n",sizeof(char),1, fout_bin);	
-		/*for (j = 0;j < words[i].length();j++)
+		//binary
+		fwrite("\n",sizeof(char),1, fout_bin);	
+		for (j = 0;j < words[i].length();j++)
 			fwrite((char*)&words[i][j], sizeof(char), 1, fout_bin);
-		fwrite("\n", sizeof(char), 1, fout_bin);*/
-
-		sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
+		fwrite("\n", sizeof(char), 1, fout_bin);
+		//sql
+		/*sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
 		sql_str += words[i];
 		sql_str += "\");";
 		const char* SQL = sql_str.c_str();
-		database(SQL);
+		database(SQL);*/
 	}
-	//fout.close();
+	fout.close();
 
-	//!!! visual studio doesnt want to work with fopen aka c file
+	//!!! visual studio doesnt want to work with fopen, c file
 
-	//fclose(fout_bin);
+	fclose(fout_bin);
 	delete[] words, f;
 }
 
@@ -181,10 +214,11 @@ int main()
 	string* words = new string[200000], * line = new string[200000], * my_line = new string[200000];
 	string str_name, str_uom, new_name;
 	long long memory;
+	//for clear database
 
-	sql_str = "DELETE FROM foo;";
+	/*sql_str = "DELETE FROM foo;";
 	const char* SQL = sql_str.c_str();
-	database(SQL);
+	database(SQL);*/
 
 
 	//char new_name[100];
@@ -197,8 +231,8 @@ int main()
 		func(gen);
 		cout << "Select the operating mode: 1 Adding item, " <<
 			"2 Data storage, 3 Data recovery, 4 Output of all saved data, " <<
-			"5 Search by particle of name, " <<
-			"6 Modification of elements, 7 Delete items, 9 Exit" << endl;
+			"5 Search by particle of name, 9 EXIT. " <<endl;
+			//"6 Modification of elements, 7 Delete items, 9 Exit" << endl;
 		while (interactive != 9) {
 			cin >> interactive;
 			if (interactive == 1) {
@@ -215,7 +249,7 @@ int main()
 			}
 
 			if (interactive == 2) {
-				//fout_bin = fopen("products_bin.dat", "ab+");
+				fout_bin = fopen("products_bin.dat", "ab+");
 				ofstream fout("products.txt", ios_base::app);
 				fout << endl;
 				for (i = 0;i < numb;i++) {
@@ -224,19 +258,19 @@ int main()
 						to_string(f[i].data.year) + " " + to_string(f[i].term);
 					if (i != numb - 1) 	fout << words[i] << endl;
 					else fout << words[i];
-					//fwrite("\n",sizeof(char),1, fout_bin);	
-					/*for (j = 0;j < words[i].length();j++)
+					fwrite("\n",sizeof(char),1, fout_bin);	
+					for (j = 0;j < words[i].length();j++)
 						fwrite((char*)&words[i][j], sizeof(char), 1, fout_bin);
-					fwrite("\n", sizeof(char), 1, fout_bin);*/
+					fwrite("\n", sizeof(char), 1, fout_bin);
 
-					sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
+					/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
 					sql_str += words[i];
 					sql_str += "\");";
 					const char* SQL = sql_str.c_str();
-					database(SQL);
+					database(SQL);*/
 				}
 				fout.close();
-				//fclose(fout_bin);
+				fclose(fout_bin);
 			}
 
 			if (interactive == 3) {
@@ -356,7 +390,7 @@ int main()
 			f[0].term = 65;
 			cout << "2" << endl;
 
-			//fout_bin = fopen("products_bin.dat", "ab+");
+			fout_bin = fopen("products_bin.dat", "ab+");
 			ofstream fout("products.txt", ios_base::app);
 			fout << endl;
 			i = 0;
@@ -365,18 +399,18 @@ int main()
 				to_string(f[i].data.year) + " " + to_string(f[i].term);
 			fout << words[i];
 
-			/*for (j = 0;j < words[i].length();j++)
+			for (j = 0;j < words[i].length();j++)
 				fwrite((char*)&words[i][j], sizeof(char), 1, fout_bin);
-			fwrite("\n", sizeof(char), 1, fout_bin);*/
-
-			sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
+			fwrite("\n", sizeof(char), 1, fout_bin);
+			//sql
+			/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
 			sql_str += words[i];
 			sql_str += "\");";
 			const char* SQL = sql_str.c_str();
-			database(SQL);
+			database(SQL);*/
 
 			fout.close();
-			//fclose(fout_bin);
+			fclose(fout_bin);
 
 
 			cout << "3" << endl;
@@ -455,7 +489,11 @@ int main()
 				cout << "Write your number: ";
 				cin >> key;
 
-				/*for (key=1;key<=10;key++){*/
+				//for (key=1;key<=10;key++){
+					//for clear database
+					/*sql_str = "DELETE FROM foo;";
+					const char* SQL = sql_str.c_str();
+					database(SQL);*/
 				sum_gen = 0;
 				memory = 0;
 				sum_time = 0;
@@ -586,29 +624,34 @@ int main()
 					 // cout << search_time <<" "<< current_gen << endl;
 
 				}
-
 				//cout << key << endl;
-				ofstream fout("Result_string_fstream.txt", ios_base::app);
+				//for writing in file
+			/*	ofstream fout("result.txt", ios_base::app);
 				fout << "N: " << key << endl;
 				fout << "Sum_time: " << sum_time << "ms" << endl;
 				fout << "Memory: " << memory << endl;
 				fout << "Number of last generation: " << current_gen << endl;
 				fout << "Sum of generation: " << sum_gen << endl;
+				fout << "Size of stream file: "<<get_file_size("products.txt")<<endl; // ofstrem method
+				//fout << "Size of stream file, ios_base::binary: "<<fileSize_bin("products.txt")<<endl; //binary method
+				fout << "Size of binary file: "<<fileSize("products_bin.dat")<<endl; // ofstrem binary method
+				//fout << "Size of database: "<< fileSize("test.db")<<endl;
 				fout << endl;
-				fout.close();
+				fout.close();*/
 
-
+					//output result
 				cout << "N: " << key << endl;
 				cout << "Sum_time: " << sum_time << "ms" << endl;
 				cout << "Memory: " << memory << endl;
 				cout << "Number of last generation: " << current_gen << endl;
 				cout << "Sum of generation: " << sum_gen << endl;
+				cout << "Size of File: "<<fileSize("products.txt")<<endl;
 				cout << endl;
 
 
 			}
 
-	// } //
+	} 
 
 
 
