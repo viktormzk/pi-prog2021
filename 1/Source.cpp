@@ -14,7 +14,7 @@
 //#include <sqlite3.c>
 
  //database include
-// #include "sqlite3.h"
+ #include "sqlite3.h"
 
 int data_id = 0;
 using namespace std;
@@ -38,13 +38,13 @@ struct product {
 	int num;
 	production data;
 	int term;
-}; 
+};
 //main sqlite function
-/*auto database(const char*& SQL) {
+auto database(const char*& SQL) {
 
 	sqlite3* db = 0; // handle
 	char* err = 0;
-	
+
 	//open
 	if (sqlite3_open("test.db", &db))
 		fprintf(stderr, "Can not open \ write to DB: %s\n", sqlite3_errmsg(db));
@@ -57,24 +57,24 @@ struct product {
 	//close
 	sqlite3_close(db);
 
-}*/
+}
 // to_string work in VS studio, but doesnt work in dev-cpp
-string to_string(int n)
+/*string to_string(int n)
 {
 	char buf[15];
 	sprintf(buf, "%d", n);
 	return buf;
-};
+};*/
 // get_file_size
-int get_file_size(string filename) // path to file
+/*int get_file_size(string filename) // path to file
 {
-    FILE *p_file = NULL;
-    p_file = fopen(filename.c_str(),"rb");
-    fseek(p_file,0,SEEK_END);
-    int size = ftell(p_file);
-    fclose(p_file);
-    return size;
-}
+	FILE *p_file = NULL;
+	p_file = fopen(filename.c_str(),"rb");
+	fseek(p_file,0,SEEK_END);
+	int size = ftell(p_file);
+	fclose(p_file);
+	return size;
+}*/
 //fileSize
 int fileSize(const char* add) {
 	ifstream mySource;
@@ -107,7 +107,7 @@ void func(int gen) {
 "herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 "sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 "beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
-	fout_bin = fopen("products_bin.dat", "wa+");
+	//fout_bin = fopen("products_bin.dat", "wa+");
 	ofstream fout("products.txt");
 	//random value 
 	for (i = 0;i < gen;i++) {
@@ -126,31 +126,31 @@ void func(int gen) {
 		words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
 			+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
 			to_string(f[i].data.year) + " " + to_string(f[i].term);
-		
+
 		// ofstream
 		if (gen == 1) fout << words[i] << endl; else
 			if (i != gen - 1)	fout << words[i] << endl;
 			else fout << words[i];
 		//binary
-		if (i!=0){
-		fwrite("\n",sizeof(char),1, fout_bin);	
+		/*if (i!=0){
+		fwrite("\n",sizeof(char),1, fout_bin);
 		for (j = 0;j < words[i].length();j++)
-			fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);}
+			fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);}
 			else {
 				for (j = 0;j < words[i].length();j++)
-		 		fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
-			}
+				fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);
+		}*/
 		//fwrite("\n", sizeof(char), 1, fout_bin);
-		
+
 		//sql
-		/*sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
+		sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
 		sql_str += words[i];
 		sql_str += "\");";
 		const char* SQL = sql_str.c_str();
-		database(SQL);*/
+		database(SQL);
 	}
 	fout.close();
-	fclose(fout_bin);
+	//fclose(fout_bin);
 	delete[] words, f;
 }
 // for benchmark
@@ -168,7 +168,7 @@ void func_sum(int gen) {
 "herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 "sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 "beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
-	fout_bin = fopen("products_bin.dat", "ab+");
+	//fout_bin = fopen("products_bin.dat", "ab+");
 	ofstream fout("products.txt", ios_base::app);
 	fout << endl;
 	//random value 
@@ -192,22 +192,22 @@ void func_sum(int gen) {
 			if (i != gen - 1)	fout << words[i] << endl;
 			else fout << words[i];
 		//binary
-		fwrite("\n",sizeof(char),1, fout_bin);	
+	/*	fwrite("\n",sizeof(char),1, fout_bin);
 		for (j = 0;j < words[i].length();j++)
-			fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
-		//fwrite("\n", sizeof(char), 1, fout_bin);
-		//sql
-		/*sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
+			fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);*/
+			//fwrite("\n", sizeof(char), 1, fout_bin);
+			//sql
+		sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
 		sql_str += words[i];
 		sql_str += "\");";
 		const char* SQL = sql_str.c_str();
-		database(SQL);*/
+		database(SQL);
 	}
 	fout.close();
 
 	//!!! visual studio doesnt want to work with fopen, c file
 
-	fclose(fout_bin);
+	//fclose(fout_bin);
 	delete[] words, f;
 }
 
@@ -237,8 +237,8 @@ int main()
 		func(gen);
 		cout << "Select the operating mode: 1 Adding item, " <<
 			"2 Data storage, 3 Data recovery, 4 Output of all saved data, " <<
-			"5 Search by particle of name, 9 EXIT. " <<endl;
-			//"6 Modification of elements, 7 Delete items, 9 Exit" << endl;
+			"5 Search by particle of name, 9 EXIT. " << endl;
+		//"6 Modification of elements, 7 Delete items, 9 Exit" << endl;
 		while (interactive != 9) {
 			cin >> interactive;
 			if (interactive == 1) {
@@ -255,7 +255,7 @@ int main()
 			}
 
 			if (interactive == 2) {
-				fout_bin = fopen("products_bin.dat", "ab+");
+				//fout_bin = fopen("products_bin.dat", "ab+");
 				ofstream fout("products.txt", ios_base::app);
 				fout << endl;
 				for (i = 0;i < numb;i++) {
@@ -264,19 +264,19 @@ int main()
 						to_string(f[i].data.year) + " " + to_string(f[i].term);
 					if (i != numb - 1) 	fout << words[i] << endl;
 					else fout << words[i];
-					fwrite("\n",sizeof(char),1, fout_bin);	
+					/*fwrite("\n",sizeof(char),1, fout_bin);
 					for (j = 0;j < words[i].length();j++)
-						fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
-					fwrite("\n", sizeof(char), 1, fout_bin);
+						fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);
+					fwrite("\n", sizeof(char), 1, fout_bin);*/
 
-					/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
+					sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
 					sql_str += words[i];
 					sql_str += "\");";
 					const char* SQL = sql_str.c_str();
-					database(SQL);*/
+					database(SQL);
 				}
 				fout.close();
-				fclose(fout_bin);
+				//fclose(fout_bin);
 			}
 
 			if (interactive == 3) {
@@ -396,7 +396,7 @@ int main()
 			f[0].term = 65;
 			cout << "2" << endl;
 
-			fout_bin = fopen("products_bin.dat", "ab+");
+			//fout_bin = fopen("products_bin.dat", "ab+");
 			ofstream fout("products.txt", ios_base::app);
 			fout << endl;
 			i = 0;
@@ -405,18 +405,18 @@ int main()
 				to_string(f[i].data.year) + " " + to_string(f[i].term);
 			fout << words[i];
 
-			for (j = 0;j < words[i].length();j++)
-				fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
-			fwrite("\n", sizeof(char), 1, fout_bin);
+			/*for (j = 0;j < words[i].length();j++)
+				fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);
+			fwrite("\n", sizeof(char), 1, fout_bin);*/
 			//sql
-			/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
+			sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
 			sql_str += words[i];
 			sql_str += "\");";
 			const char* SQL = sql_str.c_str();
-			database(SQL);*/
+			database(SQL);
 
 			fout.close();
-			fclose(fout_bin);
+//			fclose(fout_bin);
 
 
 			cout << "3" << endl;
@@ -488,184 +488,184 @@ int main()
 			if (mode == 3) {
 				/* product* out_new= new product[200000];
 				string  *lines=new string[200000],*my_lines=new string[200000];*/
-				unsigned long search_time = 0, start_time, end_time, sum_time = 0,s_time=0,g_time=0,r_time=0, start_s_time=0, start_g_time=0, start_r_time=0, end_s_time=0, end_g_time=0, end_r_time=0;
+				unsigned long search_time = 0, start_time, end_time, sum_time = 0, s_time = 0, g_time = 0, r_time = 0, start_s_time = 0, start_g_time = 0, start_r_time = 0, end_s_time = 0, end_g_time = 0, end_r_time = 0;
 				memory = 0;
 				int key;
 				long sum_gen;
-			/*	cout << "Write your number: ";
-				cin >> key;*/
+				/*	cout << "Write your number: ";
+					cin >> key;*/
 
-				for (key=1;key<=10;key++){
+				for (key = 1;key <= 10;key++) {
 					//for clear database
-					/*sql_str = "DELETE FROM foo;";
+					sql_str = "DELETE FROM foo;";
 					const char* SQL = sql_str.c_str();
-					database(SQL);*/
-				sum_gen = 0;
-				memory = 0;
-				sum_time = 0;
-				s_time=0;
-				g_time=0;
-				r_time=0;
-				gen = key;
-				while (sum_time < 1000) {
-					start_time = clock();
-					// generation
-					start_s_time=clock();
-					if (gen == key) func(gen); else func_sum(gen);
-					end_s_time=clock();
-					s_time+=end_s_time-	start_s_time;
-					ind = 0;
-					sum_gen += gen;
-					// Data recovery
-					start_r_time=clock();
-					ifstream file("products.txt");
-					while (!file.eof()) {
-						file >> out[ind].id >> out[ind].name >> out[ind].uom >> out[ind].num >> out[ind].data.hour
-							>> out[ind].data.min >> out[ind].data.day >> out[ind].data.month >>
-							out[ind].data.year >> out[ind].term;
+					database(SQL);
+					sum_gen = 0;
+					memory = 0;
+					sum_time = 0;
+					s_time = 0;
+					g_time = 0;
+					r_time = 0;
+					gen = key;
+					while (sum_time < 1000) {
+						start_time = clock();
+						// generation
+						start_s_time = clock();
+						if (gen == key) func(gen); else func_sum(gen);
+						end_s_time = clock();
+						s_time += end_s_time - start_s_time;
+						ind = 0;
+						sum_gen += gen;
+						// Data recovery
+						start_r_time = clock();
+						ifstream file("products.txt");
+						while (!file.eof()) {
+							file >> out[ind].id >> out[ind].name >> out[ind].uom >> out[ind].num >> out[ind].data.hour
+								>> out[ind].data.min >> out[ind].data.day >> out[ind].data.month >>
+								out[ind].data.year >> out[ind].term;
 
-						line[ind] = out[ind].id + " " + out[ind].name + " " + out[ind].uom +
-							" " + to_string(out[ind].num) + " " + to_string(out[ind].data.hour)
-							+ " " + to_string(out[ind].data.min) + " " + to_string(out[ind].data.day) + " " +
-							to_string(out[ind].data.month) + " " + to_string(out[ind].data.year) + " " +
-							to_string(out[ind].term);
+							line[ind] = out[ind].id + " " + out[ind].name + " " + out[ind].uom +
+								" " + to_string(out[ind].num) + " " + to_string(out[ind].data.hour)
+								+ " " + to_string(out[ind].data.min) + " " + to_string(out[ind].data.day) + " " +
+								to_string(out[ind].data.month) + " " + to_string(out[ind].data.year) + " " +
+								to_string(out[ind].term);
 
-						ind++;
-						memory += sizeof(line[i]) * 2;
-					} 	file.close();
-					end_r_time=clock();
-					r_time+=end_r_time-start_r_time;
+							ind++;
+							memory += sizeof(line[i]) * 2;
+						} 	file.close();
+						end_r_time = clock();
+						r_time += end_r_time - start_r_time;
 
-					// Search item
+						// Search item
 
-					int ind_t=0;
-					string str_name = "Ca", str_uom = "kilo";
-					int hours = 10, minutess = 10, days = 10, months = 12, years = 2020;
-					bool flags = false;
-					int mins = 10, maxs = 200;
-					//memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
-					start_s_time=clock();
-					for (i = 0;i < ind;i++) {
-						if (out[i].name.length() >= 2) {
-							new_name = out[i].name.erase(2, out[i].name.length() - 2);
+						int ind_t = 0;
+						string str_name = "Ca", str_uom = "kilo";
+						int hours = 10, minutess = 10, days = 10, months = 12, years = 2020;
+						bool flags = false;
+						int mins = 10, maxs = 200;
+						//memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
+						start_s_time = clock();
+						for (i = 0;i < ind;i++) {
+							if (out[i].name.length() >= 2) {
+								new_name = out[i].name.erase(2, out[i].name.length() - 2);
 
-							if (out[i].data.year > years || (out[i].data.year >= years
-								&& out[i].data.month > months) || (out[i].data.year >= years
-									&& out[i].data.month >= months && out[i].data.day > days) ||
-								(out[i].data.year >= years && out[i].data.month >= months && out[i].data.day >= days
-									&& out[i].data.hour > hours) || (out[i].data.year >= years && out[i].data.month >= months
-										&& out[i].data.day >= days && out[i].data.hour >= hours && out[i].data.min > minutess)) flags = true;
-							if (new_name == str_name && out[i].num > mins && out[i].num < maxs
-								&& out[i].uom == str_uom && flags == true) {
-								my_line[ind_t] = line[i];
-								ind_t++;
-								flags = false;
+								if (out[i].data.year > years || (out[i].data.year >= years
+									&& out[i].data.month > months) || (out[i].data.year >= years
+										&& out[i].data.month >= months && out[i].data.day > days) ||
+									(out[i].data.year >= years && out[i].data.month >= months && out[i].data.day >= days
+										&& out[i].data.hour > hours) || (out[i].data.year >= years && out[i].data.month >= months
+											&& out[i].data.day >= days && out[i].data.hour >= hours && out[i].data.min > minutess)) flags = true;
+								if (new_name == str_name && out[i].num > mins && out[i].num < maxs
+									&& out[i].uom == str_uom && flags == true) {
+									my_line[ind_t] = line[i];
+									ind_t++;
+									flags = false;
+								}
+								memory += sizeof(line[i]);
 							}
-							memory += sizeof(line[i]);
 						}
+						end_s_time = clock();
+						s_time = end_s_time - start_s_time;
+						//	delete[] lines,my_lines;
+						//	delete[] out, line,my_line;
+						end_time = clock();
+						search_time = end_time - start_time;
+						sum_time += search_time;
+						// for check time;
+						//cout << search_time <<" "<< gen <<endl;
+
+						gen = gen * 2;
 					}
-					end_s_time=clock();
-					s_time=end_s_time-start_s_time;
-					//	delete[] lines,my_lines;
-					//	delete[] out, line,my_line;
-					end_time = clock();
-					search_time = end_time - start_time;
-					sum_time += search_time;
-					// for check time;
-					//cout << search_time <<" "<< gen <<endl;
+					int current_gen = gen / 2;
+					memory += sizeof(current_gen) * 2;
+					// second part ariph prog
 
-					gen = gen * 2;
-				}
-				int current_gen = gen / 2;
-				memory += sizeof(current_gen) * 2;
-				// second part ariph prog
+					while (sum_time < 10000) {
 
-				while (sum_time < 10000) {
+						start_time = clock();
+						current_gen += gen / 2;
+						sum_gen += current_gen;
+						// generation
+						start_g_time = clock();
+						func_sum(current_gen);
+						end_g_time = clock();
+						g_time += end_g_time - start_g_time;
 
-					start_time = clock();
-					current_gen += gen / 2;
-					sum_gen += current_gen;
-					// generation
-					start_g_time=clock();
-					func_sum(current_gen);
-					end_g_time=clock();
-					g_time+=end_g_time-start_g_time;
+						ind = 0;
+						// Data recovery
+						start_r_time = clock();
+						ifstream file("products.txt");
+						while (!file.eof()) {
+							file >> out[ind].id >> out[ind].name >> out[ind].uom >> out[ind].num >> out[ind].data.hour
+								>> out[ind].data.min >> out[ind].data.day >> out[ind].data.month >>
+								out[ind].data.year >> out[ind].term;
 
-					ind = 0;
-					// Data recovery
-					start_r_time=clock();
-					ifstream file("products.txt");
-					while (!file.eof()) {
-						file >> out[ind].id >> out[ind].name >> out[ind].uom >> out[ind].num >> out[ind].data.hour
-							>> out[ind].data.min >> out[ind].data.day >> out[ind].data.month >>
-							out[ind].data.year >> out[ind].term;
+							line[ind] = out[ind].id + " " + out[ind].name + " " + out[ind].uom +
+								" " + to_string(out[ind].num) + " " + to_string(out[ind].data.hour)
+								+ " " + to_string(out[ind].data.min) + " " + to_string(out[ind].data.day) + " " +
+								to_string(out[ind].data.month) + " " + to_string(out[ind].data.year) + " " +
+								to_string(out[ind].term);
 
-						line[ind] = out[ind].id + " " + out[ind].name + " " + out[ind].uom +
-							" " + to_string(out[ind].num) + " " + to_string(out[ind].data.hour)
-							+ " " + to_string(out[ind].data.min) + " " + to_string(out[ind].data.day) + " " +
-							to_string(out[ind].data.month) + " " + to_string(out[ind].data.year) + " " +
-							to_string(out[ind].term);
+							ind++;
+							memory += sizeof(line[i]) * 2;
+						} 	file.close();
+						end_r_time = clock();
+						r_time += end_r_time - start_r_time;
 
-						ind++;
-						memory += sizeof(line[i]) * 2;
-					} 	file.close();
-					end_r_time=clock();
-					r_time+=end_r_time-start_r_time;
+						// Search item
 
-					// Search item
+						int ind_t;
+						string str_name = "Ca", str_uom = "kilo";
+						int hours = 10, minutess = 10, days = 10, months = 12, years = 2020;
+						bool flags = false;
+						int mins = 10, maxs = 200;
+						//memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
+						start_s_time = clock();
+						for (i = 0;i < ind;i++) {
+							if (out[i].name.length() >= 2) {
+								new_name = out[i].name.erase(2, out[i].name.length() - 2);
 
-					int ind_t;
-					string str_name = "Ca", str_uom = "kilo";
-					int hours = 10, minutess = 10, days = 10, months = 12, years = 2020;
-					bool flags = false;
-					int mins = 10, maxs = 200;
-					//memory+=sizeof(str_name)+sizeof(str_uom)+sizeof(ind)+sizeof(gen)+16;
-					start_s_time=clock();
-					for (i = 0;i < ind;i++) {
-						if (out[i].name.length() >= 2) {
-							new_name = out[i].name.erase(2, out[i].name.length() - 2);
-
-							if (out[i].data.year > years || (out[i].data.year >= years
-								&& out[i].data.month > months) || (out[i].data.year >= years
-									&& out[i].data.month >= months && out[i].data.day > days) ||
-								(out[i].data.year >= years && out[i].data.month >= months && out[i].data.day >= days
-									&& out[i].data.hour > hours) || (out[i].data.year >= years && out[i].data.month >= months
-										&& out[i].data.day >= days && out[i].data.hour >= hours && out[i].data.min > minutess)) flags = true;
-							if (new_name == str_name && out[i].num > mins && out[i].num < maxs
-								&& out[i].uom == str_uom && flags == true) {
-								// my_line[ind_t] = line[i];
-								//ind_t++;
-								flags = false;
+								if (out[i].data.year > years || (out[i].data.year >= years
+									&& out[i].data.month > months) || (out[i].data.year >= years
+										&& out[i].data.month >= months && out[i].data.day > days) ||
+									(out[i].data.year >= years && out[i].data.month >= months && out[i].data.day >= days
+										&& out[i].data.hour > hours) || (out[i].data.year >= years && out[i].data.month >= months
+											&& out[i].data.day >= days && out[i].data.hour >= hours && out[i].data.min > minutess)) flags = true;
+								if (new_name == str_name && out[i].num > mins && out[i].num < maxs
+									&& out[i].uom == str_uom && flags == true) {
+									// my_line[ind_t] = line[i];
+									//ind_t++;
+									flags = false;
+								}
+								memory += sizeof(line[i]);
 							}
-							memory += sizeof(line[i]);
 						}
+						end_s_time = clock();
+						s_time += end_s_time - start_s_time;
+						//	delete[] out, line,my_line;	
+						end_time = clock();
+						search_time = end_time - start_time;
+						sum_time += search_time;
+
+						// for check time;
+						 // cout << search_time <<" "<< current_gen << endl;
+
 					}
-					end_s_time=clock();
-					s_time+=end_s_time-start_s_time;
-					//	delete[] out, line,my_line;	
-					end_time = clock();
-					search_time = end_time - start_time;
-					sum_time += search_time;
-
-					// for check time;
-					 // cout << search_time <<" "<< current_gen << endl;
-
-				}
-				//cout << key << endl;
-				//for writing in file
-				ofstream fout("result.txt", ios_base::app);
-				fout << "N: " << key << endl;
-				fout << "	Sum_time: " << sum_time << "ms" << endl;
-				fout << "		Time of searching: "<<s_time<<"ms"<<endl;
-				fout << "		Time of generation: "<<g_time<<"ms"<<endl;
-				fout << "		Time of recovery data: "<<r_time<<"ms"<<endl;
-				fout << "	Used memory: " << memory << " bytes"<<endl;
-				fout << "	Number of last generation: " << current_gen << endl;
-				fout << "	Sum of generation: " << sum_gen << endl;
-				fout << "	Size of File: "<<fileSize("products.txt")<< " bytes"<<endl;
-				fout << "	Size of binary File: "<<fileSize_bin("products_bin.dat")<< " bytes"<<endl;
-				fout << endl;
-				fout.close();
+					//cout << key << endl;
+					//for writing in file
+					ofstream fout("result.txt", ios_base::app);
+					fout << "N: " << key << endl;
+					fout << "	Sum_time: " << sum_time << "ms" << endl;
+					fout << "		Time of searching: " << s_time << "ms" << endl;
+					fout << "		Time of generation: " << g_time << "ms" << endl;
+					fout << "		Time of recovery data: " << r_time << "ms" << endl;
+					fout << "	Used memory: " << memory << " bytes" << endl;
+					fout << "	Number of last generation: " << current_gen << endl;
+					fout << "	Sum of generation: " << sum_gen << endl;
+					fout << "	Size of File: " << fileSize("products.txt") << " bytes" << endl;
+					fout << "	Size of DATABASE: " << fileSize("test.db") << " bytes" << endl;
+					fout << endl;
+					fout.close();
 
 					//output result
 			/*	cout << "N: " << key << endl;
@@ -681,13 +681,13 @@ int main()
 				cout << endl;*/
 
 
+				}
+
 			}
 
-	} 
 
 
-
-   //delete trash memory from mode 1 and mode 2
+	//delete trash memory from mode 1 and mode 2
 	delete[] words, line, my_line, f, out;
 
 
