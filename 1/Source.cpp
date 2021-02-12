@@ -17,6 +17,8 @@
  //#include "sqlite3.h"
 
 int data_id = 0;
+
+//for sqlite
 using namespace std;
 const char* SQL = "CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\"id-1 Carrot kilo 123 12 12 13 1 2020 52\");";
 string sql_str;
@@ -84,6 +86,7 @@ int fileSize(const char* add) {
 	mySource.close();
 	return size;
 }
+//BinFileSize
 int fileSize_bin(const char* add) {
 	ifstream mySource;
 	mySource.open(add, ios_base::binary);
@@ -92,12 +95,14 @@ int fileSize_bin(const char* add) {
 	mySource.close();
 	return size;
 }
-void func(int gen) {
+
+void func(int gen,int mode) {
 	data_id = 0;
 	FILE* fout_bin;
 	int i, j;
 	string* words = new string[gen+1];
 	product* f = new product[gen+1];
+	ofstream fout;
 	string name[100] = { "bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
 "lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
 "apple","apricot","banana","blackberry","blackcurrant","blueberry","cherry",
@@ -107,8 +112,14 @@ void func(int gen) {
 "herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 "sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 "beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
-	fout_bin = fopen("products_bin.dat", "wa+");
-	ofstream fout("products.txt");
+	if (mode==1){
+		fout_bin = fopen("products_bin.dat", "wa+");
+	fout.open("products.txt");
+	}
+	else if(mode==2){
+	fout_bin = fopen("products_bin.dat", "ab+");
+	fout.open("products.txt", ios_base::app);
+	}
 	//random value 
 	for (i = 0;i < gen;i++) {
 		f[i].id = "id" + to_string(data_id);
@@ -157,67 +168,6 @@ void func(int gen) {
 	fclose(fout_bin);
 	delete[] words, f;
 }
-// for benchmark
-void func_sum(int gen) {
-	FILE* fout_bin;
-	int i, j;
-	string* words = new string[gen+1]; 
-	product* f = new product[gen+1];
-	string name[100] = { "bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
-"lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
-"apple","apricot","banana","blackberry","blackcurrant","blueberry","cherry",
-"coconut","fig","gooseberry","grape","grapefruit","kiwi","lemon","lime","mango",
-"melon","orange","peach","pear","pineapple","plum","pomegranate","raspberry",
-"redcurrant","rhubarb","strawberry","bananas","anchovy","cod","haddock",
-"herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
-"sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
-"beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
-	fout_bin = fopen("products_bin.dat", "ab+");
-	ofstream fout("products.txt", ios_base::app);
-	fout << endl;
-	//random value 
-	for (i = 0;i < gen;i++) {
-		f[i].id = "id" + to_string(data_id);
-		data_id++;
-		f[i].name = name[rand() % 60];
-		f[i].uom = units[rand() % 3];
-		f[i].num = rand() % 100 + 10;
-		f[i].data.hour = rand() % 24;
-		f[i].data.min = rand() % 60;
-		f[i].data.day = (rand() % 28) + 1;
-		f[i].data.month = rand() % 12 + 1;
-		f[i].data.year = (rand() % 10) + 2011;
-		f[i].term = (rand() % 3451) + 200;
-		//ofstream
-		words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
-			+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
-			to_string(f[i].data.year) + " " + to_string(f[i].term);
-		if (gen == 1) fout << words[i] << endl; else
-			if (i != gen - 1)	fout << words[i] << endl;
-			else fout << words[i];
-		//binary
-		fwrite("\n",sizeof(char),1, fout_bin);
-		for (j = 0;j < words[i].length();j++)
-			fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
-			//fwrite("\n", sizeof(char), 1, fout_bin);
-			//sql
-	/*	sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
-		sql_str += words[i];
-		sql_str += "\");";
-		const char* SQL = sql_str.c_str();
-		database(SQL);*/
-	}
-	if (data_id>200000) {
-		cout << "In main up to 200k line, u can change"<<endl;
-		exit(-1);
-	}
-	fout.close();
-
-	//!!! visual studio doesnt want to work with fopen, c file
-
-	fclose(fout_bin);
-	delete[] words, f;
-}
 
 int main()
 {
@@ -244,7 +194,7 @@ int main()
 	cin >> mode;
 	// interactive
 	if (mode == 1) {
-		func(gen);
+		func(gen,1);
 		cout << "Select the operating mode: 1 Adding item, " <<
 			"2 Data storage, 3 Data recovery, 4 Output of all saved data, " <<
 			"5 Search by particle of name, 9 EXIT. " << endl;
@@ -259,9 +209,10 @@ int main()
 					cin >> f[i].id >> f[i].name >> f[i].uom >> f[i].num >> f[i].data.hour
 						>> f[i].data.min >> f[i].data.day >> f[i].data.month >>
 						f[i].data.year >> f[i].term;
-						words[i]=out[i].id +" "+ out[i].name +" "+ out[i].uom+" "+to_string(out[i].num) +" "+to_string(out[i].data.hour)
-						+" "+ to_string(out[i].data.min) +" "+to_string(out[i].data.day) +" "+ to_string(out[i].data.month)+" "+
-						to_string(out[i].data.year)+" "+ to_string(out[i].term) ; 
+						
+						words[i]=f[i].id +" "+ f[i].name +" "+ f[i].uom+" "+to_string(f[i].num) +" "+to_string(f[i].data.hour)
+						+" "+ to_string(f[i].data.min) +" "+to_string(f[i].data.day) +" "+ to_string(f[i].data.month)+" "+
+						to_string(f[i].data.year)+" "+ to_string(f[i].term) ; 
 				}
 				delete []f;
 			} else
@@ -276,10 +227,11 @@ int main()
 						to_string(f[i].data.year) + " " + to_string(f[i].term);*/
 					if (i != numb - 1) 	fout << words[i] << endl;
 					else fout << words[i];
+					
 					fwrite("\n",sizeof(char),1, fout_bin);
 					for (j = 0;j < words[i].length();j++)
 						fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
-					fwrite("\n", sizeof(char), 1, fout_bin);
+					//fwrite("\n", sizeof(char), 1, fout_bin);
 
 					/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
 					sql_str += words[i];
@@ -393,7 +345,7 @@ int main()
 		// demo
 
 		if (mode == 2) {
-			func(gen);
+			func(gen,1);
 			cout << "Select the operating mode: 1 Adding item, " <<
 				"2 Data storage, 3 Data recovery, 4 Output of all saved data, " <<
 				"5 Search by particle of name, " <<
@@ -531,7 +483,7 @@ int main()
 						start_time = clock();
 						// generation
 						start_s_time = clock();
-						if (gen == key) func(gen); else func_sum(gen);
+						if (gen == key) func(gen,1); else func(gen,2);
 						end_s_time = clock();
 						s_time += end_s_time - start_s_time;
 						ind = 0;
@@ -607,7 +559,7 @@ int main()
 						sum_gen += current_gen;
 						// generation
 						start_g_time = clock();
-						func_sum(current_gen);
+						func(current_gen,2);
 						end_g_time = clock();
 						g_time += end_g_time - start_g_time;
 
