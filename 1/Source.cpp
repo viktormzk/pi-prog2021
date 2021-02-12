@@ -14,7 +14,7 @@
 //#include <sqlite3.c>
 
  //database include
- #include "sqlite3.h"
+ //#include "sqlite3.h"
 
 int data_id = 0;
 using namespace std;
@@ -40,7 +40,7 @@ struct product {
 	int term;
 };
 //main sqlite function
-auto database(const char*& SQL) {
+/*auto database(const char*& SQL) {
 
 	sqlite3* db = 0; // handle
 	char* err = 0;
@@ -57,14 +57,14 @@ auto database(const char*& SQL) {
 	//close
 	sqlite3_close(db);
 
-}
+}*/
 // to_string work in VS studio, but doesnt work in dev-cpp
-/*string to_string(int n)
+string to_string(int n)
 {
 	char buf[15];
 	sprintf(buf, "%d", n);
 	return buf;
-};*/
+};
 // get_file_size
 /*int get_file_size(string filename) // path to file
 {
@@ -96,8 +96,8 @@ void func(int gen) {
 	data_id = 0;
 	FILE* fout_bin;
 	int i, j;
-	string* words = new string[200000];
-	product* f = new product[200000];
+	string* words = new string[gen+1];
+	product* f = new product[gen+1];
 	string name[100] = { "bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
 "lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
 "apple","apricot","banana","blackberry","blackcurrant","blueberry","cherry",
@@ -107,7 +107,7 @@ void func(int gen) {
 "herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 "sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 "beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
-	//fout_bin = fopen("products_bin.dat", "wa+");
+	fout_bin = fopen("products_bin.dat", "wa+");
 	ofstream fout("products.txt");
 	//random value 
 	for (i = 0;i < gen;i++) {
@@ -132,33 +132,37 @@ void func(int gen) {
 			if (i != gen - 1)	fout << words[i] << endl;
 			else fout << words[i];
 		//binary
-		/*if (i!=0){
+		if (i!=0){
 		fwrite("\n",sizeof(char),1, fout_bin);
 		for (j = 0;j < words[i].length();j++)
-			fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);}
+			fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);}
 			else {
 				for (j = 0;j < words[i].length();j++)
-				fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);
-		}*/
+				fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
+		}
 		//fwrite("\n", sizeof(char), 1, fout_bin);
 
 		//sql
-		sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
+		/*sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
 		sql_str += words[i];
 		sql_str += "\");";
 		const char* SQL = sql_str.c_str();
-		database(SQL);
+		database(SQL);*/
+	}
+	if (data_id>200000) {
+		cout << "In main up to 200k line, u can change"<<endl;
+		exit(-1);
 	}
 	fout.close();
-	//fclose(fout_bin);
+	fclose(fout_bin);
 	delete[] words, f;
 }
 // for benchmark
 void func_sum(int gen) {
 	FILE* fout_bin;
 	int i, j;
-	string* words = new string[200000]; //max 200k elem
-	product* f = new product[200000];
+	string* words = new string[gen+1]; 
+	product* f = new product[gen+1];
 	string name[100] = { "bacon","beef","chicken","cooked_meat","duck","ham","kidneys",
 "lamb","liver","mince","pate","salami","sausages","pork","pork_pie","turkey_veal",
 "apple","apricot","banana","blackberry","blackcurrant","blueberry","cherry",
@@ -168,7 +172,7 @@ void func_sum(int gen) {
 "herring","kipper","mackerel","pilchard","plaice","salmon","sardine",
 "sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 "beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
-	//fout_bin = fopen("products_bin.dat", "ab+");
+	fout_bin = fopen("products_bin.dat", "ab+");
 	ofstream fout("products.txt", ios_base::app);
 	fout << endl;
 	//random value 
@@ -192,32 +196,38 @@ void func_sum(int gen) {
 			if (i != gen - 1)	fout << words[i] << endl;
 			else fout << words[i];
 		//binary
-	/*	fwrite("\n",sizeof(char),1, fout_bin);
+		fwrite("\n",sizeof(char),1, fout_bin);
 		for (j = 0;j < words[i].length();j++)
-			fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);*/
+			fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
 			//fwrite("\n", sizeof(char), 1, fout_bin);
 			//sql
-		sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
+	/*	sql_str = " CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\" ";
 		sql_str += words[i];
 		sql_str += "\");";
 		const char* SQL = sql_str.c_str();
-		database(SQL);
+		database(SQL);*/
+	}
+	if (data_id>200000) {
+		cout << "In main up to 200k line, u can change"<<endl;
+		exit(-1);
 	}
 	fout.close();
 
 	//!!! visual studio doesnt want to work with fopen, c file
 
-	//fclose(fout_bin);
+	fclose(fout_bin);
 	delete[] words, f;
 }
 
 int main()
 {
-	product* f = new product[200000];
+	//product* f = new product[200000];
 	product* out = new product[200000];
 	int mode = 1, interactive = 0, numb, i, j, k, ind = 0, gen = 10;
 	FILE* fout_bin;
-	string* words = new string[200000], * line = new string[200000], * my_line = new string[200000];
+	string* my_line = new string[200000];
+	string * line = new string[200000];
+	string* words = new string[200000];
 	string str_name, str_uom, new_name;
 	long long memory;
 	//for clear database
@@ -244,44 +254,50 @@ int main()
 			if (interactive == 1) {
 				cout << "Write number of items: ";
 				cin >> numb;
+				product* f = new product[numb+1];
 				for (i = 0;i < numb;i++) {
 					cin >> f[i].id >> f[i].name >> f[i].uom >> f[i].num >> f[i].data.hour
 						>> f[i].data.min >> f[i].data.day >> f[i].data.month >>
 						f[i].data.year >> f[i].term;
-					/*	words[i]=out[i].id +" "+ out[i].name +" "+ out[i].uom+" "+to_string(out[i].num) +" "+to_string(out[i].data.hour)
+						words[i]=out[i].id +" "+ out[i].name +" "+ out[i].uom+" "+to_string(out[i].num) +" "+to_string(out[i].data.hour)
 						+" "+ to_string(out[i].data.min) +" "+to_string(out[i].data.day) +" "+ to_string(out[i].data.month)+" "+
-						to_string(out[i].data.year)+" "+ to_string(out[i].term) ; */
+						to_string(out[i].data.year)+" "+ to_string(out[i].term) ; 
 				}
-			}
+				delete []f;
+			} else
 
 			if (interactive == 2) {
-				//fout_bin = fopen("products_bin.dat", "ab+");
+				fout_bin = fopen("products_bin.dat", "ab+");
 				ofstream fout("products.txt", ios_base::app);
 				fout << endl;
 				for (i = 0;i < numb;i++) {
-					words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
+					/*words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
 						+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
-						to_string(f[i].data.year) + " " + to_string(f[i].term);
+						to_string(f[i].data.year) + " " + to_string(f[i].term);*/
 					if (i != numb - 1) 	fout << words[i] << endl;
 					else fout << words[i];
-					/*fwrite("\n",sizeof(char),1, fout_bin);
+					fwrite("\n",sizeof(char),1, fout_bin);
 					for (j = 0;j < words[i].length();j++)
-						fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);
-					fwrite("\n", sizeof(char), 1, fout_bin);*/
+						fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
+					fwrite("\n", sizeof(char), 1, fout_bin);
 
-					sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
+					/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
 					sql_str += words[i];
 					sql_str += "\");";
 					const char* SQL = sql_str.c_str();
-					database(SQL);
+					database(SQL);*/
 				}
 				fout.close();
-				//fclose(fout_bin);
-			}
+				fclose(fout_bin);
+				
+			} else
 
 			if (interactive == 3) {
 				ifstream file("products.txt");
 				ind = 0;
+				//product* out = new product[200000];
+				//string * line = new string[200000];
+				
 				/*int n=100;
 				char *buffer=new char[n+1];
 				buffer[n]=0;*/
@@ -298,6 +314,7 @@ int main()
 						to_string(out[ind].term);
 					ind++;
 				} file.close();
+				
 			}
 
 			if (interactive == 4) {
@@ -384,6 +401,7 @@ int main()
 			cout << "1" << endl;
 			cout << "Write number of items: 1" << endl;
 			cout << "id10 carrot kilo 24 23 55 11 12 2020 65 " << endl;
+				product f[1];
 			f[0].id = "id10";
 			f[0].name = "carrot";
 			f[0].uom = "kilo";
@@ -400,23 +418,24 @@ int main()
 			ofstream fout("products.txt", ios_base::app);
 			fout << endl;
 			i = 0;
-			words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
+			string str_mode2;
+			str_mode2 = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
 				+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
 				to_string(f[i].data.year) + " " + to_string(f[i].term);
-			fout << words[i];
+			fout << str_mode2;
 
-			/*for (j = 0;j < words[i].length();j++)
-				fwrite(/*(char*)*//*&words[i][j], sizeof(char), 1, fout_bin);
-			fwrite("\n", sizeof(char), 1, fout_bin);*/
+			for (j = 0;j < str_mode2.length();j++)
+				fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
+			fwrite("\n", sizeof(char), 1, fout_bin);
 			//sql
-			sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
+			/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
 			sql_str += words[i];
 			sql_str += "\");";
 			const char* SQL = sql_str.c_str();
-			database(SQL);
+			database(SQL);*/
 
 			fout.close();
-//			fclose(fout_bin);
+			fclose(fout_bin);
 
 
 			cout << "3" << endl;
@@ -488,7 +507,8 @@ int main()
 			if (mode == 3) {
 				/* product* out_new= new product[200000];
 				string  *lines=new string[200000],*my_lines=new string[200000];*/
-				unsigned long search_time = 0, start_time, end_time, sum_time = 0, s_time = 0, g_time = 0, r_time = 0, start_s_time = 0, start_g_time = 0, start_r_time = 0, end_s_time = 0, end_g_time = 0, end_r_time = 0;
+				unsigned long search_time = 0, start_time, end_time, sum_time = 0, s_time = 0, g_time = 0, r_time = 0,
+				 start_s_time = 0, start_g_time = 0, start_r_time = 0, end_s_time = 0, end_g_time = 0, end_r_time = 0;
 				memory = 0;
 				int key;
 				long sum_gen;
@@ -497,9 +517,9 @@ int main()
 
 				for (key = 1;key <= 10;key++) {
 					//for clear database
-					sql_str = "DELETE FROM foo;";
+					/*sql_str = "DELETE FROM foo;";
 					const char* SQL = sql_str.c_str();
-					database(SQL);
+					database(SQL);*/
 					sum_gen = 0;
 					memory = 0;
 					sum_time = 0;
@@ -663,7 +683,8 @@ int main()
 					fout << "	Number of last generation: " << current_gen << endl;
 					fout << "	Sum of generation: " << sum_gen << endl;
 					fout << "	Size of File: " << fileSize("products.txt") << " bytes" << endl;
-					fout << "	Size of DATABASE: " << fileSize("test.db") << " bytes" << endl;
+					fout << "	Size of Binary File: " << fileSize_bin("products_bin.dat") << " bytes" << endl;
+				//	fout << "	Size of DATABASE: " << fileSize("test.db") << " bytes" << endl;
 					fout << endl;
 					fout.close();
 
@@ -688,7 +709,7 @@ int main()
 
 
 	//delete trash memory from mode 1 and mode 2
-	delete[] words, line, my_line, f, out;
+	delete[] words, line, my_line, out;
 
 
 

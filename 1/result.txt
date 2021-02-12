@@ -1,0 +1,454 @@
+*time of generation = time of generation + time of writing data;
+RESULT without sql database:
+
+N: 1
+	Sum_time: 10559ms
+		Time of searching: 2ms
+		Time of generation: 8763ms
+		Time of recovery data: 345ms
+	Used memory: 94368 bytes
+	Number of last generation: 68
+	Sum of generation: 615
+	Size of File: 26549 bytes
+	Size of binary File: 25933 bytes
+
+N: 2
+	Sum_time: 10438ms
+		Time of searching: 1ms
+		Time of generation: 8949ms
+		Time of recovery data: 427ms
+	Used memory: 128648 bytes
+	Number of last generation: 76
+	Sum of generation: 762
+	Size of File: 33040 bytes
+	Size of binary File: 32280 bytes
+
+N: 3
+	Sum_time: 10002ms
+		Time of searching: 0ms
+		Time of generation: 8438ms
+		Time of recovery data: 551ms
+	Used memory: 165536 bytes
+	Number of last generation: 108
+	Sum of generation: 1029
+	Size of File: 44499 bytes
+	Size of binary File: 43473 bytes
+
+N: 4
+	Sum_time: 10385ms
+		Time of searching: 2ms
+		Time of generation: 8618ms
+		Time of recovery data: 747ms
+	Used memory: 220712 bytes
+	Number of last generation: 144
+	Sum of generation: 1372
+	Size of File: 59852 bytes
+	Size of binary File: 58484 bytes
+
+N: 5
+	Sum_time: 10555ms
+		Time of searching: 3ms
+		Time of generation: 7721ms
+		Time of recovery data: 1339ms
+	Used memory: 397928 bytes
+	Number of last generation: 320
+	Sum of generation: 2735
+	Size of File: 120509 bytes
+	Size of binary File: 117779 bytes
+
+N: 6
+	Sum_time: 10173ms
+		Time of searching: 1ms
+		Time of generation: 7351ms
+		Time of recovery data: 1343ms
+	Used memory: 398744 bytes
+	Number of last generation: 360
+	Sum of generation: 2898
+	Size of File: 127554 bytes
+	Size of binary File: 124662 bytes
+
+N: 7
+	Sum_time: 10521ms
+		Time of searching: 3ms
+		Time of generation: 7502ms
+		Time of recovery data: 1535ms
+	Used memory: 465200 bytes
+	Number of last generation: 420
+	Sum of generation: 3381
+	Size of File: 149147 bytes
+	Size of binary File: 145773 bytes
+
+N: 8
+	Sum_time: 10312ms
+		Time of searching: 3ms
+		Time of generation: 8332ms
+		Time of recovery data: 869ms
+	Used memory: 217928 bytes
+	Number of last generation: 224
+	Sum of generation: 1688
+	Size of File: 73925 bytes
+	Size of binary File: 72245 bytes
+
+N: 9
+	Sum_time: 10010ms
+		Time of searching: 0ms
+		Time of generation: 7887ms
+		Time of recovery data: 475ms
+	Used memory: 126152 bytes
+	Number of last generation: 198
+	Sum of generation: 1197
+	Size of File: 51939 bytes
+	Size of binary File: 50751 bytes
+
+N: 10
+	Sum_time: 10082ms
+		Time of searching: 1ms
+		Time of generation: 8126ms
+		Time of recovery data: 769ms
+	Used memory: 177848 bytes
+	Number of last generation: 240
+	Sum of generation: 1570
+	Size of File: 68649 bytes
+	Size of binary File: 67089 bytes
+
+With SQLite:
+
+N: 1
+	Sum_time: 14578ms
+		Time of searching: 0ms
+		Time of generation: 12473ms
+		Time of recovery data: 6ms
+	Used memory: 23528 bytes
+	Number of last generation: 40
+	Sum of generation: 127
+	Size of File: 5364 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 2
+	Sum_time: 14521ms
+		Time of searching: 0ms
+		Time of generation: 12868ms
+		Time of recovery data: 4ms
+	Used memory: 22904 bytes
+	Number of last generation: 40
+	Sum of generation: 126
+	Size of File: 5372 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 3
+	Sum_time: 10785ms
+		Time of searching: 0ms
+		Time of generation: 9699ms
+		Time of recovery data: 7ms
+	Used memory: 16424 bytes
+	Number of last generation: 30
+	Sum of generation: 93
+	Size of File: 3971 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 4
+	Sum_time: 14002ms
+		Time of searching: 0ms
+		Time of generation: 12645ms
+		Time of recovery data: 7ms
+	Used memory: 21896 bytes
+	Number of last generation: 40
+	Sum of generation: 124
+	Size of File: 5245 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 5
+	Sum_time: 12246ms
+		Time of searching: 0ms
+		Time of generation: 10203ms
+		Time of recovery data: 3ms
+	Used memory: 16208 bytes
+	Number of last generation: 40
+	Sum of generation: 105
+	Size of File: 4432 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 6
+	Sum_time: 14729ms
+		Time of searching: 0ms
+		Time of generation: 12802ms
+		Time of recovery data: 5ms
+	Used memory: 19448 bytes
+	Number of last generation: 48
+	Sum of generation: 126
+	Size of File: 5410 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 7
+	Sum_time: 11035ms
+		Time of searching: 0ms
+		Time of generation: 8678ms
+		Time of recovery data: 4ms
+	Used memory: 12104 bytes
+	Number of last generation: 42
+	Sum of generation: 91
+	Size of File: 3839 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 8
+	Sum_time: 12916ms
+		Time of searching: 0ms
+		Time of generation: 10233ms
+		Time of recovery data: 2ms
+	Used memory: 13832 bytes
+	Number of last generation: 48
+	Sum of generation: 104
+	Size of File: 4421 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 9
+	Sum_time: 10254ms
+		Time of searching: 0ms
+		Time of generation: 9140ms
+		Time of recovery data: 3ms
+	Used memory: 12968 bytes
+	Number of last generation: 36
+	Sum of generation: 90
+	Size of File: 3852 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 10
+	Sum_time: 11484ms
+		Time of searching: 0ms
+		Time of generation: 10149ms
+		Time of recovery data: 6ms
+	Used memory: 14408 bytes
+	Number of last generation: 40
+	Sum of generation: 100
+	Size of File: 4238 bytes
+	Size of DATABASE: 16384 bytes
+
+Test 2 up date:
+
+
+
+
+
+
+N: 1
+	Sum_time: 12305ms
+		Time of searching: 13ms
+		Time of generation: 3372ms
+		Time of recovery data: 8331ms
+	Used memory: 2063976 bytes
+	Number of last generation: 10240
+	Sum of generation: 32767
+	Size of File: 1477510 bytes
+	Size of DATABASE: 249 bytes
+
+N: 2
+	Sum_time: 11882ms
+		Time of searching: 11ms
+		Time of generation: 3239ms
+		Time of recovery data: 8044ms
+	Used memory: 2063576 bytes
+	Number of last generation: 10240
+	Sum of generation: 32766
+	Size of File: 1479078 bytes
+	Size of DATABASE: 249 bytes
+
+N: 3
+	Sum_time: 13125ms
+		Time of searching: 14ms
+		Time of generation: 3390ms
+		Time of recovery data: 9182ms
+	Used memory: 2358080 bytes
+	Number of last generation: 9216
+	Sum of generation: 33789
+	Size of File: 1524201 bytes
+	Size of DATABASE: 249 bytes
+
+N: 4
+	Sum_time: 11186ms
+		Time of searching: 11ms
+		Time of generation: 3075ms
+		Time of recovery data: 7536ms
+	Used memory: 2062856 bytes
+	Number of last generation: 10240
+	Sum of generation: 32764
+	Size of File: 1477671 bytes
+	Size of DATABASE: 249 bytes
+
+N: 5
+	Sum_time: 13606ms
+		Time of searching: 14ms
+		Time of generation: 3672ms
+		Time of recovery data: 9266ms
+	Used memory: 2578568 bytes
+	Number of last generation: 12800
+	Sum of generation: 40955
+	Size of File: 1850407 bytes
+	Size of DATABASE: 249 bytes
+
+N: 6
+	Sum_time: 10737ms
+		Time of searching: 11ms
+		Time of generation: 2898ms
+		Time of recovery data: 7047ms
+	Used memory: 1914776 bytes
+	Number of last generation: 12288
+	Sum of generation: 33786
+	Size of File: 1525151 bytes
+	Size of DATABASE: 249 bytes
+
+N: 7
+	Sum_time: 14070ms
+		Time of searching: 16ms
+		Time of generation: 3726ms
+		Time of recovery data: 9842ms
+	Used memory: 2749832 bytes
+	Number of last generation: 10752
+	Sum of generation: 39417
+	Size of File: 1780692 bytes
+	Size of DATABASE: 249 bytes
+
+N: 8
+	Sum_time: 11091ms
+		Time of searching: 12ms
+		Time of generation: 2979ms
+		Time of recovery data: 7577ms
+	Used memory: 2061512 bytes
+	Number of last generation: 10240
+	Sum of generation: 32760
+	Size of File: 1477430 bytes
+	Size of DATABASE: 249 bytes
+
+N: 9
+	Sum_time: 12530ms
+		Time of searching: 13ms
+		Time of generation: 3417ms
+		Time of recovery data: 8497ms
+	Used memory: 2319200 bytes
+	Number of last generation: 11520
+	Sum of generation: 36855
+	Size of File: 1663913 bytes
+	Size of DATABASE: 249 bytes
+
+N: 10
+	Sum_time: 14371ms
+		Time of searching: 17ms
+		Time of generation: 3978ms
+		Time of recovery data: 9719ms
+	Used memory: 2576888 bytes
+	Number of last generation: 12800
+	Sum of generation: 40950
+	Size of File: 1850246 bytes
+	Size of DATABASE: 249 bytes
+
+
+
+N: 1
+	Sum_time: 13401ms
+		Time of searching: 32ms
+		Time of generation: 4678ms
+		Time of recovery data: 7943ms
+	Used memory: 8257080 bytes
+	Number of last generation: 40960
+	Sum of generation: 131071
+	Size of File: 5976872 bytes
+	Size of Binary File: 5845800 bytes
+
+N: 2
+	Sum_time: 14336ms
+		Time of searching: 29ms
+		Time of generation: 4756ms
+		Time of recovery data: 8650ms
+	Used memory: 8256632 bytes
+	Number of last generation: 40960
+	Sum of generation: 131070
+	Size of File: 5978012 bytes
+	Size of Binary File: 5846944 bytes
+
+N: 3
+	Sum_time: 10616ms
+		Time of searching: 23ms
+		Time of generation: 3553ms
+		Time of recovery data: 6358ms
+	Used memory: 6191864 bytes
+	Number of last generation: 30720
+	Sum of generation: 98301
+	Size of File: 4456441 bytes
+	Size of Binary File: 4358143 bytes
+
+N: 4
+	Sum_time: 13105ms
+		Time of searching: 33ms
+		Time of generation: 4464ms
+		Time of recovery data: 7764ms
+	Used memory: 8255816 bytes
+	Number of last generation: 40960
+	Sum of generation: 131068
+	Size of File: 5977316 bytes
+	Size of Binary File: 5846252 bytes
+
+N: 5
+	Sum_time: 12172ms
+		Time of searching: 32ms
+		Time of generation: 4215ms
+		Time of recovery data: 7359ms
+	Used memory: 7862168 bytes
+	Number of last generation: 30720
+	Sum of generation: 112635
+	Size of File: 5121462 bytes
+	Size of Binary File: 5008832 bytes
+
+N: 6
+	Sum_time: 10259ms
+		Time of searching: 24ms
+		Time of generation: 3405ms
+		Time of recovery data: 6210ms
+	Used memory: 6190712 bytes
+	Number of last generation: 30720
+	Sum of generation: 98298
+	Size of File: 4456842 bytes
+	Size of Binary File: 4358550 bytes
+
+N: 7
+	Sum_time: 12405ms
+		Time of searching: 37ms
+		Time of generation: 4344ms
+		Time of recovery data: 7222ms
+	Used memory: 7222496 bytes
+	Number of last generation: 35840
+	Sum of generation: 114681
+	Size of File: 5216600 bytes
+	Size of Binary File: 5101926 bytes
+
+N: 8
+	Sum_time: 13472ms
+		Time of searching: 31ms
+		Time of generation: 4717ms
+		Time of recovery data: 7940ms
+	Used memory: 8254280 bytes
+	Number of last generation: 40960
+	Sum of generation: 131064
+	Size of File: 5975650 bytes
+	Size of Binary File: 5844594 bytes
+
+N: 9
+	Sum_time: 14593ms
+		Time of searching: 34ms
+		Time of generation: 5019ms
+		Time of recovery data: 8705ms
+	Used memory: 9286064 bytes
+	Number of last generation: 46080
+	Sum of generation: 147447
+	Size of File: 6738366 bytes
+	Size of Binary File: 6590928 bytes
+
+N: 10
+	Sum_time: 12312ms
+		Time of searching: 30ms
+		Time of generation: 4094ms
+		Time of recovery data: 7587ms
+	Used memory: 7860248 bytes
+	Number of last generation: 30720
+	Sum of generation: 112630
+	Size of File: 5121231 bytes
+	Size of Binary File: 5008611 bytes
+
