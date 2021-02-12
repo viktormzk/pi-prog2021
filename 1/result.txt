@@ -114,5 +114,120 @@ N: 10
 	Size of File: 5048777 bytes
 	Size of Binary File: 4936171 bytes
 
+With SQLite(sqlite add 4kb for new items every time if we write max+1 item
+max-number of element in db):
+
+N: 1
+	Sum_time: 10507ms
+		Time of searching: 0ms
+		Time of generation: 9378ms
+		Time of recovery data: 5ms
+	Used memory: 18104 bytes
+	Number of last generation: 24
+	Sum of generation: 87
+	Size of File: 3667 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 2
+	Sum_time: 10159ms
+		Time of searching: 0ms
+		Time of generation: 8574ms
+		Time of recovery data: 4ms
+	Used memory: 14264 bytes
+	Number of last generation: 32
+	Sum of generation: 86
+	Size of File: 3634 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 3
+	Sum_time: 11342ms
+		Time of searching: 0ms
+		Time of generation: 10173ms
+		Time of recovery data: 3ms
+	Used memory: 16832 bytes
+	Number of last generation: 30
+	Sum of generation: 93
+	Size of File: 3945 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 4
+	Sum_time: 10486ms
+		Time of searching: 0ms
+		Time of generation: 8996ms
+		Time of recovery data: 3ms
+	Used memory: 13328 bytes
+	Number of last generation: 32
+	Sum of generation: 84
+	Size of File: 3565 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 5
+	Sum_time: 12923ms
+		Time of searching: 0ms
+		Time of generation: 11134ms
+		Time of recovery data: 3ms
+	Used memory: 16544 bytes
+	Number of last generation: 40
+	Sum of generation: 105
+	Size of File: 4438 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 6
+	Sum_time: 10024ms
+		Time of searching: 0ms
+		Time of generation: 7804ms
+		Time of recovery data: 2ms
+	Used memory: 10664 bytes
+	Number of last generation: 36
+	Sum of generation: 78
+	Size of File: 3302 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 7
+	Sum_time: 11863ms
+		Time of searching: 0ms
+		Time of generation: 9499ms
+		Time of recovery data: 2ms
+	Used memory: 12392 bytes
+	Number of last generation: 42
+	Sum of generation: 91
+	Size of File: 3814 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 8
+	Sum_time: 12129ms
+		Time of searching: 0ms
+		Time of generation: 9353ms
+		Time of recovery data: 4ms
+	Used memory: 14120 bytes
+	Number of last generation: 48
+	Sum of generation: 104
+	Size of File: 4439 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 9
+	Sum_time: 11480ms
+		Time of searching: 0ms
+		Time of generation: 10370ms
+		Time of recovery data: 4ms
+	Used memory: 13256 bytes
+	Number of last generation: 36
+	Sum of generation: 90
+	Size of File: 3836 bytes
+	Size of DATABASE: 16384 bytes
+
+N: 10
+	Sum_time: 12536ms
+		Time of searching: 0ms
+		Time of generation: 11395ms
+		Time of recovery data: 4ms
+	Used memory: 14696 bytes
+	Number of last generation: 40
+	Sum of generation: 100
+	Size of File: 4248 bytes
+	Size of DATABASE: 16384 bytes
+
+
+
 
 
