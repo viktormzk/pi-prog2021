@@ -344,3 +344,139 @@ Sum of generation: 163830
 Size of File: 7374930 bytes
 Size of binary File: 7211096 bytes
 
+
+Test4 with sql(maybe in future try to write array, cuz if will
+insert in a DB by one element, it takes a lot of time):
+//db have static size, cuz i use 36kb for testing before, db 
+add 4kb for new array every time, when array overflow
+N: 1
+Sum_time: 14401ms
+	Time of searching: 0ms
+	Time of generation and writing: 12604ms
+		Time of writing to stream: 6ms
+		Time of writing to DataBase: 14323ms
+	Time of recovery data: 7ms
+Used memory: 23808 bytes
+Number of last generation: 40
+Sum of generation: 127
+Size of File: 5362 bytes
+Size of DATABASE: 36864 bytes
+
+N: 2
+Sum_time: 14431ms
+	Time of searching: 0ms
+	Time of generation and writing: 12922ms
+		Time of writing to stream: 4ms
+		Time of writing to DataBase: 14375ms
+	Time of recovery data: 7ms
+Used memory: 23328 bytes
+Number of last generation: 40
+Sum of generation: 126
+Size of File: 5372 bytes
+Size of DATABASE: 36864 bytes
+
+N: 3
+Sum_time: 13977ms
+	Time of searching: 0ms
+	Time of generation and writing: 11986ms
+		Time of writing to stream: 7ms
+		Time of writing to DataBase: 13900ms
+	Time of recovery data: 6ms
+Used memory: 21072 bytes
+Number of last generation: 48
+Sum of generation: 129
+Size of File: 5502 bytes
+Size of DATABASE: 36864 bytes
+
+N: 4
+Sum_time: 13603ms
+	Time of searching: 0ms
+	Time of generation and writing: 12374ms
+		Time of writing to stream: 9ms
+		Time of writing to DataBase: 13541ms
+	Time of recovery data: 6ms
+Used memory: 22248 bytes
+Number of last generation: 40
+Sum of generation: 124
+Size of File: 5281 bytes
+Size of DATABASE: 36864 bytes
+
+N: 5
+Sum_time: 11643ms
+	Time of searching: 0ms
+	Time of generation and writing: 10068ms
+		Time of writing to stream: 20ms
+		Time of writing to DataBase: 11576ms
+	Time of recovery data: 5ms
+Used memory: 16488 bytes
+Number of last generation: 40
+Sum of generation: 105
+Size of File: 4402 bytes
+Size of DATABASE: 36864 bytes
+
+N: 6
+Sum_time: 13537ms
+	Time of searching: 0ms
+	Time of generation and writing: 11758ms
+		Time of writing to stream: 18ms
+		Time of writing to DataBase: 13458ms
+	Time of recovery data: 7ms
+Used memory: 19728 bytes
+Number of last generation: 48
+Sum of generation: 126
+Size of File: 5397 bytes
+Size of DATABASE: 36864 bytes
+
+N: 7
+Sum_time: 17129ms
+	Time of searching: 0ms
+	Time of generation and writing: 14877ms
+		Time of writing to stream: 10ms
+		Time of writing to DataBase: 17072ms
+	Time of recovery data: 4ms
+Used memory: 22944 bytes
+Number of last generation: 56
+Sum of generation: 147
+Size of File: 6317 bytes
+Size of DATABASE: 36864 bytes
+
+N: 8
+Sum_time: 11802ms
+	Time of searching: 0ms
+	Time of generation and writing: 9272ms
+		Time of writing to stream: 1ms
+		Time of writing to DataBase: 11761ms
+	Time of recovery data: 4ms
+Used memory: 14040 bytes
+Number of last generation: 48
+Sum of generation: 104
+Size of File: 4446 bytes
+Size of DATABASE: 36864 bytes
+
+N: 9
+Sum_time: 13049ms
+	Time of searching: 0ms
+	Time of generation and writing: 10299ms
+		Time of writing to stream: 2ms
+		Time of writing to DataBase: 12999ms
+	Time of recovery data: 5ms
+Used memory: 15768 bytes
+Number of last generation: 54
+Sum of generation: 117
+Size of File: 4963 bytes
+Size of DATABASE: 36864 bytes
+
+N: 10
+Sum_time: 15499ms
+	Time of searching: 0ms
+	Time of generation and writing: 11612ms
+		Time of writing to stream: 8ms
+		Time of writing to DataBase: 15441ms
+	Time of recovery data: 5ms
+Used memory: 17496 bytes
+Number of last generation: 60
+Sum of generation: 130
+Size of File: 5487 bytes
+Size of DATABASE: 36864 bytes
+
+
