@@ -17,7 +17,7 @@
  //#include "sqlite3.h"
 
 int data_id = 0;
-
+unsigned int time_bin_start=0, time_bin_end=0, time_bin=0, time_str_end=0, time_str=0,  time_str_start=0;
 //for sqlite
 using namespace std;
 const char* SQL = "CREATE TABLE IF NOT EXISTS foo(a char(100)); INSERT INTO FOO VALUES(\"id-1 Carrot kilo 123 12 12 13 1 2020 52\");";
@@ -137,12 +137,22 @@ void func(int gen,int mode) {
 		words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
 			+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
 			to_string(f[i].data.year) + " " + to_string(f[i].term);
-
+			
+		time_str_start=clock();
 		// ofstream
-		if (gen == 1) fout << words[i] << endl; else
+		if (mode==1){
+			if (i==gen-1) fout << words[i];
+			else fout << words[i] << endl;
+		} else
+		fout << words[i] << endl;
+		time_str_end=clock();
+		time_str+=time_str_end-time_str_start;
+		
+		/*if (gen == 1) fout << words[i] << endl; else
 			if (i != gen - 1)	fout << words[i] << endl;
-			else fout << words[i];
+			else fout << words[i];*/
 		//binary
+		time_bin_start=clock();
 		if (i!=0){
 		fwrite("\n",sizeof(char),1, fout_bin);
 		for (j = 0;j < words[i].length();j++)
@@ -151,6 +161,8 @@ void func(int gen,int mode) {
 				for (j = 0;j < words[i].length();j++)
 				fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
 		}
+		time_bin_end=clock();
+		time_bin+=time_bin_end-time_bin_start;
 		//fwrite("\n", sizeof(char), 1, fout_bin);
 
 		//sql
@@ -161,7 +173,7 @@ void func(int gen,int mode) {
 		database(SQL);*/
 	}
 	if (data_id>200000) {
-		cout << "In main up to 200k line, u can change"<<endl;
+		cout << "In main up to 200k lines, u can change"<<endl;
 		exit(-1);
 	}
 	fout.close();
@@ -204,6 +216,9 @@ int main()
 			if (interactive == 1) {
 				cout << "Write number of items: ";
 				cin >> numb;
+				if (numb>199990){
+					cout << "In main up to 200k products, u can change "<<endl;
+				} else {
 				product* f = new product[numb+1];
 				for (i = 0;i < numb;i++) {
 					cin >> f[i].id >> f[i].name >> f[i].uom >> f[i].num >> f[i].data.hour
@@ -215,7 +230,7 @@ int main()
 						to_string(f[i].data.year)+" "+ to_string(f[i].term) ; 
 				}
 				delete []f;
-			} else
+			} }else
 
 			if (interactive == 2) {
 				fout_bin = fopen("products_bin.dat", "ab+");
@@ -366,19 +381,20 @@ int main()
 			f[0].term = 65;
 			cout << "2" << endl;
 
-			//fout_bin = fopen("products_bin.dat", "ab+");
+			fout_bin = fopen("products_bin.dat", "ab+");
 			ofstream fout("products.txt", ios_base::app);
-			fout << endl;
+			//fout << endl;
 			i = 0;
 			string str_mode2;
 			str_mode2 = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
 				+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
 				to_string(f[i].data.year) + " " + to_string(f[i].term);
 			fout << str_mode2;
-
-			for (j = 0;j < str_mode2.length();j++)
-				fwrite(/*(char*)*/&words[i][j], sizeof(char), 1, fout_bin);
+			
 			fwrite("\n", sizeof(char), 1, fout_bin);
+			for (j = 0;j < str_mode2.length();j++)
+				fwrite(/*(char*)*/&str_mode2[j], sizeof(char), 1, fout_bin);
+			
 			//sql
 			/*sql_str = "CREATE TABLE IF NOT EXISTS foo(a char(60)); INSERT INTO FOO VALUES(\" ";
 			sql_str += words[i];
@@ -464,7 +480,7 @@ int main()
 				memory = 0;
 				int key;
 				long sum_gen;
-				/*	cout << "Write your number: ";
+					/*cout << "Write your number: ";
 					cin >> key;*/
 
 				for (key = 1;key <= 10;key++) {
@@ -473,6 +489,8 @@ int main()
 					const char* SQL = sql_str.c_str();
 					database(SQL);*/
 					sum_gen = 0;
+					time_str=0;
+					time_bin=0;
 					memory = 0;
 					sum_time = 0;
 					s_time = 0;
@@ -626,26 +644,28 @@ int main()
 					//cout << key << endl;
 					//for writing in file
 					ofstream fout("result.txt", ios_base::app);
-					fout << "N: " << key << endl;
-					fout << "	Sum_time: " << sum_time << "ms" << endl;
-					fout << "		Time of searching: " << s_time << "ms" << endl;
-					fout << "		Time of generation: " << g_time << "ms" << endl;
-					fout << "		Time of recovery data: " << r_time << "ms" << endl;
-					fout << "	Used memory: " << memory << " bytes" << endl;
-					fout << "	Number of last generation: " << current_gen << endl;
-					fout << "	Sum of generation: " << sum_gen << endl;
-					fout << "	Size of File: " << fileSize("products.txt") << " bytes" << endl;
-					fout << "	Size of Binary File: " << fileSize_bin("products_bin.dat") << " bytes" << endl;
-				//	fout << "	Size of DATABASE: " << fileSize("test.db") << " bytes" << endl;
-					fout << endl;
-					fout.close();
+				fout << "N: " << key << endl;
+				fout << "Sum_time: " << sum_time << "ms" << endl;
+				fout << "	Time of searching: "<<s_time<<"ms"<<endl;
+				fout << "	Time of generation and writing: "<<g_time<<"ms"<<endl;
+				fout << "		Time of writing to stream: "<<time_str<<"ms"<<endl;
+				fout << "		Time of writing to binary: "<<time_bin<<"ms"<<endl;
+				fout << "	Time of recovery data: "<<r_time<<"ms"<<endl;
+				fout << "Used memory: " << memory << " bytes"<<endl;
+				fout << "Number of last generation: " << current_gen << endl;
+				fout << "Sum of generation: " << sum_gen << endl;
+				fout << "Size of File: "<<fileSize("products.txt")<< " bytes"<<endl;
+				fout << "Size of binary File: "<<fileSize_bin("products_bin.dat")<< " bytes"<<endl;
+				fout << endl;
 
 					//output result
-			/*	cout << "N: " << key << endl;
+				/*cout << "N: " << key << endl;
 				cout << "Sum_time: " << sum_time << "ms" << endl;
-				cout << "Time of searching: "<<s_time<<"ms"<<endl;
-				cout << "Time of generation"<<g_time<<"ms"<<endl;
-				cout << "Time of recovery data: "<<r_time<<"ms"<<endl;
+				cout << "	Time of searching: "<<s_time<<"ms"<<endl;
+				cout << "	Time of generation and writing: "<<g_time<<"ms"<<endl;
+				cout << "		Time of writing to stream: "<<time_str<<"ms"<<endl;
+				cout << "		Time of writing to binary: "<<time_bin<<"ms"<<endl;
+				cout << "	Time of recovery data: "<<r_time<<"ms"<<endl;
 				cout << "Used memory: " << memory << " bytes"<<endl;
 				cout << "Number of last generation: " << current_gen << endl;
 				cout << "Sum of generation: " << sum_gen << endl;
