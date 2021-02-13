@@ -14,7 +14,7 @@
 //#include <sqlite3.c>
 
  //database include
- //#include "sqlite3.h"
+ #include "sqlite3.h"
 
 int data_id = 0;
 unsigned int time_bin_start=0, time_bin_end=0, time_bin=0, time_str_end=0, time_str=0,  time_str_start=0;
@@ -42,7 +42,7 @@ struct product {
 	int term;
 };
 //main sqlite function
-/*auto database(const char*& SQL) {
+/*void database(const char*& SQL) {
 
 	sqlite3* db = 0; // handle
 	char* err = 0;
