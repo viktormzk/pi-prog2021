@@ -97,7 +97,6 @@ int fileSize_bin(const char* add) {
 }
 
 void func(int gen,int mode) {
-	data_id = 0;
 	FILE* fout_bin;
 	int i, j;
 	string* words = new string[gen+1];
@@ -113,12 +112,13 @@ void func(int gen,int mode) {
 "sole","trout","tuna","artichoke","asparagus","ubergine","avocado",
 "beansprouts","beetroot","broccoli","cabbage","carrot","cauliflower","celery" }, units[4] = { "kilo", "litr", "pieces" };
 	if (mode==1){
-		fout_bin = fopen("products_bin.dat", "wa+");
+	fout_bin = fopen("products_bin.dat", "wa+");
 	fout.open("products.txt");
+	data_id=0;
 	}
 	else if(mode==2){
 	fout_bin = fopen("products_bin.dat", "ab+");
-	fout.open("products.txt", ios_base::app);
+	fout.open("products.txt",  ios_base::app);
 	}
 	//random value 
 	for (i = 0;i < gen;i++) {
@@ -480,15 +480,16 @@ int main()
 				memory = 0;
 				int key;
 				long sum_gen;
-					/*cout << "Write your number: ";
-					cin >> key;*/
+					cout << "Write your number: ";
+					cin >> key;
 
-				for (key = 1;key <= 10;key++) {
+				//for (key = 1;key <= 10;key++) {
 					//for clear database
 					/*sql_str = "DELETE FROM foo;";
 					const char* SQL = sql_str.c_str();
 					database(SQL);*/
 					sum_gen = 0;
+					
 					time_str=0;
 					time_bin=0;
 					memory = 0;
@@ -567,8 +568,8 @@ int main()
 						gen = gen * 2;
 					}
 					int current_gen = gen / 2;
-					memory += sizeof(current_gen) * 2;
-					// second part ariph prog
+					
+					// second part,ariph prog
 
 					while (sum_time < 10000) {
 
@@ -643,7 +644,7 @@ int main()
 					}
 					//cout << key << endl;
 					//for writing in file
-					ofstream fout("result.txt", ios_base::app);
+			/*		ofstream fout("result.txt", ios_base::app);
 				fout << "N: " << key << endl;
 				fout << "Sum_time: " << sum_time << "ms" << endl;
 				fout << "	Time of searching: "<<s_time<<"ms"<<endl;
@@ -657,9 +658,11 @@ int main()
 				fout << "Size of File: "<<fileSize("products.txt")<< " bytes"<<endl;
 				fout << "Size of binary File: "<<fileSize_bin("products_bin.dat")<< " bytes"<<endl;
 				fout << endl;
+				fout.close();*/
+				
 
 					//output result
-				/*cout << "N: " << key << endl;
+				cout << "N: " << key << endl;
 				cout << "Sum_time: " << sum_time << "ms" << endl;
 				cout << "	Time of searching: "<<s_time<<"ms"<<endl;
 				cout << "	Time of generation and writing: "<<g_time<<"ms"<<endl;
@@ -671,12 +674,12 @@ int main()
 				cout << "Sum of generation: " << sum_gen << endl;
 				cout << "Size of File: "<<fileSize("products.txt")<< " bytes"<<endl;
 				cout << "Size of binary File: "<<fileSize_bin("products_bin.dat")<< " bytes"<<endl;
-				cout << endl;*/
+				cout << endl;
 
 
 				}
 
-			}
+		//	}
 
 
 
