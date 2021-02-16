@@ -316,7 +316,7 @@ int main()
 				cin >> str_name;
 				int hour, minutes, day, month, year;
 				bool flag = false;
-				int len = str_name.length(), min, max;
+				int len = str_name.length(), min, max,ind_my_line=0;
 				cout << "Write the min number: " << endl;
 				cin >> min;
 				cout << "Write the max number: " << endl;
@@ -326,7 +326,30 @@ int main()
 				cout << "Produced no later than :" << endl;
 				cin >> hour >> minutes >> day >> month >> year;
 				int k = 0;
-				for (i = 0;i < ind;i++) {
+				product search;
+				ifstream file("products.txt");
+				while (!file.eof()) {
+					file >> search.id >> search.name >> search.uom >> search.num >> search.data.hour
+						>> search.data.min >> search.data.day >> search.data.month >>
+						search.data.year >> search.term;
+						
+							new_name = search.name.erase(len, search.name.length() - len);
+
+								if (search.data.year > year || (search.data.year >= year
+									&& search.data.month > month) || (search.data.year >= year
+										&& search.data.month >= month && search.data.day > day) ||
+									(search.data.year >= year && search.data.month >= month && search.data.day >= day
+										&& search.data.hour > hour) || (search.data.year >= year && search.data.month >= month
+											&& search.data.day >= day && search.data.hour >= hour && search.data.min > minutes)) flag = true;
+								if (new_name == str_name && search.num > min && search.num < max
+									&& search.uom == str_uom && flag == true) {
+										//save my_line;
+									my_line[ind_my_line] = line[i];
+									ind_my_line++;
+									flag = false;
+						
+					}}
+			/*	for (i = 0;i < ind;i++) {
 					if (out[i].name.length() >= len)
 						new_name = out[i].name.erase(len, out[i].name.length() - len);
 
@@ -343,12 +366,9 @@ int main()
 						my_line[k] = line[i];
 						k++;
 						flag = false;
-					}
-				}
-
-
-			}
-
+					}*/
+			
+			file.close();
 			/*if (interactive==6) {
 			 // Everything was fine until I started writing modifications...
 			 string name, categ, value;
@@ -373,9 +393,7 @@ int main()
 
 			}*/
 
-		}
-	}
-	else
+	  	}}}   else
 
 		//mode 2
 		// demo
@@ -489,8 +507,8 @@ int main()
 
 			cout << "9" << endl;
 
-		}
-		else
+			}
+			else
 			// mode 3 
 			// benchmark
 			if (mode == 3) {
