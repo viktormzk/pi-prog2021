@@ -67,6 +67,24 @@ string to_string(int n)
 	sprintf(buf, "%d", n);
 	return buf;
 };
+//for reading from bin file
+/*vector<product> a[200000];
+
+void initfromfile(vector<product> a)
+{
+    ifstream infile("products_bin.dat", ios::binary | ios::in);
+    if (infile.is_open())
+    {
+        product *x = new product; //read from binary
+        while (infile.read((char*)(x), sizeof(product)))
+        {
+            //add to vector
+            a.push_back(*x);
+        }
+    }
+    else cout << "Problem with Binary File ";
+    infile.close();
+}*/
 // get_file_size
 /*int get_file_size(string filename) // path to file
 {
@@ -273,7 +291,9 @@ int main()
 						>> out[ind].data.min >> out[ind].data.day >> out[ind].data.month >>
 						out[ind].data.year >> out[ind].term;
 					//	file.getline(buffer,n);
-
+					
+					//initfromfile(a[i]);	
+					
 					line[ind] = out[ind].id + " " + out[ind].name + " " + out[ind].uom +
 						" " + to_string(out[ind].num) + " " + to_string(out[ind].data.hour)
 						+ " " + to_string(out[ind].data.min) + " " + to_string(out[ind].data.day) + " " +
@@ -281,6 +301,7 @@ int main()
 						to_string(out[ind].term);
 					ind++;
 				} file.close();
+						
 				
 			}
 
@@ -383,7 +404,7 @@ int main()
 
 			fout_bin = fopen("products_bin.dat", "ab+");
 			ofstream fout("products.txt", ios_base::app);
-			//fout << endl;
+			fout << endl;
 			i = 0;
 			string str_mode2;
 			str_mode2 = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
