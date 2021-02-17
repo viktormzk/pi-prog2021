@@ -140,7 +140,9 @@ void get(list &my_list, int id) {
 			}
 		}
 	}
-	
+void length(list &my_list)	{
+	std::cout << my_list.size << std::endl;	
+}
 int main(){
 	list my_list;
 	int number=2;
@@ -158,11 +160,11 @@ int main(){
 	add(my_list,{51.12,62.23,122.76}); 
 	insert(my_list,{1.1,2.2,3.4}, number);
 	show(my_list);
-	std::cout << my_list.size << std::endl;
+	length(my_list);
 	std::cout << "Test 4" << std::endl;
 	get(my_list, 1);
 //	remove(my_list, 1);
-	//show(my_list);
+//	show(my_list);
 	
 	
 	
