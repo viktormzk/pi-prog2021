@@ -7,168 +7,184 @@ struct circle{
 };
 struct ListNode {
 	circle data;
-	ListNode* Prev;
-	ListNode* Next;
-	};
-	
-struct	list {
-		ListNode* head; 
-		ListNode* tail; 
-		std::size_t size;
-	}; 
-
-void create_empty(list &my_list)
-{
-	my_list.head = NULL;
-	my_list.size=0;
-}
-	bool chk_empty(list my_list)
-	{
-		return (my_list.head==NULL);
-	}	
-void add(list &my_list, circle nt)
-{
-	ListNode* new_item = new ListNode();
-	new_item->data=nt;
-	new_item->Next = NULL;
-	if (chk_empty(my_list))
-		my_list.head = new_item;
-	else
-		my_list.tail->Next = new_item;
-		
-	my_list.size+=1;
-	my_list.tail = new_item;
-} 
-
-void show(list &my_list){
-	ListNode* current = my_list.head;
-	while(current){
-		std::cout << current->data.x <<" " << current->data.y <<" "<< current->data.r << std::endl;
-		current=current->Next;
+	ListNode* prev;
+	ListNode* next;
+	ListNode(circle data, ListNode* prev = NULL, ListNode* next = NULL) {
+		this->data = data;
+		this->prev = prev;
+		this->next = next;
 	}
-	
-}
-void insert(list &my_list,circle x, int k){
-	std::string ans=(my_list.size>1) ? " elements" : " element" ;
-	if (k<0 || k>my_list.size-1) std::cout << "In list "<<	my_list.size << ans << ", uncorrect number"<<std::endl; 
-	else {
-	ListNode* temp = new ListNode();
-    temp -> data = x;
-    temp -> Next = NULL;
+};
+struct list {
+	ListNode* begin;
+	ListNode* end;
+	std::size_t size;
 
-    if ( k == 0 )
-    {
-        temp -> Next = my_list.head;
-        my_list.head = temp;
-        return;
-    }
-
-    ListNode* temp1 = my_list.head;
-
-    for (int i = 0; i < k-1; i++)
-    {
-        temp1 = temp1 -> Next;
-    }
-
-
-    temp -> Next = temp1 -> Next;
-    temp1 -> Next = temp;
+	list() {
+		begin = NULL;
+		end = NULL;
+		size = 0;
 	}
-	my_list.size+=1;
-	
-}
-
-ListNode* remove_node(list &my_list, ListNode  *current) {
-		if (current->Prev) {
-		current->Prev->Next = current->Next;
-		} else {
-			my_list.head = current->Next;
+	ListNode* get(int data_to_search) {
+		ListNode* current = begin;
+		int i=0;
+		while (current) {
+			if (i == data_to_search) {
+				std::cout<<current->data.x<<" "<<current->data.y <<" " << current->data.r<<std::endl;
+				return current;
+			}
+			current = current->next;
+			i++;
 		}
-		if (current->Next) {
-			current->Next->Prev = current->Prev;
-		} else {
-			my_list.tail = current->Prev;
-		}
-		delete current;
-		my_list.size--;
-		return current;
-		
+		return NULL;
 	}
-
-void remove(list &my_list, std::size_t index_to_remove) {
-	bool from_begin;
-		if (index_to_remove > my_list.size-1 || index_to_remove<0) {
-			std::cout << "Error index for remove"<<std::endl;
-		} else {
-		if (index_to_remove < (my_list.size)/2) {
+	
+	ListNode* append(circle data) {
+		ListNode* new_item = new ListNode(data,this->end);
+		if (end) { // list is not empty
+			this->end->next = new_item;
+		} else { // list is empty
+			this->begin = new_item;
+		}
+		this->end = new_item;
+		this->size++;
+		return new_item;
+	}
+	bool remove(std::size_t index_to_remove) {
+		if (index_to_remove >= this->size) {
+			return false;
+		}
+		bool from_begin = false;
+		if (index_to_remove < size/2) {
 			from_begin = true;
 		}
-		ListNode* current = from_begin ? my_list.head : my_list.tail;
-		std::size_t current_index = from_begin ? 0 : my_list.size-1 ;
+		ListNode* current = from_begin ? begin : end;
+		std::size_t current_index = from_begin ? 0 : size - 1;
 		while (current) {
 			if (current_index == index_to_remove) {
-				current = remove_node(my_list, current);
+				current = remove_node(current);
+				return true;
 			}
 			if (from_begin) {
-				current = current->Next;
+				current = current->next;
 				current_index++;
 			} else {
-				current = current->Prev;
+				current = current->prev;
 				current_index--;
 			}
 		}
-				}
-}
-	
-void get(list &my_list, int id) {
-	bool from_begin;
-		if (id < (my_list.size)/2) {
-			from_begin = true;
-		}
-		ListNode* current = from_begin ? my_list.head : my_list.tail;
-		std::size_t current_index = from_begin ? 0 : my_list.size-1 ;
-		while (current) {
-			if (current_index == id) {
-				std::cout << current->data.x << " " << current->data.y << " "<< current->data.r <<std::endl;
-			}
-			if (from_begin) {
-				current = current->Next;
-				current_index++;
-			} else {
-				current = current->Prev;
-				current_index--;
-			}
-		}
+		return false;
 	}
-void length(list &my_list)	{
+private:
+	ListNode* remove_node(ListNode* current) {
+		if (current->prev) {
+			current->prev->next = current->next;
+		} else {
+			this->begin = current->next;
+		}
+		if (current->next) {
+			current->next->prev = current->prev;
+		} else {
+			this->end = current->prev;
+		}
+		delete current;
+		this->size--;
+		return current;
+	}
+};
+void show(list &my_list ) {
+		ListNode* current = my_list.begin;
+		while (current) {
+			std::cout<<current->data.x<<" "<<current->data.y <<" " << current->data.r<<std::endl;
+			current = current->next;
+		}
+		std::cout<<std::endl;
+	}
+	void length(list &my_list)	{
 	std::cout << my_list.size << std::endl;	
+	}
+	
+bool insert(list &my_list, circle x, int pos)
+{   
+   if(pos < 0 || pos > my_list.size -1)
+   {
+      std::cout << "Incorrect position !!!\n";
+      return false;
+   } else
+ 
+   if(pos == my_list.size)
+   {
+      my_list.append(x);
+      my_list.size++;
+      return true;
+   } else {
+  
+   int i = 1;
+ 
+   ListNode * Ins = my_list.begin;
+ 
+   while(i <= pos)
+   {
+      Ins = Ins->next;
+      i++;
+   }
+   ListNode * PrevIns = Ins->prev;
+   ListNode * temp = new ListNode(x,PrevIns,Ins);
+      PrevIns->next = temp;
+ 
+   temp->next = Ins;
+   temp->prev = PrevIns;
+   Ins->prev = temp;
+ 
+   my_list.size++;
+   return true;}
 }
+void create_empty(list &my_list)
+	{
+		my_list.begin = NULL;
+		my_list.end = NULL;
+		my_list.size=0;
+	}
+	
+
+
 int main(){
 	list my_list;
 	int number=2;
-	std::cout << "Test 1" << std::endl;
+	std::cout << "	Test empty list" << std::endl;
 	create_empty(my_list);
 	show(my_list);
-	std::cout << "Test 2" << std::endl;
-	add(my_list,{1.12,2.23,3.76}); //gnu++ 11
-	add(my_list,{5.12,6.23,12.76}); 
-	show(my_list);
-	std::cout << "Test 3" << std::endl;
+	std::cout << "	Test add1" << std::endl;
 	create_empty(my_list);
-	add(my_list,{1.12,2.23,3.76}); 
-	add(my_list,{5.12,6.23,12.76}); 
-	add(my_list,{51.12,62.23,122.76}); 
-	insert(my_list,{1.1,2.2,3.4}, number);
+	my_list.append({1,1,1});
+	my_list.append({2,4,2});
 	show(my_list);
+	std::cout << "	Test insert" << std::endl;
+	create_empty(my_list);
+	my_list.append({1,1,1});
+	my_list.append({2,4,2}); 
+	my_list.append({12,11,31});
+	my_list.append({232,412,212});
+	insert(my_list,{1,5,7}, number);
+	show(my_list);
+	std::cout << "	Test length" << std::endl;
 	length(my_list);
-	std::cout << "Test 4" << std::endl;
-	get(my_list, 1);
-//	remove(my_list, 1);
-//	show(my_list);
+	std::cout << "	Test get 0" << std::endl;
+	my_list.get(0);
+	std::cout << "	Test remove " <<number<< std::endl;
+	bool removed = my_list.remove(number);
+	if (removed) {
+		std::cout<<"removed "<<number<<std::endl;
+
+	} else {
+		std::cout<<"Dont removed "<<number<<std::endl;
+	}
+	show(my_list);
 	
 	
 	
 	
-	
+	//18.02.21 00:33
+	//18.02.21 01:51
 	return 0;
 }
