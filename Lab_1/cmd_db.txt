@@ -1,0 +1,7 @@
+.open test.db
+CREATE TABLE foo(a char(100));
+SELECT * FROM foo;
+
+
+.excel
+SELECT * FROM foo;
