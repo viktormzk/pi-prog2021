@@ -100,7 +100,7 @@ void remove(list &my_list, std::size_t index_to_remove) {
 		if (index_to_remove > my_list.size-1 || index_to_remove<0) {
 			std::cout << "Error index for remove"<<std::endl;
 		} else {
-		if (index_to_remove < (my_list.size-1)/2) {
+		if (index_to_remove < (my_list.size)/2) {
 			from_begin = true;
 		}
 		ListNode* current = from_begin ? my_list.head : my_list.tail;
@@ -120,6 +120,26 @@ void remove(list &my_list, std::size_t index_to_remove) {
 				}
 }
 	
+void get(list &my_list, int id) {
+	bool from_begin;
+		if (id < (my_list.size)/2) {
+			from_begin = true;
+		}
+		ListNode* current = from_begin ? my_list.head : my_list.tail;
+		std::size_t current_index = from_begin ? 0 : my_list.size-1 ;
+		while (current) {
+			if (current_index == id) {
+				std::cout << current->data.x << " " << current->data.y << " "<< current->data.r <<std::endl;
+			}
+			if (from_begin) {
+				current = current->Next;
+				current_index++;
+			} else {
+				current = current->Prev;
+				current_index--;
+			}
+		}
+	}
 	
 int main(){
 	list my_list;
@@ -140,8 +160,9 @@ int main(){
 	show(my_list);
 	std::cout << my_list.size << std::endl;
 	std::cout << "Test 4" << std::endl;
-	remove(my_list, 1);
-	show(my_list);
+	get(my_list, 1);
+//	remove(my_list, 1);
+	//show(my_list);
 	
 	
 	
