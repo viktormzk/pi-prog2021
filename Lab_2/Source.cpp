@@ -26,6 +26,12 @@ struct list {
 		size = 0;
 	}
 	ListNode* get(int data_to_search) {
+		if (data_to_search<0){
+		data_to_search+=this->size;
+	}
+	if (data_to_search >= this->size) {
+			return 0x0;
+		} 
 		ListNode* current = begin;
 		int i=0;
 		while (current) {
@@ -50,11 +56,15 @@ struct list {
 		this->size++;
 		return new_item;
 	}
-	bool remove(std::size_t index_to_remove) {
-		if (index_to_remove >= this->size) {
+bool remove(int index_to_remove) {
+	if (index_to_remove < 0){
+		index_to_remove+=size;
+	}	
+	if (index_to_remove >= size || index_to_remove<0) {
 			return false;
-		}
+	} 
 		bool from_begin = false;
+		
 		if (index_to_remove < size/2) {
 			from_begin = true;
 		}
@@ -150,7 +160,7 @@ void create_empty(list &my_list)
 
 int main(){
 	list my_list;
-	int number=2;
+	int number=-2;
 	std::cout << "	Test empty list" << std::endl;
 	create_empty(my_list);
 	show(my_list);
@@ -165,12 +175,12 @@ int main(){
 	my_list.append({2,4,2}); 
 	my_list.append({12,11,31});
 	my_list.append({232,412,212});
-	insert(my_list,{1,5,7}, number);
+	insert(my_list,{1,5,7}, 1);
 	show(my_list);
 	std::cout << "	Test length" << std::endl;
 	length(my_list);
-	std::cout << "	Test get 0" << std::endl;
-	my_list.get(0);
+	std::cout << "	Test get " <<number<< std::endl;
+	my_list.get(number);
 	std::cout << "	Test remove " <<number<< std::endl;
 	bool removed = my_list.remove(number);
 	if (removed) {
