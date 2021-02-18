@@ -1,5 +1,4 @@
 #include <iostream>
-// 17.02.21 15:37
 struct circle{
 	double x;
 	double y;
@@ -25,7 +24,18 @@ struct list {
 		end = NULL;
 		size = 0;
 	}
-	ListNode* get(int data_to_search) {
+ListNode* search(circle x) {
+		ListNode* current = begin;
+		while (current) {
+			if (current->data.x == x.x && current->data.y == x.y &&current->data.r == x.r  ) {
+				return current;
+			}
+			current = current->next;
+		}
+		return NULL;
+	}
+	
+ListNode* get(int data_to_search) {
 		if (data_to_search<0){
 		data_to_search+=this->size;
 	}
@@ -45,7 +55,7 @@ struct list {
 		return NULL;
 	}
 	
-	ListNode* append(circle data) {
+ListNode* append(circle data) {
 		ListNode* new_item = new ListNode(data,this->end);
 		if (end) { // list is not empty
 			this->end->next = new_item;
@@ -85,6 +95,10 @@ bool remove(int index_to_remove) {
 		}
 		return false;
 	}
+void remove_if(list &my_list,circle x){
+	ListNode* current=my_list.search(x);
+	current = remove_node(current);	
+}
 private:
 	ListNode* remove_node(ListNode* current) {
 		if (current->prev) {
@@ -140,7 +154,7 @@ bool insert(list &my_list, circle x, int pos)
    }
    ListNode * PrevIns = Ins->prev;
    ListNode * temp = new ListNode(x,PrevIns,Ins);
-      PrevIns->next = temp;
+    PrevIns->next = temp;
  
    temp->next = Ins;
    temp->prev = PrevIns;
@@ -156,8 +170,6 @@ void create_empty(list &my_list)
 		my_list.size=0;
 	}
 	
-
-
 int main(){
 	list my_list;
 	int number=-2;
@@ -182,19 +194,17 @@ int main(){
 	std::cout << "	Test get " <<number<< std::endl;
 	my_list.get(number);
 	std::cout << "	Test remove " <<number<< std::endl;
-	bool removed = my_list.remove(number);
-	if (removed) {
-		std::cout<<"removed "<<number<<std::endl;
-
-	} else {
-		std::cout<<"Dont removed "<<number<<std::endl;
-	}
+	my_list.remove_if(my_list, {12,11,31});
 	show(my_list);
-	
-	
-	
-	
+	//I note just for fun :)
+	//17.02.21 15:37
 	//18.02.21 00:33
-	//18.02.21 01:51
+	
+	//18.02.21 01:51 
+	//18.02.21 07:51
+	
+	//18.02.21 18:51
+	//18.02.21 19:51
+	
 	return 0;
 }
