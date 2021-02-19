@@ -156,7 +156,8 @@ void func(int gen,int mode) {
 		words[i] = f[i].id + " " + f[i].name + " " + f[i].uom + " " + to_string(f[i].num) + " " + to_string(f[i].data.hour)
 			+ " " + to_string(f[i].data.min) + " " + to_string(f[i].data.day) + " " + to_string(f[i].data.month) + " " +
 			to_string(f[i].data.year) + " " + to_string(f[i].term);
-		memory+=sizeof(f[i])+sizeof(words[i]);	
+		//cout << sizeof(f[i]) << endl;
+		memory+=words[i].size()*2;	
 		time_str_start=clock();
 		// ofstream
 		if (mode==1){
@@ -192,7 +193,7 @@ void func(int gen,int mode) {
 		database(SQL);*/
 	}
 	if (data_id>200000) {
-		cout << "In main up to 200k lines, u can change"<<endl;
+		cout << "Work up to 200k lines, u can change"<<endl;
 		exit(-1);
 	}
 	fout.close();
@@ -275,7 +276,7 @@ void recovery_items(){
 						+ " " + to_string(out[ind].data.min) + " " + to_string(out[ind].data.day) + " " +
 						to_string(out[ind].data.month) + " " + to_string(out[ind].data.year) + " " +
 						to_string(out[ind].term);
-					memory+=sizeof(out[ind])+sizeof(line[ind]);	
+					memory+=line[ind].size();	
 					ind++;
 				} file.close();
 				
@@ -358,12 +359,12 @@ void search_items(int mode){
 									my_line[ind_my_line] = search.id + search.name + search.uom + to_string(search.num )+to_string( search.data.hour)
 						+to_string( search.data.min ) +to_string(search.data.day )+to_string( search.data.month )+
 						to_string(search.data.year )+to_string(search.term);
-						memory+=sizeof(my_line[ind_my_line]);
+						memory+=my_line[ind_my_line].size();
 									ind_my_line++;
 									flag = false;
 						
 					}
-					memory+=sizeof(search);	
+					//memory+=sizeof(search);	
 					} file.close();} 
 }
 
