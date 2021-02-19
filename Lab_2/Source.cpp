@@ -34,6 +34,84 @@ ListNode* search(circle x) {
 		}
 		return NULL;
 	}
+ListNode* rotate(list &my_list,int heat, int new_heat, int tail) {
+	if (heat<0 || tail>my_list.size-1 || new_heat>tail || new_heat<heat){
+		std::cout << "Error rotate! False index."<<std::endl;
+		return NULL;
+	}
+		ListNode* current = begin;
+		circle* cir=new circle[my_list.size+2];
+		int i=0,k=0,z=0;
+		
+		while (current) {
+			//std::cout << i << std::endl;
+			if (i==heat) {
+				while (i<new_heat){
+				//std::cout <<"NEW heat: "<< i << std::endl;
+				current = current->next;
+				i++;
+				}		
+				while (i<=tail){
+				//std::cout <<"tail: "<< i << std::endl;
+				cir[k]={current->data.x,current->data.y,current->data.r};	
+				if (i<tail)current = current->next;				
+					i++;
+					k++;
+				}
+				while (i>heat){
+					if(i>1) current=current->prev;
+					//std::cout <<"heat+tail-new_heat: "<< i << std::endl;
+					i--;
+				}
+				while (i<new_heat){
+					//std::cout <<"size: "<< i << std::endl;
+					cir[k].x=current->data.x;
+					cir[k].y=current->data.y;
+					cir[k].r=current->data.r;
+					if (i!=new_heat-1)current = current->next;					
+					i++;
+					k++;
+			}
+			
+			}
+			current = current->next;
+			i++;
+		}
+		z=k-2;
+		k=0;
+		i=0;
+		current=begin;
+		//bool flag_2=false;
+		while (current) {
+			if (i==heat) {
+				while (i<tail && current->next){
+				//std::cout << i << std::endl;
+				current->data.x=cir[k].x;
+				current->data.y=cir[k].y;
+				current->data.r=cir[k].r;
+				
+				if (i!=tail && z==k){
+				current->next->data.x=cir[k+1].x;
+				current->next->data.y=cir[k+1].y;
+				current->next->data.r=cir[k+1].r;
+			} else
+			if (i==tail && z!=k){
+				current->next->data.x=cir[k].x;
+				current->next->data.y=cir[k].y;
+				current->next->data.r=cir[k].r;
+			}
+				k++;
+				i++;
+			 current=current->next;
+			} 
+			//flag_2=true;
+		}
+			current=current->next;
+			i++;
+		}
+	delete[] cir;
+		return NULL;
+	}
 	
 ListNode* get(int data_to_search) {
 		if (data_to_search<0){
@@ -119,14 +197,14 @@ private:
 	}
 };
 void show(list &my_list ) {
-	std::cout << std::endl;
+	std::cout <<"-----------"<< std::endl;
 	std::cout << "List: " << std::endl;
 		ListNode* current = my_list.begin;
 		while (current) {
 			std::cout<<current->data.x<<" "<<current->data.y <<" " << current->data.r<<std::endl;
 			current = current->next;
 		}
-		std::cout << std::endl;
+		std::cout <<"-----------"<< std::endl;
 	}
 	void length(list &my_list)	{
 	std::cout <<"Length: "<< my_list.size << std::endl;	
@@ -177,11 +255,27 @@ void create_empty(list &my_list)
 int main(){
 	list my_list;
 	int mode=1,interactive=1;
+	
+	/*create_empty(my_list);
+		my_list.append({1,1,1});
+		my_list.append({2,4,2}); 
+		my_list.append({12,11,31});
+		my_list.append({232,412,212});
+		my_list.append({11,11,11});
+		my_list.append({22,44,22}); 
+		my_list.append({121,112,311});
+		my_list.append({23322,41223,2232});
+		insert(my_list,{0,5,7}, 1);
+		show(my_list);
+		std::cout << "Rotate 0 4 7"<<std::endl;
+		my_list.rotate(my_list,0,4,8);
+		show(my_list);*/
+		
 	std::cout << "Select the operating mode: 1 - Demo mode, 2 - Interactive mode, 3 - Benchmark "<<std::endl;
 	std::cin >> mode;
 	if (mode==1){
 		std::cout << "Enter 1 - Create empty list, 2 - Add item to end, 3 - Insert item, "<<
-		"4 - Remove by index, 5 - Show length of list, 6 - Show list, 7 - Remove by value, 8 - Get by index, 9 - Exit"<< std::endl;
+		"4 - Remove by index, 5 - Show length of list, 6 - Show list, 7 - Remove by value, 8 - Get by index, 9 - Rotate, 10 - EXIT"<< std::endl;
 		int number=-1;
 		std::cout << "1" << std::endl;
 		std::cout << "6" << std::endl;
@@ -204,24 +298,36 @@ int main(){
 		my_list.append({232,412,212});
 		insert(my_list,{1,5,7}, 1);
 		show(my_list);
+		
 		std::cout << "5 "<<std::endl;
 		length(my_list);
 		std::cout << std::endl;
-		std::cout << "8 \n" <<number<< std::endl;
-		my_list.get(number);
+		
 		std::cout << "4 \n" <<number<< std::endl;
 		std::cout << "6" << std::endl;
 		my_list.remove(number);
 		show(my_list);
+		
 		std::cout << "7 \n1 1 1" << std::endl;
 		std::cout << "6" << std::endl;
 		my_list.remove_if(my_list, {1,1,1});
 		show(my_list);
+		
+		std::cout << "8 \n2" << std::endl;
+		std::cout << "6" << std::endl;
+		my_list.get(2);
+		show(my_list);
+		
+		std::cout << "9 \n0 1 1" << std::endl;
+		std::cout << "6" << std::endl;
+		my_list.rotate(my_list,0,1,1);
+		show(my_list);
+		
 		} else
 	if (mode==2) {
 		std::cout << "Enter 1 - Create empty list, 2 - Add item to end, 3 - Insert item, "<<
-		"4 - Remove by index, 5 - Show length of list, 6 - Show list, 7 - Remove by value, 9 - Exit"<< std::endl;
-		while (interactive!=9){
+		"4 - Remove by index, 5 - Show length of list, 6 - Show list, 7 - Remove by value, 8 - Get by index, 9 - Rotate, 10 - EXIT"<< std::endl;
+		while (interactive!=10){
 			std::cin >> interactive;
 			if (interactive==1){
 				create_empty(my_list);
@@ -255,6 +361,18 @@ int main(){
 				std::cout << "Write value for remove: "<<std::endl;
 				std::cin >> rem.x >> rem.y >> rem.r;
 				my_list.remove_if(my_list, rem);
+			}else
+			if (interactive==8){
+				int i;
+				std::cout << "Write idex for get item: "<<std::endl;
+				std::cin >> i;
+				my_list.get(i);
+			}else
+			if (interactive==9){
+				int x,y,z;
+				std::cout << "Write value for rotate: "<<std::endl;
+				std::cin >> x >> y >> z;
+				my_list.rotate(my_list,x,y,z);
 			}
 		}
 	}
@@ -268,6 +386,9 @@ int main(){
 	
 	//18.02.21 18:51
 	//18.02.21 21:02
+	
+	//19.02.21 14:24
+	//19.02.21 23:51
 	
 	return 0;
 }
