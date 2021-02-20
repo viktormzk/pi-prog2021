@@ -1,0 +1,9 @@
+Create empty(x100): 0 ms
+Add 1 item(1,1,1)(*100): 0 ms
+Add 1 item(212312.213213,41231231.213123112,2.12312312311)(*100): 0 ms
+Insert 1 item(1,5,7)(*100): 0 ms
+Insert 1 item(12312312.1323123,5123123.12314325,7345345345.14124124)(*100): 0 ms
+Get length(*100): 82 ms
+Remove(*100): 0 ms
+Get by index(*100): 97 ms
+Show list(*100): 20932 ms
