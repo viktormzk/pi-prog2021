@@ -1,0 +1,130 @@
+N: 1
+Sum_time: 12392ms
+	Time of searching: 1156ms
+	Time of generation and writing: 7688ms
+		Time of writing to stream: 2348ms
+		Time of writing to binary: 813ms
+	Time of recovery data: 1893ms
+Used memory: 61618626 bytes
+Number of last generation: 81920
+Sum of generation: 262143
+Size of File: 12066097 bytes
+Size of binary File: 11803937 bytes
+
+N: 2
+Sum_time: 12330ms
+	Time of searching: 1218ms
+	Time of generation and writing: 7641ms
+		Time of writing to stream: 2357ms
+		Time of writing to binary: 780ms
+	Time of recovery data: 1893ms
+Used memory: 123236332 bytes
+Number of last generation: 81920
+Sum of generation: 262142
+Size of File: 12066195 bytes
+Size of binary File: 11804038 bytes
+
+N: 3
+Sum_time: 13031ms
+	Time of searching: 1186ms
+	Time of generation and writing: 8186ms
+		Time of writing to stream: 2450ms
+		Time of writing to binary: 941ms
+	Time of recovery data: 2173ms
+Used memory: 191085848 bytes
+Number of last generation: 73728
+Sum of generation: 270333
+Size of File: 12446530 bytes
+Size of binary File: 12176183 bytes
+
+N: 4
+Sum_time: 12284ms
+	Time of searching: 1188ms
+	Time of generation and writing: 7658ms
+		Time of writing to stream: 2438ms
+		Time of writing to binary: 894ms
+	Time of recovery data: 1858ms
+Used memory: 252699632 bytes
+Number of last generation: 81920
+Sum of generation: 262140
+Size of File: 12065266 bytes
+Size of binary File: 11803114 bytes
+
+N: 5
+Sum_time: 12406ms
+	Time of searching: 968ms
+	Time of generation and writing: 8062ms
+		Time of writing to stream: 2448ms
+		Time of writing to binary: 783ms
+	Time of recovery data: 2048ms
+Used memory: 309201396 bytes
+Number of last generation: 61440
+Sum of generation: 225275
+Size of File: 10353562 bytes
+Size of binary File: 10128276 bytes
+
+N: 6
+Sum_time: 13266ms
+	Time of searching: 1218ms
+	Time of generation and writing: 8280ms
+		Time of writing to stream: 2541ms
+		Time of writing to binary: 847ms
+	Time of recovery data: 2234ms
+Used memory: 377046822 bytes
+Number of last generation: 73728
+Sum of generation: 270330
+Size of File: 12446019 bytes
+Size of binary File: 12175679 bytes
+
+N: 7
+Sum_time: 10893ms
+	Time of searching: 1032ms
+	Time of generation and writing: 6830ms
+		Time of writing to stream: 2258ms
+		Time of writing to binary: 688ms
+	Time of recovery data: 1609ms
+Used memory: 430928372 bytes
+Number of last generation: 71680
+Sum of generation: 229369
+Size of File: 10543483 bytes
+Size of binary File: 10314106 bytes
+
+N: 8
+Sum_time: 13438ms
+	Time of searching: 1282ms
+	Time of generation and writing: 8719ms
+		Time of writing to stream: 3021ms
+		Time of writing to binary: 919ms
+	Time of recovery data: 1875ms
+Used memory: 492538644 bytes
+Number of last generation: 81920
+Sum of generation: 262136
+Size of File: 12065434 bytes
+Size of binary File: 11803291 bytes
+
+N: 9
+Sum_time: 10078ms
+	Time of searching: 938ms
+	Time of generation and writing: 6296ms
+		Time of writing to stream: 2110ms
+		Time of writing to binary: 668ms
+	Time of recovery data: 1639ms
+Used memory: 543360502 bytes
+Number of last generation: 55296
+Sum of generation: 202743
+Size of File: 9305457 bytes
+Size of binary File: 9102708 bytes
+
+N: 10
+Sum_time: 10890ms
+	Time of searching: 1000ms
+	Time of generation and writing: 6813ms
+		Time of writing to stream: 1855ms
+		Time of writing to binary: 720ms
+	Time of recovery data: 1765ms
+Used memory: 599853648 bytes
+Number of last generation: 61440
+Sum of generation: 225270
+Size of File: 10351651 bytes
+Size of binary File: 10126376 bytes
+
