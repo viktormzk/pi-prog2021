@@ -15,7 +15,6 @@
 
  //database include
  #include "sqlite3.h"
-
 int data_id = 0,memory=0;
 unsigned int time_bin_start=0, time_bin_end=0, time_bin=0, time_str_end=0, time_str=0,  time_str_start=0;
 //for sqlite
@@ -165,6 +164,7 @@ void func(int gen,int mode) {
 			else fout << words[i] << endl;
 		} else
 		fout << words[i] << endl;
+		
 		time_str_end=clock();
 		time_str+=time_str_end-time_str_start;
 		
@@ -192,10 +192,10 @@ void func(int gen,int mode) {
 		const char* SQL = sql_str.c_str();
 		database(SQL);*/
 	}
-	if (data_id>200000) {
+	/*if (data_id>200000) {
 		cout << "Work up to 200k lines, u can change"<<endl;
 		exit(-1);
-	}
+	}*/
 	fout.close();
 	fclose(fout_bin);
 	delete[] words, f;
@@ -258,20 +258,20 @@ void save_items(){
 void recovery_items(){
 			ifstream file("products.txt");
 				ind = 0;
-				product* out = new product[200000];
-				
+				//if (mode==1) product* out = new product[200000]; else
+				product* out = new product[200000];		
 				/*int n=100;
 				char *buffer=new char[n+1];
 				buffer[n]=0;*/
-				while (!file.eof()) {
+				while (!file.eof()) {				
 					file >> out[ind].id >> out[ind].name >> out[ind].uom >> out[ind].num >> out[ind].data.hour
 						>> out[ind].data.min >> out[ind].data.day >> out[ind].data.month >>
 						out[ind].data.year >> out[ind].term;
 					//	file.getline(buffer,n);
-					
+					memory+=sizeof(out[ind]);
 					//initfromfile(a[i]);	
 					
-					line[ind] = out[ind].id + " " + out[ind].name + " " + out[ind].uom +
+				line[ind] = out[ind].id + " " + out[ind].name + " " + out[ind].uom +
 						" " + to_string(out[ind].num) + " " + to_string(out[ind].data.hour)
 						+ " " + to_string(out[ind].data.min) + " " + to_string(out[ind].data.day) + " " +
 						to_string(out[ind].data.month) + " " + to_string(out[ind].data.year) + " " +
@@ -279,6 +279,29 @@ void recovery_items(){
 					memory+=line[ind].size();	
 					ind++;
 				} file.close();
+				
+			delete [] out;			
+	
+}
+void recovery_benchmark(){
+			ifstream file("products.txt");
+				ind = 0;
+				//if (mode==1) product* out = new product[200000]; else
+				product* out = new product[data_id+1];		
+				/*int n=100;
+				char *buffer=new char[n+1];
+				buffer[n]=0;*/
+				while (!file.eof()) {				
+					file >> out[ind].id >> out[ind].name >> out[ind].uom >> out[ind].num >> out[ind].data.hour
+						>> out[ind].data.min >> out[ind].data.day >> out[ind].data.month >>
+						out[ind].data.year >> out[ind].term;
+					//	file.getline(buffer,n);
+					memory+=sizeof(out[ind]);
+					//initfromfile(a[i]);	
+					
+					ind++;
+				} 
+				file.close();
 				
 			delete [] out;			
 	
@@ -575,7 +598,7 @@ int main()
 						sum_gen += gen;
 						// Data recovery
 						start_r_time = clock();
-						recovery_items();
+						recovery_benchmark();
 						end_r_time = clock();
 						r_time += end_r_time - start_r_time;
 
@@ -612,7 +635,7 @@ int main()
 						ind = 0;
 						// Data recovery
 						start_r_time = clock();
-						recovery_items();
+						recovery_benchmark();
 						end_r_time = clock();
 						r_time += end_r_time - start_r_time;
 
