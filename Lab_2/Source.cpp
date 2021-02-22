@@ -155,6 +155,7 @@ ListNode* search(circle x) {
 			}
 			current = current->next;
 		}
+		delete[] current;
 		return NULL;
 	}
 ListNode* rotate(list &my_list,int heat, int new_heat, int tail) { //for interactive and demo
@@ -174,7 +175,7 @@ ListNode* rotate(list &my_list,int heat, int new_heat, int tail) { //for interac
 				current = current->next;
 				i++;
 				}		
-				while (i<=tail){
+			while (i<=tail){
 				//cout <<"tail: "<< i << endl;
 				cir[k]={current->data.x,current->data.y,current->data.r};	
 				if (i<tail)current = current->next;				
@@ -265,6 +266,7 @@ ListNode* append(circle data) {
 		}
 		this->end = new_item;
 		this->size++;
+		delete[] new_item;
 		return new_item;
 	}
 	
@@ -287,6 +289,7 @@ bool remove(int index_to_remove) {
 		while (current) {
 			if (current_index == index_to_remove) {
 				current = remove_node(current);
+				delete[] current;
 				return true;
 			}
 			if (from_begin) {
@@ -297,6 +300,7 @@ bool remove(int index_to_remove) {
 				current_index--;
 			}
 		}
+		delete[] current;
 		return false;
 	} 
 	
@@ -332,6 +336,7 @@ void show(list &my_list ) {
 			current = current->next;
 		}
 		cout <<"-----------"<< endl;
+		delete[] current;
 	}
 	void length(list &my_list)	{
 	cout <<"Length: "<< my_list.size << endl;	
@@ -370,6 +375,7 @@ bool insert(list &my_list, circle x, int pos)
    Ins->prev = temp;
  
    my_list.size++;
+   delete[] PrevIns,temp,Ins;
    return true;}
 }
 
@@ -508,72 +514,136 @@ int main(){
 	} else
 	 if (mode==3) {
 	 	ofstream input("result.txt");
-	 	int i=0;
+	 	int k=0;
+	 	long long i=0;
 	 	unsigned int start=0, end=0,search=0;
 	 	
 		input<< "Create empty(*1): ";
+		while(search<10000){
 		start=clock();
+		i=i+100000;
+		for (k=0;k<100000;k++)
 		create_empty(my_list);
 		end=clock();
-		search=end-start;
+		search+=end-start;
+		}
 		input << search <<" ms"<< endl;
+		input << "Number: "<< i <<endl;
 		
+		search=0;
+		i=0;
 		input << "Add 1 item(1,1,1)(*1): ";
+		while(search<10000){
 		start=clock();
-		my_list.append({1,1,1});
+		i+=100000;
+		for (k=0;k<100000;k++){
+		create_empty(my_list);
+		my_list.append({1,1,1});}
 		end=clock();
-		search=end-start;
+		search+=end-start;}
 		input << search <<" ms"<< endl;
+		input << "Number: "<< i <<endl;
 		
+		search=0;
+		i=0;
 		input << "Add 1 item(212312.213213,41231231.213123112,2.12312312311)(*1): " ;
+		while(search<10000){
 		start=clock();
-		my_list.append({212312.213213,41231231.213123112,253453.123312311});
+		i+=100000;
+		for (k=0;k<100000;k++){
+		create_empty(my_list);
+		my_list.append({212312.213213,41231231.213123112,253453.123312311});}
 		end=clock();
-		search=end-start;
+		search+=end-start;}
 		input << search <<" ms"<< endl;
+		input << "Number: "<< i <<endl;
 		
-		
+		search=0;
+		i=0;
 		input << "Insert 1 item(1,5,7)(*1): ";
+		while(search<10000){
 		start=clock();
-		insert(my_list,{1,5,7}, 1);	
+		i+=100000;
+		for (k=0;k<100000;k++){
+		create_empty(my_list);
+		insert(my_list,{1,5,7}, 0);	}
 		end=clock();
-		search=end-start;
+		search+=end-start;}
 		input << search <<" ms"<< endl;
+		input << "Number: "<< i <<endl;
 		
+		search=0;
+		i=0;
 		input << "Insert 1 item(12312312.1323123,5123123.12314325,7345345345.14124124)(*1): ";
+		while(search<10000){
 		start=clock();
-		insert(my_list,{12312312.1323123,5123123.12314325,7345345345.14124124}, 1);		
+		i+=100000;
+		for (k=0;k<100000;k++){
+		create_empty(my_list);
+		insert(my_list,{12312312.1323123,5123123.12314325,7345345345.14124124}, 0);	}
 		end=clock();
-		search=end-start;
+		search+=end-start;}
 		input << search <<" ms"<< endl;
+		input << "Number: "<< i <<endl;
 		
+		search=0;
+		i=0;
 		input << "Get length(*1): ";
+		while(search<10000){
 		start=clock();
-		length(my_list);
+		i+=100;
+		for (k=0;k<100;k++){
+		create_empty(my_list);
+		length(my_list);}
 		end=clock();
-		search=end-start;
+		search+=end-start;}
 		input << search <<" ms"<<endl;
+		input << "Number: "<< i <<endl;
 		
+		i=0;
+		search=0;
+		create_empty(my_list);
 		input << "Remove(*1): ";
+		while(search<10000){
 		start=clock();
-		my_list.remove(2);
+		i+=100000;
+		for (k=0;k<100000;k++){
+		my_list.append({1,1,1});
+		my_list.remove(-1);}
 		end=clock();
-		search=end-start;
+		search+=end-start;}
 		input << search <<" ms"<< endl;
+		input << "Number: "<< i <<endl;
 		
+		search=0;
+		i=0;
+		create_empty(my_list);
+		my_list.append({1,1,1});
 		input << "Get by index(*1): ";
+		while(search<10000){
 		start=clock();
-		my_list.get(2);
+		i+=10000;
+		for (k=0;k<10000;k++)
+		my_list.get(0);
 		end=clock();
-		search=end-start;
+		search+=end-start;}
 		input << search <<" ms"<< endl;
+		input << "Number: "<< i <<endl;
 		
+		search=0;
+		i=0;
+		create_empty(my_list);
+		my_list.append({1,1,1});
 		input << "Show list(*1): ";
+		while(search<10000){
+		i+=1000;
 		start=clock();
+		for (k=0;k<1000;k++)
 		show(my_list);
 		end=clock();
-		search=end-start;
+		search+=end-start;}
 		input << search <<" ms"<<endl;
+		input << "Number: "<< i <<endl;
 		
 		input.close();
 		 }
@@ -598,7 +668,7 @@ int main(){
 	//20.02.21 14:12
 	
 	//22.02.21 13:22
-	//
+	//22.02.21 21:18
 	
 	return 0;
 }
