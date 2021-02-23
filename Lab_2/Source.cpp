@@ -2,7 +2,6 @@
 #include <ctime>
 #include <fstream>
 #include <string>
-#include <vector>
 #include <cstdlib>
 #include <cmath>
 #include <cstring>
@@ -10,13 +9,13 @@
 const float P = 0.5;
 using namespace std;
 /*
-*Skip node
-*/
-/*struct snode
+ * Skip Node 
+ */
+struct snode
 {
     int value;
     snode **forw;
-    snode(int level, int value)
+    snode(int level, int &value)
     {
         forw = new snode * [level + 1];
         memset(forw, 0, sizeof(snode*) * (level + 1));
@@ -27,6 +26,9 @@ using namespace std;
         delete [] forw;        
     } 
 };
+/*
+ * Skip List 
+ */
 struct skiplist
 {
     snode *header;
@@ -42,11 +44,20 @@ struct skiplist
         delete header;
     }
     void display();
-    bool contains(int );
-    void insert_element(int );
-    void delete_element(int );        
+    bool contains(int &);
+    void insert_element(int &);
+    void delete_element(int &);        
 };
-
+/*
+ * Random Value Generator
+ */
+float frand() 
+{
+    return (float) rand() / RAND_MAX;
+}
+/*
+ * Random Level Generator
+ */
 int random_level() 
 {
     static bool first = true;
@@ -55,11 +66,14 @@ int random_level()
         srand((unsigned)time(NULL));
         first = false;
     }
-    int lvl = (int)(log(rand()) / log(1.-P));
+    int lvl = (int)(log(frand()) / log(1.-P));
     return lvl < MAX_LEVEL ? lvl : MAX_LEVEL;
 }
-
-void skiplist::insert_element(int value) 
+ 
+/*
+ * Insert Element in Skip List
+ */
+void skiplist::insert_element(int &value) 
 {
     snode *x = header;	
     snode *update[MAX_LEVEL + 1];
@@ -92,8 +106,25 @@ void skiplist::insert_element(int value)
         }
     }
 }
-
-bool skiplist::contains(int s_value) 
+/*
+ * Display Elements of Skip List
+ */
+void skiplist::display() 
+{
+    const snode *x = header->forw[0];
+    while (x != NULL) 
+    {
+        cout << x->value;
+        x = x->forw[0];
+        if (x != NULL)
+            cout << " - ";
+    }
+    cout <<endl;
+}
+/*
+ * Search Elements in Skip List
+ */
+bool skiplist::contains(int &s_value) 
 {
     snode *x = header;
     for (int i = level;i >= 0;i--) 
@@ -107,18 +138,6 @@ bool skiplist::contains(int s_value)
     return x != NULL && x->value == s_value;
 }
 
-void skiplist::display() 
-{
-    const snode *x = header->forw[0];
-    while (x != NULL) 
-    {
-        cout << x->value;
-        x = x->forw[0];
-        if (x != NULL)
-            cout << " - ";
-    }
-    cout <<endl;
-}*/
 /*
 * circle 2a
 */
@@ -127,6 +146,9 @@ struct circle{
 	double y;
 	double r;
 };
+/*
+* List Node for circle
+*/
 struct ListNode {
 	circle data;
 	ListNode* prev;
@@ -137,6 +159,9 @@ struct ListNode {
 		this->next = next;
 	}
 };
+/*
+* list 
+*/
 struct list {
 	ListNode* begin;
 	ListNode* end;
@@ -147,6 +172,9 @@ struct list {
 		end = NULL;
 		size = 0;
 	}
+	/*
+	* Search in list
+	*/
 ListNode* search(circle x) {
 		ListNode* current = begin;
 		while (current) {
@@ -158,6 +186,9 @@ ListNode* search(circle x) {
 		delete[] current;
 		return NULL;
 	}
+	/*
+	*Rotate list
+	*/
 ListNode* rotate(list &my_list,int heat, int new_heat, int tail) { //for interactive and demo
 	if (heat<0 || tail>my_list.size-1 || new_heat>tail || new_heat<heat){
 		cout << "Error rotate! False index."<<endl;
@@ -236,7 +267,9 @@ ListNode* rotate(list &my_list,int heat, int new_heat, int tail) { //for interac
 	delete[] cir;
 		return NULL;
 }
-	
+/*
+* Get by index
+*/	
 ListNode* get(int data_to_search) {
 		if (data_to_search<0){
 		data_to_search+=this->size;
@@ -256,7 +289,9 @@ ListNode* get(int data_to_search) {
 		}
 		return NULL;
 	}
-	
+/*
+*Append in end of the list
+*/	
 ListNode* append(circle data) {
 		ListNode* new_item = new ListNode(data,this->end);
 		if (end) { // list is not empty
@@ -269,7 +304,9 @@ ListNode* append(circle data) {
 		delete[] new_item;
 		return new_item;
 	}
-	
+/*
+*Remove from list
+*/	
 bool remove(int index_to_remove) {
 	if (index_to_remove < 0){
 		index_to_remove+=size;
@@ -303,7 +340,9 @@ bool remove(int index_to_remove) {
 		delete[] current;
 		return false;
 	} 
-	
+/*
+*Remove if value == value in list
+*/	
 void remove_if(list &my_list, circle x){ //for interactive and demo
 	ListNode* current=my_list.search(x); //add new func search by value
 	current = remove_node(current);	
@@ -326,7 +365,9 @@ private:
 		return current;
 	}
 };
-
+/*
+* Show list of circles
+*/
 void show(list &my_list ) {
 	cout <<"-----------"<< endl;
 	cout << "List: " << endl;
@@ -341,7 +382,9 @@ void show(list &my_list ) {
 	void length(list &my_list)	{
 	cout <<"Length: "<< my_list.size << endl;	
 	}
-	
+/*
+*Insert element in list
+*/	
 bool insert(list &my_list, circle x, int pos)
 {   
    if(pos < 0 || pos > my_list.size -1)
@@ -378,7 +421,9 @@ bool insert(list &my_list, circle x, int pos)
    delete[] PrevIns,temp,Ins;
    return true;}
 }
-
+/*
+*Create empty list
+*/
 void create_empty(list &my_list)
 	{
 		my_list.begin = NULL;
@@ -388,27 +433,22 @@ void create_empty(list &my_list)
 	
 int main(){
 	list my_list;
-	int mode=1,interactive=1;
-	/*skiplist ss;
-	int n;
-	ss.insert_element(n);
-	n*=2;
-	ss.insert_element(n);
-	n=n*6;
-	if(ss.contains(n))
-                 cout<<"Element "<<n<<" is in the list"<<endl;
-             else
-                 cout<<"Element not found"<<endl;
-      n=n/6;          
-    if(ss.contains(n))
-                 cout<<"Element "<<n<<" is in the list"<<endl;
-             else
-                 cout<<"Element not found"<<endl;
-	cout<<"The List is: ";
-             ss.display();	*/
-             
+	int global_mode=1;
+	/*
+	* Select the list of circles or skip list
+	*/
+	cout << "Select the list: 1 - Circles, 2 - Skip List"<< endl;
+	cin >> global_mode;
+	/*
+	* In list of crc select mode
+	*/
+	if (global_mode==1){
 	cout << "Select the operating mode: 1 - Demo mode, 2 - Interactive mode, 3 - Benchmark "<<endl;
+	int mode=1;
 	cin >> mode;
+	/*
+	* Demo mode for list of crc 
+	*/
 	if (mode==1){
 		cout << "Enter 1 - Create empty list, 2 - Add item to end, 3 - Insert item, "<<
 		"4 - Remove by index, 5 - Show length of list, 6 - Show list, 7 - Remove by value, 8 - Get by index, 9 - Rotate, 10 - EXIT"<< endl;
@@ -460,9 +500,13 @@ int main(){
 		show(my_list);
 		
 		} else
+	/*
+	* Interactive mode for list of crc 
+	*/
 	if (mode==2) {
 		cout << "Enter 1 - Create empty list, 2 - Add item to end, 3 - Insert item, "<<
 		"4 - Remove by index, 5 - Show length of list, 6 - Show list, 7 - Remove by value, 8 - Get by index, 9 - Rotate, 10 - EXIT"<< endl;
+		int interactive=1;
 		while (interactive!=10){
 			cin >> interactive;
 			if (interactive==1){
@@ -512,6 +556,9 @@ int main(){
 			}
 		}
 	} else
+	/*
+	* Benchmark mode for list of crc 
+	*/
 	 if (mode==3) {
 	 	ofstream input("result.txt");
 	 	int k=0;
@@ -647,8 +694,106 @@ int main(){
 		
 		input.close();
 		 }
+	return 0;
+	}
+	/*
+	*Select Skip List
+	*/
+	else if (global_mode==2){
+	skiplist ss;
+    int choice, n;
+    int mode=1;
+    cout << "Select mode: 1 - Interactive, 2 - Demo"<<endl;
+    cin >> mode;
+    if (mode==1){
+    	/*
+    	* Interactive mode for skip list
+    	*/
+        cout<<"Secelt operation: 1 - Add Element, 2 -Search Element, 3 - Display List, 4 - EXIT "<<endl;
+        while(1){
+    	cin>>choice;
+        switch(choice)
+        {
+        case 1:
+             cout<<"Enter the element to be inserted: ";
+             cin>>n;
+             ss.insert_element(n);
+             if(ss.contains(n))
+                 cout<<"Element Inserted"<<endl;
+             break;
+        case 2:
+             cout<<"Enter the element to be searched: ";
+             cin>>n; 
+             if(ss.contains(n))
+                 cout<<"Element "<< n <<" is in the list"<<endl;
+             else
+                 cout<<"Element not found"<<endl;
+             break;
+        case 3:
+             cout<<"The List is: ";
+             ss.display();
+             break;
+        case 4:
+             exit(0);
+             break;
+        default:
+             cerr<<"Wrong Choice!"<<endl;
+             return 0;
+        }
+    }
+        return 0;
+	}else if (mode==2){
+		/*
+    	* Interactive mode for skip list
+    	*/
+    	int n=0;
+    	cout<<"Secelt operation: 1 - Add Element, 2 -Search Element, 3 - Display List, 4 - EXIT "<<endl;
+             
+             cout << 1 << endl;
+			 cout<<"Enter the element to be inserted: 12";
+             n=12;
+             ss.insert_element(n);
+             if(ss.contains(n))
+                 cout<<"Element Inserted"<<endl;
+              
+			 cout << 2 <<endl; 
+             cout<<"Enter the element to be searched: 13"<<endl;
+             n=13; 
+             if(ss.contains(n))
+                 cout<<"Element "<< n <<" is in the list"<<endl;
+             else
+                 cout<<"Element not found"<<endl;
+                
+			cout << 2 <<endl; 
+            cout<<"Enter the element to be searched: 12";
+                 
+             n=12; 
+             if(ss.contains(n))
+                 cout<<"Element "<< n <<" is in the list"<<endl;
+             else
+                 cout<<"Element not found"<<endl;
+           	 cout << 3 <<endl; 
+             cout<<"The List is: ";
+             ss.display();
+             cout << 4 <<endl;
+    	
+    	return 0;
+	} else
+		/*
+    	* If not correct mode of skip list
+    	*/
+	cerr << "Error mode!"<<endl;
+	return 0;
 	
+	}
+		/*
+    	* If not correct mode of kind of list
+    	*/
+	 else
+	cerr <<"Error choose!"<<endl;
+
 	//I note just for fun :)
+	
 	//17.02.21 15:37
 	//18.02.21 00:33
 	
@@ -669,6 +814,9 @@ int main(){
 	
 	//22.02.21 13:22
 	//22.02.21 21:18
+	
+	//23.02.21 15:12
+	//23.02.21 23:23
 	
 	return 0;
 }
