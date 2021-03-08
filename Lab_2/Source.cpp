@@ -427,6 +427,7 @@ bool insert(list &my_list, circle x, int pos)
 void create_empty(list &my_list)
 	{
 		my_list.begin = NULL;
+		my_list.end = NULL;
 		my_list.size=0;
 	}
 	
