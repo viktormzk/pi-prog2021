@@ -301,8 +301,8 @@ ListNode* append(circle data) {
 		}
 		this->end = new_item;
 		this->size++;
-		delete[] new_item;
 		return new_item;
+		delete[] new_item;
 	}
 /*
 *Remove from list
@@ -427,7 +427,6 @@ bool insert(list &my_list, circle x, int pos)
 void create_empty(list &my_list)
 	{
 		my_list.begin = NULL;
-		my_list.end = NULL;
 		my_list.size=0;
 	}
 	
@@ -452,7 +451,7 @@ int main(){
 	if (mode==1){
 		cout << "Enter 1 - Create empty list, 2 - Add item to end, 3 - Insert item, "<<
 		"4 - Remove by index, 5 - Show length of list, 6 - Show list, 7 - Remove by value, 8 - Get by index, 9 - Rotate, 10 - EXIT"<< endl;
-		int number=-1;
+		int number=2;
 		cout << "1" << endl;
 		cout << "6" << endl;
 		create_empty(my_list);
@@ -464,24 +463,21 @@ int main(){
 		my_list.append({1,1,1});
 		my_list.append({2.23,4.12,2.111});
 		show(my_list);
-		cout << "1" << endl;
 		cout << "2 \n1 1 1 \n2\n2 4 2 \n2\n12 11 31 \n2\n232 412 212 \n3 \n1 5 7 1" << endl;
 		cout << "6" << endl;
-		create_empty(my_list);
-		my_list.append({1,1,1});
 		my_list.append({2,4,2}); 
 		my_list.append({12,11,31});
 		my_list.append({232,412,212});
-		insert(my_list,{1,5,7}, 1);
+		insert(my_list,{1,5,7}, 2);
 		show(my_list);
 		
 		cout << "5 "<<endl;
 		length(my_list);
 		cout << endl;
 		
-		cout << "4 \n" <<number<< endl;
+		cout << "4 \n" <<-1<< endl;
 		cout << "6" << endl;
-		my_list.remove(number);
+		my_list.remove(-1);
 		show(my_list);
 		
 		cout << "7 \n1 1 1" << endl;
@@ -765,7 +761,7 @@ int main(){
                  cout<<"Element not found"<<endl;
                 
 			cout << 2 <<endl; 
-            cout<<"Enter the element to be searched: 12";
+            cout<<"Enter the element to be searched: 12"<<endl;
                  
              n=12; 
              if(ss.contains(n))
