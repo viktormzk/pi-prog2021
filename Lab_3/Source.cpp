@@ -1,0 +1,42 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+struct data {
+	float x;
+	float y;
+	float z;
+};
+
+void bubble_sort(data *arr,size_t size) {
+	int i,j;
+	float length[size+2];
+	for (i=0; i<size-1; i++) {
+		length[i]=sqrt(arr[i].x*arr[i].x+arr[i].y*arr[i].y+arr[i].z*arr[i].z);
+		for (j=i+1; j<size; j++) {
+			length[j]=sqrt(arr[j].x*arr[j].x+arr[j].y*arr[j].y+arr[j].z*arr[j].z);
+			if (length[j]<length[i]) {
+				data temp=arr[i];
+				arr[i]=arr[j];
+				arr[j]=temp;
+			}
+		}
+	}
+		delete length;
+}
+
+void print(data *arr,size_t size) {
+	for (int i=0; i<size; i++) {
+		cout << arr[i].x << " "<<arr[i].y << " "<<arr[i].z << endl;
+	}
+}
+
+int main() {
+	data my_array[5]= {{1,2,3},{12,12,23},{12,65,23},{23,65,32},{12,23,4}};
+	bubble_sort(my_array, 5);
+	print(my_array, 5);
+
+
+	return 0;
+}
+
+
