@@ -1,5 +1,8 @@
 #include <iostream>
 #include <cmath>
+#include<bits/stdc++.h>
+#include <map>
+#define N 10
 using namespace std;
 struct data {
 	float x;
@@ -59,7 +62,81 @@ void quickSort(data *arr, int low, int high)
         quickSort(arr, low, pi - 1); 
         quickSort(arr, pi + 1, high); 
     } 
-} 
+}
+/*
+Merge Sort
+*/
+int min(int x, int y) {
+    return (x < y) ? x : y;
+}
+ 
+// Merge two sorted subarrays `A[from…mid]` and `A[mid+1…to]`
+void merge(data *arr1, data* temp, int from, int mid, int to)
+{
+		double length[N];
+ 	for(int i=from; i<=to;i++)
+ 		length[i]=sqrt(arr1[i].x*arr1[i].x+arr1[i].y*arr1[i].y+arr1[i].z*arr1[i].z);
+	 
+	 
+    int k = from, i = from, j = mid + 1;
+ 	
+    // loop till no elements are left in the left and right runs
+    while (i <= mid && j <= to)
+    {
+        if (length[i] < length[j]) {
+            temp[k].x = arr1[i].x;
+            temp[k].y = arr1[i].y;
+            temp[k].z = arr1[i].z;
+            k++;
+            i++;
+        }
+        else {
+            temp[k].x = arr1[j].x;
+            temp[k].y = arr1[j].y;
+            temp[k].z = arr1[j].z;
+            k++;
+            j++;
+        }
+    }
+    // copy remaining elements
+    while (i < N && i <= mid) {
+        temp[k].x = arr1[i].x;
+        temp[k].y = arr1[i].y;
+        temp[k].z = arr1[i].z;
+        k++;
+        i++;
+    }
+    for (int i = from; i <= to; i++) {
+        arr1[i].x = temp[i].x;
+        arr1[i].y = temp[i].y;
+        arr1[i].z = temp[i].z;
+        
+    }
+}
+ 
+// Iteratively sort subarray `A[low…high]` using a temporary array
+void mergesort(data *A, data * temp, int low, int high)
+{
+    // divide the array into blocks of size `m`
+    // m = [1, 2, 4, 8, 16…]
+    for (int m = 1; m <= high - low; m = 2*m)
+    {
+        for (int i = low; i < high; i += 2*m)
+        {
+            int from = i;
+            int mid = i + m - 1;
+            int to = min(i + 2*m - 1, high);
+ 
+            merge(A, temp, from, mid, to);
+        }
+    }
+}
+/*
+Auto Merge Sort
+*/
+
+
+
 /*
 Print
 */
@@ -74,10 +151,29 @@ int main() {
 	bubble_sort(my_array, 5);
 	print(my_array, 5);
 	cout << endl;
+	
 	data arr[5]= {{1,2,3},{12,12,23},{12,65,23},{23,65,32},{12,23,4}};
 	quickSort(arr, 0, 4);
 	print(arr, 5);
-
+	cout << endl;
+	
+	data A[N], temp[N];
+    // generate random input of integers
+    for (int i = 0; i < N; i++) {
+        temp[i].x = A[i].x = (rand() % 50);
+        temp[i].y = A[i].y = (rand() % 50);
+        temp[i].z = A[i].z = (rand() % 50);
+    }
+ 
+    cout << "Original array: " << endl;
+    print(A,N);
+    cout << endl;
+ 
+    // sort array `A[0…N-1]` using a temporary array temp
+    mergesort(A, temp, 0, N-1);
+ 
+    print(A,N);
+	
 	return 0;
 }
 
