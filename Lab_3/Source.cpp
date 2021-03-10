@@ -1,24 +1,27 @@
 #include <iostream>
+#include <algorithm>
 #include <cmath>
 #include<bits/stdc++.h>
 #include <map>
+#include <ctime>
 using namespace std;
 struct data {
 	float x;
 	float y;
 	float z;
+	//for sort;
+	float length = 0 ;
 };
 /*
 Bubble sort
 */
 void bubble_sort(data *arr,size_t size) {
 	int i,j;
-	float length[size+2];
 	for (i=0; i<size-1; i++) {
-		length[i]=sqrt(arr[i].x*arr[i].x+arr[i].y*arr[i].y+arr[i].z*arr[i].z);
+		arr[i].length=sqrt(arr[i].x*arr[i].x+arr[i].y*arr[i].y+arr[i].z*arr[i].z);
 		for (j=i+1; j<size; j++) {
-			length[j]=sqrt(arr[j].x*arr[j].x+arr[j].y*arr[j].y+arr[j].z*arr[j].z);
-			if (length[j]<length[i]) {
+			arr[j].length=sqrt(arr[j].x*arr[j].x+arr[j].y*arr[j].y+arr[j].z*arr[j].z);
+			if (arr[i].length>arr[j].length) {
 				data temp=arr[i];
 				arr[i]=arr[j];
 				arr[j]=temp;
@@ -48,7 +51,7 @@ int partition(data* arr, int low, int high)
     swap(arr[i + 1], arr[high]); 
     return (i + 1); 
 } 
-void quickSort(data *arr, int low, int high) 
+void quick_sort(data *arr, int low, int high) 
 { 
     if (low < high) 
     { 
@@ -58,8 +61,8 @@ void quickSort(data *arr, int low, int high)
   
         // Separately sort elements before 
         // partition and after partition 
-        quickSort(arr, low, pi - 1); 
-        quickSort(arr, pi + 1, high); 
+        quick_sort(arr, low, pi - 1); 
+        quick_sort(arr, pi + 1, high); 
     } 
 }
 /*
@@ -114,7 +117,7 @@ void merge(data *arr1, data* temp, int from, int mid, int to,int N)
 }
  
 // Iteratively sort subarray `A[low…high]` using a temporary array
-void mergesort(data *A, data * temp, int low, int high,int N)
+void merge_sort(data *A, data * temp, int low, int high,int N)
 {
     // divide the array into blocks of size `m`
     // m = [1, 2, 4, 8, 16…]
@@ -131,9 +134,8 @@ void mergesort(data *A, data * temp, int low, int high,int N)
     }
 }
 /*
-Auto Merge Sort
+Auto Sort
 */
-
 
 
 /*
@@ -143,7 +145,11 @@ void print(data *arr,size_t size) {
 	for (int i=0; i<size; i++) {
 		cout << arr[i].x << " "<<arr[i].y << " "<<arr[i].z << endl;
 	}
+	cout << endl;
 }
+/*
+Generation and copy
+*/
 void generation(data* A, int n){
 	 for (int i = 0; i < n; i++) {
         A [i].x = (rand() % 100);
@@ -151,6 +157,13 @@ void generation(data* A, int n){
         A [i].z = (rand() % 100);
     }
 } 
+void generation_one(data *A, int n){
+	for (int i = 0; i < n; i++) {
+        A [i].x = 1;
+        A [i].y = 1;
+        A [i].z = 1;
+    }
+}
 void generation_plus_copy(data* A, data* temp, int n){
 	 for (int i = 0; i < n; i++) {
         temp[i].x = A[i].x = (rand() % 50);
@@ -158,31 +171,82 @@ void generation_plus_copy(data* A, data* temp, int n){
         temp[i].z = A[i].z = (rand() % 50);
     }
 }
+void generation_plus_copy_one(data* A, data* temp, int n){
+	 for (int i = 0; i < n; i++) {
+        temp[i].x = A[i].x = 1;
+        temp[i].y = A[i].y = 1;
+        temp[i].z = A[i].z = 1;
+    }
+}
+data* copy_array_loop(data* arr, int size) {
+	data* result = new data[size];
+	for(std::size_t i = 0; i< size; i++) {
+		result[i].x = arr[i].x;
+		result[i].y = arr[i].y;
+		result[i].z = arr[i].z;
+	}
+	return result;
+	delete[] result;
+}
+/*
+Demonstration mode
+*/
+void demo_mode(){
+	int size_of_array;
+	cout << "Enter the size of the array: "<<endl;
+	cin >> size_of_array;
+	data* A=new data[size_of_array], *temp=new data[size_of_array];
+	//generation_plus_copy_one(A,temp,size_of_array);
+	generation_plus_copy(A,temp,size_of_array);
+	unsigned int start=0, end=0, dif=0;
+	data* A1=new data[size_of_array];
+	A1=copy_array_loop(A,size_of_array);
+	data* A2=new data[size_of_array];
+	A2=copy_array_loop(A,size_of_array);
+	
+	cout << "Bubble sort: ";
+	start=clock();
+	bubble_sort(A,size_of_array);
+	end=clock();
+	//print(A, size_of_array);
+	cout << end-start << " ms"<<endl;
+	
+	cout << "Quick sort: ";
+	start=clock();
+	quick_sort(A1,0,size_of_array-1);
+	end=clock();
+	//print(A1, size_of_array);
+	cout << end-start << " ms"<<endl;
+	
+	cout << "Merge sort: " ;
+	start=clock();
+	merge_sort(A2, temp, 0, size_of_array-1, size_of_array);
+	end=clock();
+	//print(A2, size_of_array);
+	cout << end-start << " ms"<<endl;
+	
+	delete[] A1,A2,A,temp;
+	
+}
 
 int main() {
-	data my_array[5]= {{1,2,3},{12,12,23},{12,65,23},{23,65,32},{12,23,4}};
-	bubble_sort(my_array, 5);
-	print(my_array, 5);
-	cout << endl;
-	
-	data arr[5]= {{1,2,3},{12,12,23},{12,65,23},{23,65,32},{12,23,4}};
-	quickSort(arr, 0, 4);
-	print(arr, 5);
-	cout << endl;
-	
-	int numb_of_merge=10;
-	data A[numb_of_merge], temp[numb_of_merge];
-    // generate random input of integers
-    generation_plus_copy(A,temp,numb_of_merge);
- 
-    cout << "Original array: " << endl;
-    print(A,numb_of_merge);
-    cout << endl;
- 
-    // sort array `A[0…N-1]` using a temporary array temp
-    mergesort(A, temp, 0, numb_of_merge-1, numb_of_merge);
- 
-    print(A,numb_of_merge);
+	int global_mode=0;
+	cout << "Select the operating mode: 1 Demonstration mode, 2 Benchmark mode, 9 EXIT: "<<endl;
+	cin >> global_mode;
+	switch (global_mode)
+	{
+	case 1:
+		demo_mode();
+		break;
+	case 2:
+	//	benchmark_mode()
+		break;
+	case 9:
+		return 0;
+	default:
+		cerr << "Error data!"<<endl;
+		break;
+	}
 	
 	return 0;
 }
