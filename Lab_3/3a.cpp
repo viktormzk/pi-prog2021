@@ -191,7 +191,7 @@ data* copy_array_loop(data* arr, int size) {
 /*
 Demonstration mode
 */
-void demo_mode(){
+void benchmark_mode(){
 	int size_of_array;
 	cout << "Enter the size of the array: "<<endl;
 	cin >> size_of_array;
@@ -236,10 +236,10 @@ int main() {
 	switch (global_mode)
 	{
 	case 1:
-		demo_mode();
+	//	demo_mode();
 		break;
 	case 2:
-	//	benchmark_mode()
+		benchmark_mode()
 		break;
 	case 9:
 		return 0;
