@@ -2,7 +2,6 @@
 #include <cmath>
 #include<bits/stdc++.h>
 #include <map>
-#define N 10
 using namespace std;
 struct data {
 	float x;
@@ -71,7 +70,7 @@ int min(int x, int y) {
 }
  
 // Merge two sorted subarrays `A[from…mid]` and `A[mid+1…to]`
-void merge(data *arr1, data* temp, int from, int mid, int to)
+void merge(data *arr1, data* temp, int from, int mid, int to,int N)
 {
 		double length[N];
  	for(int i=from; i<=to;i++)
@@ -115,7 +114,7 @@ void merge(data *arr1, data* temp, int from, int mid, int to)
 }
  
 // Iteratively sort subarray `A[low…high]` using a temporary array
-void mergesort(data *A, data * temp, int low, int high)
+void mergesort(data *A, data * temp, int low, int high,int N)
 {
     // divide the array into blocks of size `m`
     // m = [1, 2, 4, 8, 16…]
@@ -127,7 +126,7 @@ void mergesort(data *A, data * temp, int low, int high)
             int mid = i + m - 1;
             int to = min(i + 2*m - 1, high);
  
-            merge(A, temp, from, mid, to);
+            merge(A, temp, from, mid, to, N);
         }
     }
 }
@@ -145,6 +144,20 @@ void print(data *arr,size_t size) {
 		cout << arr[i].x << " "<<arr[i].y << " "<<arr[i].z << endl;
 	}
 }
+void generation(data* A, int n){
+	 for (int i = 0; i < n; i++) {
+        A [i].x = (rand() % 100);
+        A [i].y = (rand() % 100);
+        A [i].z = (rand() % 100);
+    }
+} 
+void generation_plus_copy(data* A, data* temp, int n){
+	 for (int i = 0; i < n; i++) {
+        temp[i].x = A[i].x = (rand() % 50);
+        temp[i].y = A[i].y = (rand() % 50);
+        temp[i].z = A[i].z = (rand() % 50);
+    }
+}
 
 int main() {
 	data my_array[5]= {{1,2,3},{12,12,23},{12,65,23},{23,65,32},{12,23,4}};
@@ -157,22 +170,19 @@ int main() {
 	print(arr, 5);
 	cout << endl;
 	
-	data A[N], temp[N];
+	int numb_of_merge=10;
+	data A[numb_of_merge], temp[numb_of_merge];
     // generate random input of integers
-    for (int i = 0; i < N; i++) {
-        temp[i].x = A[i].x = (rand() % 50);
-        temp[i].y = A[i].y = (rand() % 50);
-        temp[i].z = A[i].z = (rand() % 50);
-    }
+    generation_plus_copy(A,temp,numb_of_merge);
  
     cout << "Original array: " << endl;
-    print(A,N);
+    print(A,numb_of_merge);
     cout << endl;
  
     // sort array `A[0…N-1]` using a temporary array temp
-    mergesort(A, temp, 0, N-1);
+    mergesort(A, temp, 0, numb_of_merge-1, numb_of_merge);
  
-    print(A,N);
+    print(A,numb_of_merge);
 	
 	return 0;
 }
