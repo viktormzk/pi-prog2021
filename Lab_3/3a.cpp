@@ -13,18 +13,14 @@ struct data {
 	float length = 0 ;
 };
 /*
-Bubble sort
+Selection sort
 */
-void bubble_sort(data *arr,size_t size) {
+void sel_sort(data arr[],size_t low, size_t size) {
 	int i,j;
-	for (i=0; i<size-1; i++) {
-		arr[i].length=sqrt(arr[i].x*arr[i].x+arr[i].y*arr[i].y+arr[i].z*arr[i].z);
+	for (i=low; i<size-1; i++) {
 		for (j=i+1; j<size; j++) {
-			arr[j].length=sqrt(arr[j].x*arr[j].x+arr[j].y*arr[j].y+arr[j].z*arr[j].z);
 			if (arr[i].length>arr[j].length) {
-				data temp=arr[i];
-				arr[i]=arr[j];
-				arr[j]=temp;
+				swap(arr[i],arr[j]);
 			}
 		}
 	}
@@ -32,31 +28,31 @@ void bubble_sort(data *arr,size_t size) {
 /*
 Quick sort
 */
-int partition(data* arr, int low, int high) 
+
+int partition(data *arr, int low, int high) 
 { 
-    float pivot = sqrt(arr[high].x*arr[high].x+arr[high].y*arr[high].y+arr[high].z*arr[high].z);    // pivot 
+    float pivot = arr[high].length;   
     int i = (low - 1);  // Index of smaller element 
   
     for (int j = low; j <= high- 1; j++) 
     { 
         // If current element is smaller than or 
         // equal to pivot 
-        float length=sqrt(arr[j].x*arr[j].x+arr[j].y*arr[j].y+arr[j].z*arr[j].z);
-        if (length <= pivot) 
+        if (arr[j].length <= pivot) 
         { 
-            i++;    // increment index of smaller element 
+            i++;    
             swap(arr[i], arr[j]); 
         } 
     } 
     swap(arr[i + 1], arr[high]); 
     return (i + 1); 
 } 
-void quick_sort(data *arr, int low, int high) 
+
+void quick_sort(data* arr, int low, int high) 
 { 
     if (low < high) 
     { 
-        /* pi is partitioning index, arr[p] is now 
-           at right place */
+        
         int pi = partition(arr, low, high); 
   
         // Separately sort elements before 
@@ -65,6 +61,7 @@ void quick_sort(data *arr, int low, int high)
         quick_sort(arr, pi + 1, high); 
     } 
 }
+
 /*
 Merge Sort
 */
@@ -73,46 +70,33 @@ int min(int x, int y) {
 }
  
 // Merge two sorted subarrays `A[from…mid]` and `A[mid+1…to]`
-void merge(data *arr1, data* temp, int from, int mid, int to,int N)
+void merge(data* arr1, data* temp, int from, int mid, int to,int N)
 {
-		double length[N];
- 	for(int i=from; i<=to;i++)
- 		length[i]=sqrt(arr1[i].x*arr1[i].x+arr1[i].y*arr1[i].y+arr1[i].z*arr1[i].z);
-	 
-	 
     int k = from, i = from, j = mid + 1;
  	
     // loop till no elements are left in the left and right runs
     while (i <= mid && j <= to)
     {
-        if (length[i] < length[j]) {
-            temp[k].x = arr1[i].x;
-            temp[k].y = arr1[i].y;
-            temp[k].z = arr1[i].z;
+        if (arr1[i].length < arr1[j].length) {
+            swap(temp[k],arr1[i]);
             k++;
             i++;
         }
         else {
-            temp[k].x = arr1[j].x;
-            temp[k].y = arr1[j].y;
-            temp[k].z = arr1[j].z;
+            swap(temp[k],arr1[j]);;
             k++;
             j++;
         }
     }
     // copy remaining elements
     while (i < N && i <= mid) {
-        temp[k].x = arr1[i].x;
-        temp[k].y = arr1[i].y;
-        temp[k].z = arr1[i].z;
+       swap(temp[k], arr1[i]);
         k++;
         i++;
     }
     for (int i = from; i <= to; i++) {
-        arr1[i].x = temp[i].x;
-        arr1[i].y = temp[i].y;
-        arr1[i].z = temp[i].z;
-        
+        swap(temp[i],arr1[i]);
+              
     }
 }
  
@@ -134,16 +118,84 @@ void merge_sort(data *A, data * temp, int low, int high,int N)
     }
 }
 /*
-Auto Sort
+Combined sort
 */
+void combo_sort(data* arr,int low, int high){ 
+  while (low < high)  
+    {   
+  //size 200 for simple sort, combo sort == hybrid quick sort
+    if (high-low + 1 < 200) 
+      { 
+        //sel_sort(arr, high); 
+        sel_sort(arr, low, high);//- more slow
+      break; 
+    } 
+  
+    else 
+        
+        { 
+          int pivot = partition(arr, low, high) ; 
 
+      if (pivot-low<high-pivot) 
+        { 
+          combo_sort(arr, low, pivot - 1);  
+        low = pivot + 1; 
+      } 
+      else
+        { 
+        combo_sort(arr, pivot + 1, high); 
+        high = pivot-1; 
+        } 
+  
+     } 
+  
+   } 
+} 
+/*
+3c Heap Sort
+*/
+// function to heapify the tree
+void heapify(data arr[], int n, int root)
+{
+   int largest = root; // root is the largest element
+   int l = 2*root + 1; // left = 2*root + 1
+   int r = 2*root + 2; // right = 2*root + 2
 
+   if (l < n && arr[l].length > arr[largest].length)
+   largest = l;
+  
+   if (r < n && arr[r].length > arr[largest].length)
+   largest = r;
+  
+   // If largest is not root
+   if (largest != root)
+      {
+      swap(arr[root], arr[largest]);
+      heapify(arr, n, largest);
+      }
+}
+  
+// implementing heap sort
+void heap_sort(data arr[], int n)
+{ 
+
+   // build heap
+   for (int i = n / 2 - 1; i >= 0; i--){
+      heapify(arr, n, i);
+  }
+  
+   for (int i=n-1; i>=0; i--)
+   {
+      swap(arr[0], arr[i]);
+      heapify(arr, i, 0);
+   }
+}
 /*
 Print
 */
 void print(data *arr,size_t size) {
 	for (int i=0; i<size; i++) {
-		cout << arr[i].x << " "<<arr[i].y << " "<<arr[i].z << endl;
+		cout << arr[i].x << " "<<arr[i].y << " "<<arr[i].z /*<<" "<<arr[i].length*/<<endl;
 	}
 	cout << endl;
 }
@@ -155,13 +207,15 @@ void generation(data* A, int n){
         A [i].x = (rand() % 100);
         A [i].y = (rand() % 100);
         A [i].z = (rand() % 100);
+        A [i].length=sqrt(A[i].x*A[i].x+A[i].y*A[i].y+A[i].z*A[i].z);
     }
 } 
 void generation_one(data *A, int n){
 	for (int i = 0; i < n; i++) {
-        A [i].x = 1;
-        A [i].y = 1;
-        A [i].z = 1;
+        A [i].x = 0;
+        A [i].y = 0;
+        A [i].z = 0;
+    	A [i].length=0;
     }
 }
 void generation_plus_copy(data* A, data* temp, int n){
@@ -169,13 +223,7 @@ void generation_plus_copy(data* A, data* temp, int n){
         temp[i].x = A[i].x = (rand() % 50);
         temp[i].y = A[i].y = (rand() % 50);
         temp[i].z = A[i].z = (rand() % 50);
-    }
-}
-void generation_plus_copy_one(data* A, data* temp, int n){
-	 for (int i = 0; i < n; i++) {
-        temp[i].x = A[i].x = 1;
-        temp[i].y = A[i].y = 1;
-        temp[i].z = A[i].z = 1;
+        temp[i].length = A [i].length = sqrt(A[i].x*A[i].x+A[i].y*A[i].y+A[i].z*A[i].z);
     }
 }
 data* copy_array_loop(data* arr, int size) {
@@ -184,52 +232,79 @@ data* copy_array_loop(data* arr, int size) {
 		result[i].x = arr[i].x;
 		result[i].y = arr[i].y;
 		result[i].z = arr[i].z;
+		result[i].length = arr[i].length;
 	}
 	return result;
 	delete[] result;
 }
 /*
-Demonstration mode
+Benchmark mode
 */
 void benchmark_mode(){
 	int size_of_array;
 	cout << "Enter the size of the array: "<<endl;
 	cin >> size_of_array;
-	data* A=new data[size_of_array], *temp=new data[size_of_array];
-	//generation_plus_copy_one(A,temp,size_of_array);
-	generation_plus_copy(A,temp,size_of_array);
-	unsigned int start=0, end=0, dif=0;
-	data* A1=new data[size_of_array];
-	A1=copy_array_loop(A,size_of_array);
-	data* A2=new data[size_of_array];
-	A2=copy_array_loop(A,size_of_array);
+	data* A=new data[size_of_array+1];
+	//generation_plus_copy_one(A,temp,size_of_array+1);
+	//generation_one(A,size_of_array);
+	generation(A,size_of_array);
+	unsigned int start=0, end=0;
+	data* A1=new data[size_of_array+1];
+	A1=copy_array_loop(A,size_of_array+1);
+	data* A2=new data[size_of_array+1];
+	A2=copy_array_loop(A,size_of_array+1);
+	data* A3=new data[size_of_array+1];
+	A3=copy_array_loop(A,size_of_array+1);
+	data* A4=new data[size_of_array+1];
+	A4=copy_array_loop(A,size_of_array+1);
+	data* temp=new data[size_of_array+1];
+	temp=copy_array_loop(A,size_of_array+1);
 	
-	cout << "Bubble sort: ";
+	//print(A,size_of_array);
+	
+	cout << "Selection sort: ";
 	start=clock();
-	bubble_sort(A,size_of_array);
+	sel_sort(A,0,size_of_array);
 	end=clock();
-	//print(A, size_of_array);
 	cout << end-start << " ms"<<endl;
+	//print(A, size_of_array);
 	
 	cout << "Quick sort: ";
 	start=clock();
 	quick_sort(A1,0,size_of_array-1);
 	end=clock();
-	//print(A1, size_of_array);
 	cout << end-start << " ms"<<endl;
+	//print(A1, size_of_array);
 	
 	cout << "Merge sort: " ;
 	start=clock();
 	merge_sort(A2, temp, 0, size_of_array-1, size_of_array);
 	end=clock();
-	//print(A2, size_of_array);
 	cout << end-start << " ms"<<endl;
+	//print(A2, size_of_array);
 	
-	delete[] A1,A2,A,temp;
+	
+	cout << "Combo sort: " ;
+	start=clock();
+	combo_sort(A3, 0, size_of_array);
+	end=clock();
+	cout << end-start << " ms"<<endl;
+	//print(A3, size_of_array);
+	
+    cout << "HEAP sort <TREE> : " ;
+ 	start=clock();
+	heap_sort(A4, size_of_array);
+	end=clock();
+	cout << end-start << " ms"<<endl;
+	//print(A4, size_of_array);
+  
+	
+	delete[] A1,A2,A,A3,A4,temp;
 	
 }
 
 int main() {
+	    
 	int global_mode=0;
 	cout << "Select the operating mode: 1 Demonstration mode, 2 Benchmark mode, 9 EXIT: "<<endl;
 	cin >> global_mode;
@@ -239,7 +314,7 @@ int main() {
 	//	demo_mode();
 		break;
 	case 2:
-		benchmark_mode()
+		benchmark_mode();
 		break;
 	case 9:
 		return 0;
@@ -247,7 +322,6 @@ int main() {
 		cerr << "Error data!"<<endl;
 		break;
 	}
-	
 	return 0;
 }
 
